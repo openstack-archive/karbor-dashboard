@@ -1,0 +1,12 @@
+include AUTHORS
+include README.rst
+include ChangeLog
+include LICENSE
+
+recursive-include smaug_dashboard/templates *
+
+exclude .gitignore
+exclude .gitreview
+
+global-exclude *.pyc
+

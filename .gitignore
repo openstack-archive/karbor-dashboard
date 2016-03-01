@@ -1,0 +1,11 @@
+AUTHORS
+ChangeLog
+build
+doc/source/sourcecode
+.secret_key_store
+.venv
+.tox
+*.pyc
+*.lock
+*.egg*
+*.swp
