@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+  {% trans "Checkpoints" %}
+{% endblock %}
+
+{% block page_header %}
+  <hz-page-header header="{$ 'Checkpoints' | translate $}"/>
+{% endblock page_header %}
+
+{% block main %}
+  <div ng-view></div>
+{% endblock %}
