@@ -20,6 +20,7 @@ def data(TEST):
     # Test Data Containers
     # 'TEST.xxxs' to avoid Swift naming confusion
     TEST.plans = utils.TestDataContainer()
+    TEST.scheduled_operations = utils.TestDataContainer()
 
     # plan data
     resources = [
@@ -65,3 +66,46 @@ def data(TEST):
     plan_dict_4.setdefault("parameters", parameters)
 
     TEST.plans.add(plan_dict_1, plan_dict_2, plan_dict_3, plan_dict_4)
+
+    # scheduled_operation
+    scheduled_operation_1 = {
+        "id": "fake_scheduled_operation_1",
+        "name": "My-scheduled-operation",
+        "project_id": "fake_project_id",
+        "operation_type": "protect",
+        "operation_definition": {
+            "trigger_id": "fake_trigger_id1",
+            "plan_id": "fake_plan_id"
+        }}
+    scheduled_operation_2 = {
+        "id": "fake_scheduled_operation_2",
+        "name": "My_fake_name2",
+        "project_id": "fake_project_id2",
+        "operation_type": "protect",
+        "operation_definition": {
+            "trigger_id": "fake_trigger_id2",
+            "plan_id": "fake_plan_id2"
+        }}
+    scheduled_operation_3 = {
+        "id": "fake_scheduled_operation_3",
+        "name": "My_fake_name3",
+        "project_id": "fake_project_id3",
+        "operation_type": "protect",
+        "operation_definition": {
+            "trigger_id": "fake_trigger_id3",
+            "plan_id": "fake_plan_id3"
+        }}
+    scheduled_operation_4 = {
+        "id": "fake_scheduled_operation_4",
+        "name": "My_fake_name4",
+        "project_id": "fake_project_id4",
+        "operation_type": "protect",
+        "operation_definition": {
+            "trigger_id": "fake_trigger_id4",
+            "plan_id": "fake_plan_id4"
+        }}
+
+    TEST.scheduled_operations.add(scheduled_operation_1,
+                                  scheduled_operation_2)
+    TEST.scheduled_operations.add(scheduled_operation_3,
+                                  scheduled_operation_4)
