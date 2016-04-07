@@ -701,3 +701,141 @@ class SmaugApiTests(test.APITestCase):
         ret_provider = smaug.provider_get(self.request,
                                           provider_id="fake_provider_id")
         self.assertEqual(provider["name"], ret_provider["name"])
+
+    def test_checkpoint_create(self):
+        checkpoint = self.checkpoints.first()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.checkpoints = self.mox.CreateMockAnything()
+        smaugclient.checkpoints.create(
+            checkpoint["provider_id"],
+            checkpoint["plan"]["plan_id"]).AndReturn(checkpoint)
+        self.mox.ReplayAll()
+
+        ret_checkpoint = smaug.checkpoint_create(
+            self.request,
+            provider_id="fake_provider_id",
+            plan_id="fake_plan_id")
+        self.assertEqual(checkpoint["id"], ret_checkpoint["id"])
+
+    def test_checkpoint_delete(self):
+        checkpoint = self.checkpoints.first()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.checkpoints = self.mox.CreateMockAnything()
+        smaugclient.checkpoints.delete(checkpoint["provider_id"],
+                                       checkpoint["id"])
+        self.mox.ReplayAll()
+
+        smaug.checkpoint_delete(self.request,
+                                provider_id="fake_provider_id",
+                                checkpoint_id="fake_checkpoint_id")
+
+    def test_checkpoint_list(self):
+        checkpoints = self.checkpoints.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.checkpoints = self.mox.CreateMockAnything()
+        smaugclient.checkpoints.list(provider_id=None,
+                                     search_opts=None,
+                                     marker=None,
+                                     limit=None,
+                                     sort_key=None,
+                                     sort_dir=None,
+                                     sort=None).AndReturn(checkpoints)
+        self.mox.ReplayAll()
+
+        ret_checkpoints = smaug.checkpoint_list(self.request)
+        self.assertEqual(len(checkpoints), len(ret_checkpoints))
+
+    def test_checkpoint_list_paged_false(self):
+        checkpoints = self.checkpoints.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.checkpoints = self.mox.CreateMockAnything()
+        smaugclient.checkpoints.list(provider_id=None,
+                                     search_opts=None,
+                                     marker=None,
+                                     limit=None,
+                                     sort_key=None,
+                                     sort_dir=None,
+                                     sort=None).AndReturn(checkpoints)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = smaug.checkpoint_list_paged(
+            self.request, paginate=False)
+        self.assertEqual(len(checkpoints), len(ret_val))
+
+    @override_settings(API_RESULT_PAGE_SIZE=4)
+    def test_checkpoint_list_paged_equal_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 4)
+        checkpoints = self.checkpoints.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.checkpoints = self.mox.CreateMockAnything()
+        smaugclient.checkpoints.list(provider_id=None,
+                                     search_opts=None,
+                                     marker=None,
+                                     limit=page_size + 1,
+                                     sort_key=None,
+                                     sort_dir=None,
+                                     sort=None).AndReturn(checkpoints)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = smaug.checkpoint_list_paged(
+            self.request, paginate=True)
+        self.assertEqual(page_size, len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=20)
+    def test_checkpoint_list_paged_less_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 20)
+        checkpoints = self.checkpoints.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.checkpoints = self.mox.CreateMockAnything()
+        smaugclient.checkpoints.list(provider_id=None,
+                                     search_opts=None,
+                                     marker=None,
+                                     limit=page_size + 1,
+                                     sort_key=None,
+                                     sort_dir=None,
+                                     sort=None).AndReturn(checkpoints)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = smaug.checkpoint_list_paged(
+            self.request, paginate=True)
+        self.assertEqual(len(checkpoints), len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=1)
+    def test_checkpoint_list_paged_more_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 1)
+        checkpoint2 = self.checkpoints.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.checkpoints = self.mox.CreateMockAnything()
+        smaugclient.checkpoints.list(
+            provider_id=None,
+            search_opts=None,
+            marker=None,
+            limit=page_size + 1,
+            sort_key=None,
+            sort_dir=None,
+            sort=None).AndReturn(checkpoint2[:page_size + 1])
+        self.mox.ReplayAll()
+        ret_val, has_more_data, has_prev_data = smaug.checkpoint_list_paged(
+            self.request, paginate=True)
+
+        self.assertEqual(page_size, len(ret_val))
+        self.assertTrue(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    def test_checkpoint_get(self):
+        checkpoint = self.checkpoints.first()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.checkpoints = self.mox.CreateMockAnything()
+        smaugclient.checkpoints.get(checkpoint["provider_id"],
+                                    checkpoint["id"]).AndReturn(checkpoint)
+        self.mox.ReplayAll()
+
+        ret_checkpoint = smaug.checkpoint_get(
+            self.request,
+            provider_id="fake_provider_id",
+            checkpoint_id="fake_checkpoint_id")
+        self.assertEqual(checkpoint["id"], ret_checkpoint["id"])
