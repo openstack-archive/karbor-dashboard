@@ -15,7 +15,11 @@
 from django.utils.translation import ugettext_lazy as _
 import horizon
 
+from smaug_dashboard import dashboard
+
 
 class ProtectionProviders(horizon.Panel):
     name = _("Protection Providers")
     slug = 'protectionproviders'
+
+dashboard.DataProtection.register(ProtectionProviders)
