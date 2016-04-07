@@ -424,3 +424,57 @@ def checkpoint_list_paged(request, provider_id=None, search_opts=None,
 
 def checkpoint_get(request, provider_id, checkpoint_id):
     return smaugclient(request).checkpoints.get(provider_id, checkpoint_id)
+
+
+def trigger_create(request, name, type, properties):
+    return smaugclient(request).triggers.create(name, type, properties)
+
+
+def trigger_delete(request, trigger_id):
+    return smaugclient(request).triggers.delete(trigger_id)
+
+
+def trigger_list(request, detailed=False, search_opts=None, marker=None,
+                 limit=None, sort_key=None, sort_dir=None, sort=None):
+    return smaugclient(request).triggers.list(detailed=detailed,
+                                              search_opts=search_opts,
+                                              marker=marker,
+                                              limit=limit,
+                                              sort_key=sort_key,
+                                              sort_dir=sort_dir,
+                                              sort=sort)
+
+
+def trigger_list_paged(request, detailed=False, search_opts=None, marker=None,
+                       limit=None, sort_key=None, sort_dir=None, sort=None,
+                       paginate=False, reversed_order=False):
+    has_more_data = False
+    has_prev_data = False
+
+    if paginate:
+        if reversed_order:
+            sort_dir = 'desc' if sort_dir == 'asc' else 'asc'
+        page_size = utils.get_page_size(request)
+        triggers = smaugclient(request).triggers.list(detailed=detailed,
+                                                      search_opts=search_opts,
+                                                      marker=marker,
+                                                      limit=page_size + 1,
+                                                      sort_key=sort_key,
+                                                      sort_dir=sort_dir,
+                                                      sort=sort)
+        triggers, has_more_data, has_prev_data = update_pagination(
+            triggers, page_size, marker, sort_dir, sort_key, reversed_order)
+    else:
+        triggers = smaugclient(request).triggers.list(detailed=detailed,
+                                                      search_opts=search_opts,
+                                                      marker=marker,
+                                                      limit=limit,
+                                                      sort_key=sort_key,
+                                                      sort_dir=sort_dir,
+                                                      sort=sort)
+
+    return (triggers, has_more_data, has_prev_data)
+
+
+def trigger_get(request, trigger_id):
+    return smaugclient(request).triggers.get(trigger_id)
