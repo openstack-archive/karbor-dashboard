@@ -26,6 +26,7 @@ def data(TEST):
     TEST.protectables_show = utils.TestDataContainer()
     TEST.protectables_list = utils.TestDataContainer()
     TEST.protectables_ins = utils.TestDataContainer()
+    TEST.providers = utils.TestDataContainer()
 
     # plan data
     resources = [
@@ -216,3 +217,93 @@ def data(TEST):
     ]
 
     TEST.protectables_ins.add(protectable_ins1)
+
+    # providers
+
+    saved_info_schema = {
+        "OS::Cinder::Volume": {
+            "title": "N",
+            "type": "object",
+            "properties": {
+                "backup_id": {
+                    "type": "string",
+                    "title": "Backup ID",
+                    "description": "The backup volume id"
+                }
+            }
+        }
+    }
+    options_schema = {
+        "OS::Nova::Server": {
+            "title": "Nova Server Backup Options",
+            "type": "object",
+            "properties": {
+                "consistency": {
+                    "enum": ["crash", "os", "application"],
+                    "title": "Consistency Level",
+                    "description": "The desired consistency level required"
+                }
+            }
+        }
+    }
+    restore_schema = {
+        "OS::Nova::Server": {
+            "title": "Nova Server Restore Options",
+            "type": "object",
+            "properties": {
+                "public_ip": {
+                    "title": "Replacement public IP",
+                    "type": "string",
+                    "description":
+                        "The public IP to use on the restore site for the VM"
+                }
+            }
+        }
+    }
+
+    provider_dick_1 = {
+        "id": "fake_provider_id",
+        "name": "OS Infra Provider",
+        "description": "This provider uses OpenStack's own services "
+                       "(swift, cinder) as storage"
+    }
+
+    provider_dick_1.setdefault("saved_info_schema", saved_info_schema)
+    provider_dick_1.setdefault("options_schema", options_schema)
+    provider_dick_1.setdefault("restore_schema", restore_schema)
+
+    provider_dick_2 = {
+        "id": "fake_provider_id2",
+        "name": "OS Infra Provider2",
+        "description": "This provider uses OpenStack's own services "
+                       "(swift, cinder) as storage"
+    }
+
+    provider_dick_2.setdefault("saved_info_schema", saved_info_schema)
+    provider_dick_2.setdefault("options_schema", options_schema)
+    provider_dick_2.setdefault("restore_schema", restore_schema)
+
+    provider_dick_3 = {
+        "id": "fake_provider_id3",
+        "name": "OS Infra Provider3",
+        "description": "This provider uses OpenStack's own services "
+                       "(swift, cinder) as storage"
+    }
+
+    provider_dick_3.setdefault("saved_info_schema", saved_info_schema)
+    provider_dick_3.setdefault("options_schema", options_schema)
+    provider_dick_3.setdefault("restore_schema", restore_schema)
+
+    provider_dick_4 = {
+        "id": "fake_provider_id4",
+        "name": "OS Infra Provider4",
+        "description": "This provider uses OpenStack's own services "
+                       "(swift, cinder) as storage"
+    }
+
+    provider_dick_4.setdefault("saved_info_schema", saved_info_schema)
+    provider_dick_4.setdefault("options_schema", options_schema)
+    provider_dick_4.setdefault("restore_schema", restore_schema)
+
+    TEST.providers.add(provider_dick_1, provider_dick_2,
+                       provider_dick_3, provider_dick_4)
