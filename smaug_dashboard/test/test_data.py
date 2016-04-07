@@ -21,6 +21,7 @@ def data(TEST):
     # 'TEST.xxxs' to avoid Swift naming confusion
     TEST.plans = utils.TestDataContainer()
     TEST.scheduled_operations = utils.TestDataContainer()
+    TEST.restores = utils.TestDataContainer()
 
     # plan data
     resources = [
@@ -109,3 +110,45 @@ def data(TEST):
                                   scheduled_operation_2)
     TEST.scheduled_operations.add(scheduled_operation_3,
                                   scheduled_operation_4)
+
+    # restores
+
+    resource_dict_1 = {
+        "id": "fake_restore_id",
+        "project_id": "fake_project_id",
+        "provider_id": "fake_provider_id",
+        "checkpoint_id": "fake_checkpoint_id",
+        "restore_target": "192.168.0.1:8080/v2.0",
+        "parameters": {"username": "admin"},
+        "status": "IN PROGRESS"
+    }
+    resource_dict_2 = {
+        "id": "fake_restore_id2",
+        "project_id": "fake_project_id2",
+        "provider_id": "fake_provider_id2",
+        "checkpoint_id": "fake_checkpoint_id2",
+        "restore_target": "192.168.0.1:8080/v2.0",
+        "parameters": {"username": "admin"},
+        "status": "IN PROGRESS"
+    }
+    resource_dict_3 = {
+        "id": "fake_restore_id3",
+        "project_id": "fake_project_id3",
+        "provider_id": "fake_provider_id3",
+        "checkpoint_id": "fake_checkpoint_id3",
+        "restore_target": "192.168.0.1:8080/v2.0",
+        "parameters": {"username": "admin"},
+        "status": "IN PROGRESS"
+    }
+    resource_dict_4 = {
+        "id": "fake_restore_id4",
+        "project_id": "fake_project_id4",
+        "provider_id": "fake_provider_id4",
+        "checkpoint_id": "fake_checkpoint_id4",
+        "restore_target": "192.168.0.1:8080/v2.0",
+        "parameters": {"username": "admin"},
+        "status": "IN PROGRESS"
+    }
+
+    TEST.restores.add(resource_dict_1, resource_dict_2,
+                      resource_dict_3, resource_dict_4)

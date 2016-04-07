@@ -317,3 +317,139 @@ class SmaugApiTests(test.APITestCase):
         ret_val = smaug.scheduled_operation_get(self.request,
                                                 "fake_scheduled_operation_1")
         self.assertEqual(scheduled_operation["id"], ret_val["id"])
+
+    def test_restore_create(self):
+        restore = self.restores.first()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.restores = self.mox.CreateMockAnything()
+        smaugclient.restores.create(restore["provider_id"],
+                                    restore["checkpoint_id"],
+                                    restore["restore_target"],
+                                    restore["parameters"]).AndReturn(restore)
+        self.mox.ReplayAll()
+
+        ret_val = smaug.restore_create(self.request,
+                                       restore["provider_id"],
+                                       restore["checkpoint_id"],
+                                       restore["restore_target"],
+                                       restore["parameters"])
+        self.assertEqual(restore["id"], ret_val["id"])
+
+    def test_restore_delete(self):
+        restore = self.restores.first()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.restores = self.mox.CreateMockAnything()
+        smaugclient.restores.delete(restore["id"]).AndReturn(restore)
+        self.mox.ReplayAll()
+
+        smaug.restore_delete(self.request, restore["id"])
+
+    def test_restore_list(self):
+        restores = self.restores.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.restores = self.mox.CreateMockAnything()
+        smaugclient.restores.list(detailed=False,
+                                  search_opts=None,
+                                  marker=None,
+                                  limit=None,
+                                  sort_key=None,
+                                  sort_dir=None,
+                                  sort=None).AndReturn(restores)
+        self.mox.ReplayAll()
+
+        ret_val = smaug.restore_list(self.request)
+        self.assertEqual(len(restores), len(ret_val))
+
+    def test_restore_list_false(self):
+        restores = self.restores.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.restores = self.mox.CreateMockAnything()
+        smaugclient.restores.list(detailed=False,
+                                  search_opts=None,
+                                  marker=None,
+                                  limit=None,
+                                  sort_key=None,
+                                  sort_dir=None,
+                                  sort=None).AndReturn(restores)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = smaug.restore_list_paged(
+            self.request, paginate=False)
+        self.assertEqual(len(restores), len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=4)
+    def test_restore_list_paged_equal_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 4)
+        restore_list = self.restores.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.restores = self.mox.CreateMockAnything()
+        smaugclient.restores.list(detailed=False,
+                                  search_opts=None,
+                                  marker=None,
+                                  limit=page_size + 1,
+                                  sort_key=None,
+                                  sort_dir=None,
+                                  sort=None).AndReturn(restore_list)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = smaug.restore_list_paged(
+            self.request, paginate=True)
+        self.assertEqual(page_size, len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=20)
+    def test_restore_list_paged_less_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 20)
+        restore_list = self.restores.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.restores = self.mox.CreateMockAnything()
+        smaugclient.restores.list(detailed=False,
+                                  search_opts=None,
+                                  marker=None,
+                                  limit=page_size + 1,
+                                  sort_key=None,
+                                  sort_dir=None,
+                                  sort=None).AndReturn(restore_list)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = smaug.restore_list_paged(
+            self.request, paginate=True)
+
+        self.assertEqual(len(restore_list), len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=1)
+    def test_restore_list_paged_more_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 1)
+        restore_list = self.restores.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.restores = self.mox.CreateMockAnything()
+        smaugclient.restores.list(
+            detailed=False,
+            search_opts=None,
+            marker=None,
+            limit=page_size + 1,
+            sort_key=None,
+            sort_dir=None,
+            sort=None).AndReturn(restore_list[:page_size + 1])
+        self.mox.ReplayAll()
+        ret_val, has_more_data, has_prev_data = smaug.restore_list_paged(
+            self.request, paginate=True)
+
+        self.assertEqual(page_size, len(ret_val))
+        self.assertTrue(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    def test_restore_get(self):
+        restore = self.restores.first()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.restores = self.mox.CreateMockAnything()
+        smaugclient.restores.get(restore["id"]).AndReturn(restore)
+        self.mox.ReplayAll()
+
+        ret_val = smaug.restore_get(self.request, restore["id"])
+        self.assertEqual(restore["id"], ret_val["id"])
