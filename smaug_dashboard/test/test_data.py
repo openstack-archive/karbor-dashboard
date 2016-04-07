@@ -22,6 +22,10 @@ def data(TEST):
     TEST.plans = utils.TestDataContainer()
     TEST.scheduled_operations = utils.TestDataContainer()
     TEST.restores = utils.TestDataContainer()
+    TEST.protectables = utils.TestDataContainer()
+    TEST.protectables_show = utils.TestDataContainer()
+    TEST.protectables_list = utils.TestDataContainer()
+    TEST.protectables_ins = utils.TestDataContainer()
 
     # plan data
     resources = [
@@ -152,3 +156,63 @@ def data(TEST):
 
     TEST.restores.add(resource_dict_1, resource_dict_2,
                       resource_dict_3, resource_dict_4)
+
+    # protectables
+
+    protectable_show_1 = {
+        "name": "OS::Nova::Server",
+        "dependent_types": ["OS::Cinder::Volume",
+                            "OS::Glance::Image"]
+    }
+    protectable_show_2 = {
+        "name": "OS::Nova::Server2",
+        "dependent_types": ["OS::Cinder2::Volume",
+                            "OS::Glance2::Image"]
+    }
+
+    TEST.protectables_show.add(protectable_show_1, protectable_show_2)
+
+    protectable_list_1 = ["OS::Nova1::Server",
+                          "OS::Cinder1::Volume",
+                          "OS::Nova2::Server",
+                          "OS::Cinder2::Volume"]
+
+    TEST.protectables_list.add(protectable_list_1)
+
+    # protectables_ins
+    protectable_ins1 = [
+        {
+            "id": "fake_protectable_ins_id",
+            "type": "OS::Nova::Server",
+            "dependent_resources": [
+                {"id": "protectable_ins_resources_id",
+                 "type": "OS::Cinder::Volume"}
+            ]
+        },
+        {
+            "id": "fake_protectable_ins_id2",
+            "type": "OS::Nova::Server",
+            "dependent_resources": [
+                {"id": "protectable_ins_resources_id2",
+                 "type": "OS::Glance::Image"}
+            ]
+        },
+        {
+            "id": "fake_protectable_ins_id3",
+            "type": "OS::Nova::Server",
+            "dependent_resources": [
+                {"id": "protectable_ins_resources_id3",
+                 "type": "OS::Glance3::Image"}
+            ]
+        },
+        {
+            "id": "fake_protectable_ins_id4",
+            "type": "OS::Nova::Server",
+            "dependent_resources": [
+                {"id": "protectable_ins_resources_id4",
+                 "type": "OS::Glance4::Image"}
+            ]
+        },
+    ]
+
+    TEST.protectables_ins.add(protectable_ins1)

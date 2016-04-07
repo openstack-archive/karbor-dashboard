@@ -264,3 +264,58 @@ def restore_list_paged(request, detailed=False, search_opts=None, marker=None,
 
 def restore_get(request, restore_id):
     return smaugclient(request).restores.get(restore_id)
+
+
+def protectable_list(request):
+    return smaugclient(request).protectables.list()
+
+
+def protectable_get(request, protectable_type):
+    return smaugclient(request).protectables.get(protectable_type)
+
+
+def protectable_list_instances(request, protectable_type, search_opts=None,
+                               marker=None, limit=None, sort_key=None,
+                               sort_dir=None, sort=None):
+    return smaugclient(request).protectables.list_instances(
+        protectable_type=protectable_type,
+        search_opts=search_opts,
+        marker=marker,
+        limit=limit,
+        sort_key=sort_key,
+        sort_dir=sort_dir,
+        sort=sort)
+
+
+def protectable_list_instances_paged(request, protectable_type,
+                                     search_opts=None, marker=None, limit=None,
+                                     sort_key=None, sort_dir=None, sort=None,
+                                     paginate=False, reversed_order=False):
+    has_more_data = False
+    has_prev_data = False
+
+    if paginate:
+        if reversed_order:
+            sort_dir = 'desc' if sort_dir == 'asc' else 'asc'
+        page_size = utils.get_page_size(request)
+        instances = smaugclient(request).protectables.list_instances(
+            protectable_type,
+            search_opts=search_opts,
+            marker=marker,
+            limit=page_size + 1,
+            sort_key=sort_key,
+            sort_dir=sort_dir,
+            sort=sort)
+        instances, has_more_data, has_prev_data = update_pagination(
+            instances, page_size, marker, sort_dir, sort_key, reversed_order)
+    else:
+        instances = smaugclient(request).protectables.list_instances(
+            protectable_type,
+            search_opts=search_opts,
+            marker=marker,
+            limit=limit,
+            sort_key=sort_key,
+            sort_dir=sort_dir,
+            sort=sort)
+
+    return (instances, has_more_data, has_prev_data)
