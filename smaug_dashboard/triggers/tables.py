@@ -20,6 +20,17 @@ from horizon import tables
 from smaug_dashboard.api import smaug as smaugclient
 
 
+class CreateTriggerLink(tables.LinkAction):
+    name = "create"
+    verbose_name = _("Create Trigger")
+    url = "horizon:smaug:triggers:create"
+    classes = ("ajax-modal",)
+    icon = "plus"
+
+    def allowed(self, request, trigger):
+        return True
+
+
 class DeleteTriggersAction(tables.DeleteAction):
     @staticmethod
     def action_present(count):
@@ -58,5 +69,5 @@ class TriggersTable(tables.DataTable):
         name = 'triggers'
         verbose_name = _('Triggers')
         row_actions = (DeleteTriggersAction,)
-        table_actions = (TriggerFilterAction,
+        table_actions = (TriggerFilterAction, CreateTriggerLink,
                          DeleteTriggersAction)
