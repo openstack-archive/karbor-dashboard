@@ -12,14 +12,8 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from django.utils.translation import ugettext_lazy as _
-import horizon
-
-from smaug_dashboard import dashboard
+from smaug_dashboard.test import helpers as test
 
 
-class Triggers(horizon.Panel):
-    name = _("Triggers")
-    slug = 'triggers'
-
-dashboard.DataProtection.register(Triggers)
+class SmaugApiTests(test.APITestCase):
+    pass

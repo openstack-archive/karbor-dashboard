@@ -12,14 +12,10 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from django.utils.translation import ugettext_lazy as _
-import horizon
+from django.conf import urls
+import openstack_dashboard.urls
 
-from smaug_dashboard import dashboard
-
-
-class Triggers(horizon.Panel):
-    name = _("Triggers")
-    slug = 'triggers'
-
-dashboard.DataProtection.register(Triggers)
+urlpatterns = urls.patterns(
+    '',
+    urls.url(r'', urls.include(openstack_dashboard.urls))
+)

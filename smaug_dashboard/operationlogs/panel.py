@@ -15,7 +15,11 @@
 from django.utils.translation import ugettext_lazy as _
 import horizon
 
+from smaug_dashboard import dashboard
+
 
 class OperationLogs(horizon.Panel):
     name = _("Operation Logs")
     slug = 'operationlogs'
+
+dashboard.DataProtection.register(OperationLogs)
