@@ -12,13 +12,17 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from horizon import exceptions
 from horizon import tables as horizon_tables
+from horizon import tabs as horizon_tabs
+from horizon.utils import memoized
 
 from smaug_dashboard.api import smaug as smaugclient
 from smaug_dashboard.protectionproviders import tables
+from smaug_dashboard.protectionproviders import tabs
 
 
 class IndexView(horizon_tables.DataTableView):
@@ -60,3 +64,31 @@ class IndexView(horizon_tables.DataTableView):
                 self.request,
                 _('Unable to retrieve protection providers list.'))
         return providers
+
+
+class DetailView(horizon_tabs.TabView):
+    redirect_url = "horizon:smaug:protectionproviders:index"
+    tab_group_class = tabs.ProviderDetailTabs
+    template_name = 'protectionproviders/detail.html'
+    page_title = "{{ provider.name }}"
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        context["provider"] = self.get_data()
+        return context
+
+    @memoized.memoized_method
+    def get_data(self):
+        try:
+            provider_id = self.kwargs['provider_id']
+            provider = smaugclient.provider_get(self.request, provider_id)
+        except Exception:
+            exceptions.handle(
+                self.request,
+                _('Unable to retrieve protection provider details.'),
+                redirect=reverse("horizon:smaug:protectionproviders:index"))
+        return provider
+
+    def get_tabs(self, request, *args, **kwargs):
+        provider = self.get_data()
+        return self.tab_group_class(request, provider=provider, **kwargs)

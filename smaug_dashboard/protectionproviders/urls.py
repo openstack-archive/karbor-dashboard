@@ -18,4 +18,6 @@ from smaug_dashboard.protectionproviders import views
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^(?P<provider_id>[^/]+)/detail/$',
+        views.DetailView.as_view(), name='detail'),
 ]
