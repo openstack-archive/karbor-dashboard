@@ -135,3 +135,74 @@ def plan_list_paged(request, detailed=False, search_opts=None, marker=None,
 
 def plan_get(request, plan_id):
     return smaugclient(request).plans.get(plan_id)
+
+
+def scheduled_operation_create(request, name, operation_type, trigger_id,
+                               operation_definition):
+    return smaugclient(request).scheduled_operations.create(
+        name,
+        operation_type,
+        trigger_id,
+        operation_definition)
+
+
+def scheduled_operation_delete(request, scheduled_operation_id):
+    return smaugclient(request).scheduled_operations.delete(
+        scheduled_operation_id)
+
+
+def scheduled_operation_list(request, detailed=False, search_opts=None,
+                             marker=None, limit=None, sort_key=None,
+                             sort_dir=None, sort=None):
+    return smaugclient(request).scheduled_operations.list(
+        detailed=detailed,
+        search_opts=search_opts,
+        marker=marker,
+        limit=limit,
+        sort_key=sort_key,
+        sort_dir=sort_dir,
+        sort=sort)
+
+
+def scheduled_operation_list_paged(request, detailed=False, search_opts=None,
+                                   marker=None, limit=None, sort_key=None,
+                                   sort_dir=None, sort=None, paginate=False,
+                                   reversed_order=False):
+    has_more_data = False
+    has_prev_data = False
+
+    if paginate:
+        if reversed_order:
+            sort_dir = 'desc' if sort_dir == 'asc' else 'asc'
+        page_size = utils.get_page_size(request)
+        scheduled_operations = smaugclient(request).scheduled_operations.list(
+            detailed=detailed,
+            search_opts=search_opts,
+            marker=marker,
+            limit=page_size + 1,
+            sort_key=sort_key,
+            sort_dir=sort_dir,
+            sort=sort)
+        scheduled_operations, has_more_data, has_prev_data = update_pagination(
+            scheduled_operations,
+            page_size,
+            marker,
+            sort_dir,
+            sort_key,
+            reversed_order)
+    else:
+        scheduled_operations = smaugclient(request).scheduled_operations.list(
+            detailed=detailed,
+            search_opts=search_opts,
+            marker=marker,
+            limit=limit,
+            sort_key=sort_key,
+            sort_dir=sort_dir,
+            sort=sort)
+
+    return (scheduled_operations, has_more_data, has_prev_data)
+
+
+def scheduled_operation_get(request, scheduled_operation_id):
+    return smaugclient(request).scheduled_operations.get(
+        scheduled_operation_id)

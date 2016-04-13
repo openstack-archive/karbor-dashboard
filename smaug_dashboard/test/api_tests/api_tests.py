@@ -169,3 +169,151 @@ class SmaugApiTests(test.APITestCase):
         plans, has_more_data, has_prev_data = smaug.plan_list_paged(
             self.request)
         self.assertEqual(len(plans), len(plans))
+
+    def test_scheduled_operation_create(self):
+        scheduled_operation = self.scheduled_operations.first()
+        operation_definition = {"trigger_id": "fake_trigger_id1",
+                                "plan_id": "fake_plan_id"}
+        smaugclient = self.stub_smaugclient()
+        smaugclient.scheduled_operations = self.mox.CreateMockAnything()
+        smaugclient.scheduled_operations.create(
+            "My-scheduled-operation",
+            "protect",
+            "fake_trigger_id1",
+            operation_definition).AndReturn(scheduled_operation)
+        self.mox.ReplayAll()
+
+        ret_so = smaug.scheduled_operation_create(
+            self.request,
+            name="My-scheduled-operation",
+            operation_type="protect",
+            trigger_id="fake_trigger_id1",
+            operation_definition=operation_definition)
+        self.assertEqual(scheduled_operation["id"], ret_so["id"])
+
+    def test_scheduled_operation_delete(self):
+        scheduled_operation = self.scheduled_operations.first()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.scheduled_operations = self.mox.CreateMockAnything()
+        smaugclient.scheduled_operations.delete(scheduled_operation["id"])
+        self.mox.ReplayAll()
+
+        smaug.scheduled_operation_delete(self.request,
+                                         scheduled_operation["id"])
+
+    def test_scheduled_operation_list(self):
+        scheduled_operation = self.scheduled_operations.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.scheduled_operations = self.mox.CreateMockAnything()
+        smaugclient.scheduled_operations.list(
+            detailed=False,
+            search_opts=None,
+            marker=None,
+            limit=None,
+            sort_key=None,
+            sort_dir=None,
+            sort=None).AndReturn(scheduled_operation)
+        self.mox.ReplayAll()
+
+        ret_val = smaug.scheduled_operation_list(self.request)
+        self.assertEqual(len(scheduled_operation), len(ret_val))
+
+    def test_scheduled_operation_list_false(self):
+        scheduled_operation = self.scheduled_operations.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.scheduled_operations = self.mox.CreateMockAnything()
+        smaugclient.scheduled_operations.list(
+            detailed=False,
+            search_opts=None,
+            marker=None,
+            limit=None,
+            sort_key=None,
+            sort_dir=None,
+            sort=None).AndReturn(scheduled_operation)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = \
+            smaug.scheduled_operation_list_paged(self.request, paginate=False)
+        self.assertEqual(len(scheduled_operation), len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=4)
+    def test_scheduled_operation_list_paged_equal_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 4)
+        scd_operation = self.scheduled_operations.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.scheduled_operations = self.mox.CreateMockAnything()
+        smaugclient.scheduled_operations.list(
+            detailed=False,
+            search_opts=None,
+            marker=None,
+            limit=page_size + 1,
+            sort_key=None,
+            sort_dir=None,
+            sort=None).AndReturn(scd_operation)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = \
+            smaug.scheduled_operation_list_paged(self.request, paginate=True)
+        self.assertEqual(page_size, len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=20)
+    def test_scheduled_operation_list_paged_less_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 20)
+        scd_operation = self.scheduled_operations.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.scheduled_operations = self.mox.CreateMockAnything()
+        smaugclient.scheduled_operations.list(
+            detailed=False,
+            search_opts=None,
+            marker=None,
+            limit=page_size + 1,
+            sort_key=None,
+            sort_dir=None,
+            sort=None).AndReturn(scd_operation)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = \
+            smaug.scheduled_operation_list_paged(self.request, paginate=True)
+
+        self.assertEqual(len(scd_operation), len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=1)
+    def test_scheduled_operation_list_paged_more_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 1)
+        scd_operation = self.scheduled_operations.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.scheduled_operations = self.mox.CreateMockAnything()
+        smaugclient.scheduled_operations.list(
+            detailed=False,
+            search_opts=None,
+            marker=None,
+            limit=page_size + 1,
+            sort_key=None,
+            sort_dir=None,
+            sort=None).AndReturn(scd_operation[:page_size + 1])
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = \
+            smaug.scheduled_operation_list_paged(self.request, paginate=True)
+
+        self.assertEqual(page_size, len(ret_val))
+        self.assertTrue(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    def test_scheduled_operation_get(self):
+        scheduled_operation = self.scheduled_operations.first()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.scheduled_operations = self.mox.CreateMockAnything()
+        smaugclient.scheduled_operations.get(
+            scheduled_operation["id"]).AndReturn(scheduled_operation)
+        self.mox.ReplayAll()
+
+        ret_val = smaug.scheduled_operation_get(self.request,
+                                                "fake_scheduled_operation_1")
+        self.assertEqual(scheduled_operation["id"], ret_val["id"])
