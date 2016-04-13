@@ -453,3 +453,141 @@ class SmaugApiTests(test.APITestCase):
 
         ret_val = smaug.restore_get(self.request, restore["id"])
         self.assertEqual(restore["id"], ret_val["id"])
+
+    def test_protectable_list(self):
+        protectables_list = self.protectables_list.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.protectables = self.mox.CreateMockAnything()
+        smaugclient.protectables.list().AndReturn(protectables_list)
+        self.mox.ReplayAll()
+
+        ret_val = smaug.protectable_list(self.request)
+        self.assertEqual(len(protectables_list), len(ret_val))
+
+    def test_protectable_get(self):
+        protectable = self.protectables_show.list()[0]
+        smaugclient = self.stub_smaugclient()
+        smaugclient.protectables = self.mox.CreateMockAnything()
+        smaugclient.protectables.get("OS::Nova::Server").AndReturn(protectable)
+        self.mox.ReplayAll()
+
+        ret_val = smaug.protectable_get(self.request,
+                                        protectable_type="OS::Nova::Server")
+        self.assertEqual(protectable["name"], ret_val["name"])
+
+    def test_protectable_list_instances(self):
+        protectable = self.protectables_ins.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.protectables = self.mox.CreateMockAnything()
+        smaugclient.protectables.list_instances(
+            protectable_type="OS::Nova::Server",
+            search_opts=None,
+            marker=None,
+            limit=None,
+            sort_key=None,
+            sort_dir=None,
+            sort=None).AndReturn(protectable)
+        self.mox.ReplayAll()
+
+        ret_val = smaug.protectable_list_instances(
+            self.request, protectable_type="OS::Nova::Server")
+        self.assertEqual(len(protectable), len(ret_val))
+
+    @override_settings(API_RESULT_PAGE_SIZE=4)
+    def test_protectable_list_instances_paged_equal_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 4)
+        protectable_list = self.protectables_ins.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.protectables = self.mox.CreateMockAnything()
+        smaugclient.protectables.list_instances("OS::Nova::Server",
+                                                search_opts=None,
+                                                marker=None,
+                                                limit=page_size + 1,
+                                                sort_key=None,
+                                                sort_dir=None,
+                                                sort=None,
+                                                ).AndReturn(protectable_list)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = \
+            smaug.protectable_list_instances_paged(
+                self.request,
+                paginate=True,
+                protectable_type="OS::Nova::Server")
+        self.assertEqual(page_size, len(ret_val[0]))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=20)
+    def test_protectable_list_instances_paged_less_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 20)
+        protectable_list = self.protectables_ins.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.protectables = self.mox.CreateMockAnything()
+        smaugclient.protectables.list_instances("OS::Nova::Server",
+                                                search_opts=None,
+                                                marker=None,
+                                                limit=page_size + 1,
+                                                sort_key=None,
+                                                sort_dir=None,
+                                                sort=None,
+                                                ).AndReturn(protectable_list)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = \
+            smaug.protectable_list_instances_paged(
+                self.request,
+                paginate=True,
+                protectable_type="OS::Nova::Server")
+        self.assertEqual(len(protectable_list), len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=1)
+    def test_protectable_list_instances_paged_more_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 1)
+        protectable_list = self.protectables_ins.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.protectables = self.mox.CreateMockAnything()
+        smaugclient.protectables.list_instances(
+            "OS::Nova::Server",
+            search_opts=None,
+            marker=None,
+            limit=page_size + 1,
+            sort_key=None,
+            sort_dir=None,
+            sort=None
+        ).AndReturn(protectable_list[:page_size + 1])
+        self.mox.ReplayAll()
+        ret_val, has_more_data, has_prev_data = \
+            smaug.protectable_list_instances_paged(
+                self.request,
+                paginate=True,
+                protectable_type="OS::Nova::Server")
+
+        self.assertEqual(page_size, len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    def test_protectable_list_instances_false(self):
+        protectable = self.protectables_ins.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.protectables = self.mox.CreateMockAnything()
+        smaugclient.protectables.list_instances(
+            "OS::Nova::Server",
+            search_opts=None,
+            marker=None,
+            limit=None,
+            sort_key=None,
+            sort_dir=None,
+            sort=None
+        ).AndReturn(protectable)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = \
+            smaug.protectable_list_instances_paged(
+                self.request,
+                protectable_type="OS::Nova::Server")
+        self.assertEqual(len(protectable), len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
