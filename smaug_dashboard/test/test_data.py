@@ -27,6 +27,7 @@ def data(TEST):
     TEST.protectables_list = utils.TestDataContainer()
     TEST.protectables_ins = utils.TestDataContainer()
     TEST.providers = utils.TestDataContainer()
+    TEST.checkpoints = utils.TestDataContainer()
 
     # plan data
     resources = [
@@ -307,3 +308,55 @@ def data(TEST):
 
     TEST.providers.add(provider_dick_1, provider_dick_2,
                        provider_dick_3, provider_dick_4)
+
+    # checkpoints
+
+    checkpoint_dict_1 = {
+        "id": "fake_checkpoint_id",
+        "project_id": "fake_project_id",
+        "status": "committed",
+        "plan": {"plan_id": "fake_plan_id"},
+        "provider_id": "fake_provider_id"
+    }
+    checkpoint_dict_2 = [
+        {
+            "id": "fake_checkpoint_id_2",
+            "project_id": "fake_project_id_2",
+            "status": "committed",
+            "plan": {
+                "plan_id": "fake_plan_id_2",
+                "name": "My 3 tier application",
+                "description": "The protection plan for my application"
+            },
+            "provider_id": "fake_provider_id_2"
+        },
+    ]
+    checkpoint_dict_3 = [
+        {
+            "id": "fake_checkpoint_id_3",
+            "project_id": "fake_project_id_3",
+            "status": "committed",
+            "plan": {
+                "plan_id": "fake_plan_id_3",
+                "name": "My 33 tier application",
+                "description": "The protection plan for my application"
+            },
+            "provider_id": "fake_provider_id_3"
+        },
+    ]
+    checkpoint_dict_4 = [
+        {
+            "id": "fake_checkpoint_id_4",
+            "project_id": "fake_project_id_4",
+            "status": "committed",
+            "plan": {
+                "plan_id": "fake_plan_id_4",
+                "name": "My 4 tier application",
+                "description": "The protection plan for my application"
+            },
+            "provider_id": "fake_provider_id_4"
+        },
+    ]
+
+    TEST.checkpoints.add(checkpoint_dict_1, checkpoint_dict_2)
+    TEST.checkpoints.add(checkpoint_dict_3, checkpoint_dict_4)

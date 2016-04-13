@@ -367,3 +367,60 @@ def provider_list_paged(request, detailed=False, search_opts=None, marker=None,
 
 def provider_get(request, provider_id):
     return smaugclient(request).providers.get(provider_id)
+
+
+def checkpoint_create(request, provider_id, plan_id):
+    return smaugclient(request).checkpoints.create(provider_id, plan_id)
+
+
+def checkpoint_delete(request, provider_id, checkpoint_id):
+    return smaugclient(request).checkpoints.delete(provider_id, checkpoint_id)
+
+
+def checkpoint_list(request, provider_id=None, search_opts=None, marker=None,
+                    limit=None, sort_key=None, sort_dir=None, sort=None):
+    return smaugclient(request).checkpoints.list(provider_id=provider_id,
+                                                 search_opts=search_opts,
+                                                 marker=marker,
+                                                 limit=limit,
+                                                 sort_key=sort_key,
+                                                 sort_dir=sort_dir,
+                                                 sort=sort)
+
+
+def checkpoint_list_paged(request, provider_id=None, search_opts=None,
+                          marker=None, limit=None, sort_key=None,
+                          sort_dir=None, sort=None, paginate=False,
+                          reversed_order=False):
+    has_more_data = False
+    has_prev_data = False
+
+    if paginate:
+        if reversed_order:
+            sort_dir = 'desc' if sort_dir == 'asc' else 'asc'
+        page_size = utils.get_page_size(request)
+        checkpoints = smaugclient(request).checkpoints.list(
+            provider_id=provider_id,
+            search_opts=search_opts,
+            marker=marker,
+            limit=page_size + 1,
+            sort_key=sort_key,
+            sort_dir=sort_dir,
+            sort=sort)
+        checkpoints, has_more_data, has_prev_data = update_pagination(
+            checkpoints, page_size, marker, sort_dir, sort_key, reversed_order)
+    else:
+        checkpoints = smaugclient(request).checkpoints.list(
+            provider_id=provider_id,
+            search_opts=search_opts,
+            marker=marker,
+            limit=limit,
+            sort_key=sort_key,
+            sort_dir=sort_dir,
+            sort=sort)
+
+    return (checkpoints, has_more_data, has_prev_data)
+
+
+def checkpoint_get(request, provider_id, checkpoint_id):
+    return smaugclient(request).checkpoints.get(provider_id, checkpoint_id)
