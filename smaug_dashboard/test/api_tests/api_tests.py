@@ -591,3 +591,113 @@ class SmaugApiTests(test.APITestCase):
         self.assertEqual(len(protectable), len(ret_val))
         self.assertFalse(has_more_data)
         self.assertFalse(has_prev_data)
+
+    def test_provider_list(self):
+        providers = self.providers.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.providers = self.mox.CreateMockAnything()
+        smaugclient.providers.list(detailed=False,
+                                   search_opts=None,
+                                   marker=None,
+                                   limit=None,
+                                   sort_key=None,
+                                   sort_dir=None,
+                                   sort=None).AndReturn(providers)
+        self.mox.ReplayAll()
+
+        ret_val = smaug.provider_list(self.request)
+        self.assertEqual(len(providers), len(ret_val))
+
+    def test_provider_list_paged_false(self):
+        providers = self.providers.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.providers = self.mox.CreateMockAnything()
+        smaugclient.providers.list(detailed=False,
+                                   search_opts=None,
+                                   marker=None,
+                                   limit=None,
+                                   sort_key=None,
+                                   sort_dir=None,
+                                   sort=None).AndReturn(providers)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = smaug.provider_list_paged(
+            self.request, paginate=False)
+        self.assertEqual(len(providers), len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=4)
+    def test_provider_list_paged_equal_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 4)
+        providers = self.providers.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.providers = self.mox.CreateMockAnything()
+        smaugclient.providers.list(detailed=False,
+                                   search_opts=None,
+                                   marker=None,
+                                   limit=page_size + 1,
+                                   sort_key=None,
+                                   sort_dir=None,
+                                   sort=None).AndReturn(providers)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = smaug.provider_list_paged(
+            self.request, paginate=True)
+        self.assertEqual(page_size, len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=20)
+    def test_provider_list_paged_less_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 20)
+        providers = self.providers.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.providers = self.mox.CreateMockAnything()
+        smaugclient.providers.list(detailed=False,
+                                   search_opts=None,
+                                   marker=None,
+                                   limit=page_size + 1,
+                                   sort_key=None,
+                                   sort_dir=None,
+                                   sort=None).AndReturn(providers)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = smaug.provider_list_paged(
+            self.request, paginate=True)
+        self.assertEqual(len(providers), len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=1)
+    def test_provider_list_paged_more_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 1)
+        providers = self.providers.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.providers = self.mox.CreateMockAnything()
+        smaugclient.providers.list(
+            detailed=False,
+            search_opts=None,
+            marker=None,
+            limit=page_size + 1,
+            sort_key=None,
+            sort_dir=None,
+            sort=None).AndReturn(providers[:page_size + 1])
+        self.mox.ReplayAll()
+        ret_val, has_more_data, has_prev_data = smaug.provider_list_paged(
+            self.request, paginate=True)
+
+        self.assertEqual(page_size, len(ret_val))
+        self.assertTrue(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    def test_provider_get(self):
+        provider = self.providers.first()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.providers = self.mox.CreateMockAnything()
+        smaugclient.providers.get(provider["id"]).AndReturn(provider)
+        self.mox.ReplayAll()
+
+        ret_provider = smaug.provider_get(self.request,
+                                          provider_id="fake_provider_id")
+        self.assertEqual(provider["name"], ret_provider["name"])

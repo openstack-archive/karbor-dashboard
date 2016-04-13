@@ -319,3 +319,51 @@ def protectable_list_instances_paged(request, protectable_type,
             sort=sort)
 
     return (instances, has_more_data, has_prev_data)
+
+
+def provider_list(request, detailed=False, search_opts=None, marker=None,
+                  limit=None, sort_key=None, sort_dir=None, sort=None):
+    return smaugclient(request).providers.list(detailed=detailed,
+                                               search_opts=search_opts,
+                                               marker=marker,
+                                               limit=limit,
+                                               sort_key=sort_key,
+                                               sort_dir=sort_dir,
+                                               sort=sort)
+
+
+def provider_list_paged(request, detailed=False, search_opts=None, marker=None,
+                        limit=None, sort_key=None, sort_dir=None, sort=None,
+                        paginate=False, reversed_order=False):
+    has_more_data = False
+    has_prev_data = False
+
+    if paginate:
+        if reversed_order:
+            sort_dir = 'desc' if sort_dir == 'asc' else 'asc'
+        page_size = utils.get_page_size(request)
+        providers = smaugclient(request).providers.list(
+            detailed=detailed,
+            search_opts=search_opts,
+            marker=marker,
+            limit=page_size + 1,
+            sort_key=sort_key,
+            sort_dir=sort_dir,
+            sort=sort)
+        providers, has_more_data, has_prev_data = update_pagination(
+            providers, page_size, marker, sort_dir, sort_key, reversed_order)
+    else:
+        providers = smaugclient(request).providers.list(
+            detailed=detailed,
+            search_opts=search_opts,
+            marker=marker,
+            limit=limit,
+            sort_key=sort_key,
+            sort_dir=sort_dir,
+            sort=sort)
+
+    return (providers, has_more_data, has_prev_data)
+
+
+def provider_get(request, provider_id):
+    return smaugclient(request).providers.get(provider_id)
