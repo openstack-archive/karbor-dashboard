@@ -28,6 +28,7 @@ def data(TEST):
     TEST.protectables_ins = utils.TestDataContainer()
     TEST.providers = utils.TestDataContainer()
     TEST.checkpoints = utils.TestDataContainer()
+    TEST.triggers = utils.TestDataContainer()
 
     # plan data
     resources = [
@@ -360,3 +361,49 @@ def data(TEST):
 
     TEST.checkpoints.add(checkpoint_dict_1, checkpoint_dict_2)
     TEST.checkpoints.add(checkpoint_dict_3, checkpoint_dict_4)
+
+    # triggers
+
+    triggers_dict_1 = {
+        "id": "fake_trigger_id",
+        "name": "My_backup_trigger",
+        "type": "TimeTrigger",
+        "properties": {
+            "trigger_window": "60",
+            "recurrence": {"start": "2015-12-17T08:30:00",
+                           "frequency": "weekly"}
+        }
+    }
+    triggers_dict_2 = {
+        "id": "fake_trigger_id2",
+        "name": "My_backup_trigger2",
+        "type": "TimeTrigger2",
+        "properties": {
+            "trigger_window": "60",
+            "recurrence": {"start": "2015-12-17T08:30:00",
+                           "frequency": "weekly"}
+        }
+    }
+    triggers_dict_3 = {
+        "id": "fake_trigger_id3",
+        "name": "My_backup_trigger3",
+        "type": "TimeTrigger3",
+        "properties": {
+            "trigger_window": "60",
+            "recurrence": {"start": "2015-12-17T08:30:00",
+                           "frequency": "weekly"}
+        }
+    }
+    triggers_dict_4 = {
+        "id": "fake_trigger_id4",
+        "name": "My_backup_trigger4",
+        "type": "TimeTrigger4",
+        "properties": {
+            "trigger_window": "60",
+            "recurrence": {"start": "2015-12-17T08:30:00",
+                           "frequency": "weekly"}
+        }
+    }
+
+    TEST.triggers.add(triggers_dict_1, triggers_dict_2,
+                      triggers_dict_3, triggers_dict_4)

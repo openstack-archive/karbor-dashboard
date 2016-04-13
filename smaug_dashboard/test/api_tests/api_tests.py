@@ -839,3 +839,137 @@ class SmaugApiTests(test.APITestCase):
             provider_id="fake_provider_id",
             checkpoint_id="fake_checkpoint_id")
         self.assertEqual(checkpoint["id"], ret_checkpoint["id"])
+
+    def test_trigger_create(self):
+        trigger = self.triggers.first()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.triggers = self.mox.CreateMockAnything()
+        smaugclient.triggers.create(trigger["name"],
+                                    trigger["type"],
+                                    trigger["properties"]).AndReturn(trigger)
+        self.mox.ReplayAll()
+
+        ret_trigger = smaug.trigger_create(self.request,
+                                           trigger["name"],
+                                           trigger["type"],
+                                           trigger["properties"])
+        self.assertEqual(trigger["id"], ret_trigger["id"])
+
+    def test_trigger_delete(self):
+        trigger = self.triggers.first()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.triggers = self.mox.CreateMockAnything()
+        smaugclient.triggers.delete(trigger["id"])
+        self.mox.ReplayAll()
+
+        smaug.trigger_delete(self.request, trigger["id"])
+
+    def test_trigger_list(self):
+        ret_triggers = self.triggers.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.triggers = self.mox.CreateMockAnything()
+        smaugclient.triggers.list(detailed=False,
+                                  limit=None,
+                                  marker=None,
+                                  search_opts=None,
+                                  sort=None,
+                                  sort_dir=None,
+                                  sort_key=None).AndReturn(ret_triggers)
+        self.mox.ReplayAll()
+
+        ret_val = smaug.trigger_list(self.request)
+        self.assertEqual(len(ret_triggers), len(ret_val))
+
+    def test_trigger_list_paged_false(self):
+        ret_triggers = self.triggers.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.triggers = self.mox.CreateMockAnything()
+        smaugclient.triggers.list(detailed=False,
+                                  search_opts=None,
+                                  marker=None,
+                                  limit=None,
+                                  sort_key=None,
+                                  sort_dir=None,
+                                  sort=None).AndReturn(ret_triggers)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = smaug.trigger_list_paged(
+            self.request)
+        self.assertEqual(len(ret_triggers), len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=4)
+    def test_trigger_list_paged_equal_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 4)
+        ret_triggers = self.triggers.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.triggers = self.mox.CreateMockAnything()
+        smaugclient.triggers.list(detailed=False,
+                                  search_opts=None,
+                                  marker=None,
+                                  limit=page_size + 1,
+                                  sort_key=None,
+                                  sort_dir=None,
+                                  sort=None).AndReturn(ret_triggers)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = smaug.trigger_list_paged(
+            self.request, paginate=True)
+        self.assertEqual(page_size, len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=20)
+    def test_trigger_list_paged_less_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 20)
+        ret_triggers = self.triggers.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.triggers = self.mox.CreateMockAnything()
+        smaugclient.triggers.list(detailed=False,
+                                  search_opts=None,
+                                  marker=None,
+                                  limit=page_size + 1,
+                                  sort_key=None,
+                                  sort_dir=None,
+                                  sort=None).AndReturn(ret_triggers)
+        self.mox.ReplayAll()
+
+        ret_val, has_more_data, has_prev_data = smaug.trigger_list_paged(
+            self.request, paginate=True)
+        self.assertEqual(len(ret_triggers), len(ret_val))
+        self.assertFalse(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    @override_settings(API_RESULT_PAGE_SIZE=1)
+    def test_trigger_list_paged_more_page_size(self):
+        page_size = getattr(settings, 'API_RESULT_PAGE_SIZE', 1)
+        trigger2 = self.triggers.list()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.triggers = self.mox.CreateMockAnything()
+        smaugclient.triggers.list(
+            detailed=False,
+            search_opts=None,
+            marker=None,
+            limit=page_size + 1,
+            sort_key=None,
+            sort_dir=None,
+            sort=None).AndReturn(trigger2[:page_size + 1])
+        self.mox.ReplayAll()
+        ret_val, has_more_data, has_prev_data = smaug.trigger_list_paged(
+            self.request, paginate=True)
+
+        self.assertEqual(page_size, len(ret_val))
+        self.assertTrue(has_more_data)
+        self.assertFalse(has_prev_data)
+
+    def test_trigger_get(self):
+        trigger = self.triggers.first()
+        smaugclient = self.stub_smaugclient()
+        smaugclient.triggers = self.mox.CreateMockAnything()
+        smaugclient.triggers.get(trigger["id"]).AndReturn(trigger)
+        self.mox.ReplayAll()
+
+        ret_trigger = smaug.trigger_get(self.request,
+                                        trigger_id="fake_trigger_id")
+        self.assertEqual(trigger["id"], ret_trigger["id"])
