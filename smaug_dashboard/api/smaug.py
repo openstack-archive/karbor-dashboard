@@ -206,3 +206,61 @@ def scheduled_operation_list_paged(request, detailed=False, search_opts=None,
 def scheduled_operation_get(request, scheduled_operation_id):
     return smaugclient(request).scheduled_operations.get(
         scheduled_operation_id)
+
+
+def restore_create(request, provider_id, checkpoint_id,
+                   restore_target, parameters):
+    return smaugclient(request).restores.create(provider_id,
+                                                checkpoint_id,
+                                                restore_target,
+                                                parameters)
+
+
+def restore_delete(request, restore_id):
+    return smaugclient(request).restores.delete(restore_id)
+
+
+def restore_list(request, detailed=False, search_opts=None, marker=None,
+                 limit=None, sort_key=None, sort_dir=None, sort=None):
+    return smaugclient(request).restores.list(detailed=detailed,
+                                              search_opts=search_opts,
+                                              marker=marker,
+                                              limit=limit,
+                                              sort_key=sort_key,
+                                              sort_dir=sort_dir,
+                                              sort=sort)
+
+
+def restore_list_paged(request, detailed=False, search_opts=None, marker=None,
+                       limit=None, sort_key=None, sort_dir=None, sort=None,
+                       paginate=False, reversed_order=False):
+    has_more_data = False
+    has_prev_data = False
+
+    if paginate:
+        if reversed_order:
+            sort_dir = 'desc' if sort_dir == 'asc' else 'asc'
+        page_size = utils.get_page_size(request)
+        restores = smaugclient(request).restores.list(detailed=detailed,
+                                                      search_opts=search_opts,
+                                                      marker=marker,
+                                                      limit=page_size + 1,
+                                                      sort_key=sort_key,
+                                                      sort_dir=sort_dir,
+                                                      sort=sort)
+        restores, has_more_data, has_prev_data = update_pagination(
+            restores, page_size, marker, sort_dir, sort_key, reversed_order)
+    else:
+        restores = smaugclient(request).restores.list(detailed=detailed,
+                                                      search_opts=search_opts,
+                                                      marker=marker,
+                                                      limit=limit,
+                                                      sort_key=sort_key,
+                                                      sort_dir=sort_dir,
+                                                      sort=sort)
+
+    return (restores, has_more_data, has_prev_data)
+
+
+def restore_get(request, restore_id):
+    return smaugclient(request).restores.get(restore_id)
