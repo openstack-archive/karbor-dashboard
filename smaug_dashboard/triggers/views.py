@@ -12,16 +12,20 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
 from horizon import exceptions
 from horizon import forms as horizon_forms
 from horizon import tables as horizon_tables
+from horizon.utils import memoized
+from horizon import views as horizon_views
 
 from smaug_dashboard.api import smaug as smaugclient
 from smaug_dashboard.triggers import forms
 from smaug_dashboard.triggers import tables
+from smaug_dashboard.triggers import utils
 
 
 class IndexView(horizon_tables.DataTableView):
@@ -72,3 +76,38 @@ class CreateView(horizon_forms.ModalFormView):
     submit_url = reverse_lazy("horizon:smaug:triggers:create")
     success_url = reverse_lazy('horizon:smaug:triggers:index')
     page_title = _("Create Trigger")
+
+
+class DetailView(horizon_views.HorizonTemplateView):
+    template_name = 'triggers/detail.html'
+    page_title = "{{ trigger.name }}"
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        trigger = self.get_data()
+        table = tables.TriggersTable(self.request)
+
+        if trigger is not None and trigger.properties is not None:
+            if trigger.properties["format"] == utils.CRONTAB:
+                data = utils.CrontabUtil\
+                    .convert_from_crontab(trigger.properties)
+                if data:
+                    for key, value in data.items():
+                        setattr(trigger, key, value)
+
+        context["trigger"] = trigger
+        context["url"] = reverse("horizon:smaug:triggers:index")
+        context["actions"] = table.render_row_actions(trigger)
+        return context
+
+    @memoized.memoized_method
+    def get_data(self):
+        try:
+            trigger_id = self.kwargs['trigger_id']
+            trigger = smaugclient.trigger_get(self.request, trigger_id)
+        except Exception:
+            exceptions.handle(
+                self.request,
+                _('Unable to retrieve trigger details.'),
+                redirect=reverse("horizon:smaug:triggers:index"))
+        return trigger

@@ -61,6 +61,7 @@ class TriggerFilterAction(tables.FilterAction):
 
 class TriggersTable(tables.DataTable):
     name = tables.Column('name',
+                         link="horizon:smaug:triggers:detail",
                          verbose_name=_('Name'))
     type = tables.Column('type',
                          verbose_name=_('Type'))
