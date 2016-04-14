@@ -12,12 +12,15 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
 from horizon import exceptions
+from horizon import forms as horizon_forms
 from horizon import tables as horizon_tables
 
 from smaug_dashboard.api import smaug as smaugclient
+from smaug_dashboard.triggers import forms
 from smaug_dashboard.triggers import tables
 
 
@@ -58,3 +61,14 @@ class IndexView(horizon_tables.DataTableView):
             exceptions.handle(self.request,
                               _('Unable to retrieve triggers list.'))
         return triggers
+
+
+class CreateView(horizon_forms.ModalFormView):
+    template_name = 'triggers/create.html'
+    modal_header = _("Create Trigger")
+    form_id = "create_trigger_form"
+    form_class = forms.CreateTriggerForm
+    submit_label = _("Create Trigger")
+    submit_url = reverse_lazy("horizon:smaug:triggers:create")
+    success_url = reverse_lazy('horizon:smaug:triggers:index')
+    page_title = _("Create Trigger")
