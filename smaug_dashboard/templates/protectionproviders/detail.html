@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load breadcrumb_nav %}
+
+{% block title %}{% trans "Protection Provider Details" %}{% endblock %}
+
+{% block page_header %}
+  <div class='page-header'>
+    {% breadcrumb_nav %}
+  </div>
+{% endblock %}
+
+{% block main %}
+  <div class="row">
+    <div class="col-sm-12">
+      {% include "protectionproviders/_detail.html" %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      {{ tab_group.render }}
+    </div>
+  </div>
+{% endblock %}
