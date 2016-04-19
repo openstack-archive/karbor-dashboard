@@ -18,4 +18,6 @@ from smaug_dashboard.checkpoints import views
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^(?P<provider_id>[^/]+)/$',
+        views.IndexView.as_view(), name='index'),
 ]
