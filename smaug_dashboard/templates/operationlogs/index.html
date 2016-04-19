@@ -5,10 +5,7 @@
   {% trans "Operation Logs" %}
 {% endblock %}
 
-{% block page_header %}
-  <hz-page-header header="{$ 'Operation Logs' | translate $}"/>
-{% endblock page_header %}
-
 {% block main %}
-  <div ng-view></div>
+  {% include "operationlogs/_index.html" %}
+  {{ table.render }}
 {% endblock %}

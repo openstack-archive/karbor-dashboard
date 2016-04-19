@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<form action="{{ url }}" method="post" class="pristine ng-valid">
+{% csrf_token %}
+<caption>
+  <div class="table_actions clearfix">
+    <div class="table_search">
+      <span style="font-size: 13px;vertical-align: middle">By Type:</span>
+      <select class="form-control" name="type_filter" style="width: auto;min-width: 160px">
+        {% for type in type_list %}
+          <option value={{ type.0 }} {% ifequal type_filter type.0 %} selected {% endifequal %}>{{ type.1 }}</option>
+        {% endfor %}
+      </select>
+      <span style="font-size: 13px;vertical-align: middle">By Status:</span>
+      <select class="form-control" name="status_filter" style="width: auto;min-width: 160px">
+        <option {% ifequal status_filter "All" %} selected {% endifequal %}>All</option>
+        {% for status in status_list %}
+          <option value={{ status.0 }} {% ifequal status_filter status.0 %} selected {% endifequal %}>{{ status.1 }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn btn-default" id="operation_logs_list_action_filter">Filter</button>
+    </div>
+  </div>
+</caption>
+</form>
