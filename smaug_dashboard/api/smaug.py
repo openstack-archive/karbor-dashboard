@@ -14,7 +14,6 @@
 
 from __future__ import absolute_import
 import logging
-import six.moves.urllib.parse as urlparse
 
 from django.conf import settings
 from horizon import exceptions
@@ -30,9 +29,6 @@ def get_smaug_endpoint(request):
     endpoint = ""
     try:
         endpoint = base.url_for(request, "data-protect")
-        parts = urlparse.urlparse(endpoint)
-        if parts.scheme and parts.netloc:
-            endpoint = '%s://%s' % (parts.scheme, parts.netloc)
     except exceptions.ServiceCatalogException:
         endpoint = 'http://localhost:8799'
         LOG.warning('Smaug API location could not be found in Service '
