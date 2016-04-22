@@ -35,16 +35,19 @@ class SmaugApiTests(test.APITestCase):
     def test_plan_create(self):
         plan = self.plans.first()
         fake_resources = plan["resources"]
+        fake_parameters = plan["parameters"]
         smaugclient = self.stub_smaugclient()
         smaugclient.plans = self.mox.CreateMockAnything()
         smaugclient.plans.create(plan["name"], plan["provider_id"],
-                                 plan["resources"]).AndReturn(plan)
+                                 plan["resources"],
+                                 plan["parameters"]).AndReturn(plan)
         self.mox.ReplayAll()
 
         ret_plan = smaug.plan_create(self.request,
                                      name="fake_name_1",
                                      provider_id="fake_provider_id1",
-                                     resources=fake_resources)
+                                     resources=fake_resources,
+                                     parameters=fake_parameters)
         self.assertEqual(len(plan), len(ret_plan))
 
     def test_plan_delete(self):

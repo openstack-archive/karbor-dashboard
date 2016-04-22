@@ -76,8 +76,9 @@ def update_pagination(entities, page_size, marker, sort_dir, sort_key,
     return entities, has_more_data, has_prev_data
 
 
-def plan_create(request, name, provider_id, resources):
-    return smaugclient(request).plans.create(name, provider_id, resources)
+def plan_create(request, name, provider_id, resources, parameters):
+    return smaugclient(request).plans.create(name, provider_id, resources,
+                                             parameters)
 
 
 def plan_delete(request, plan_id):
