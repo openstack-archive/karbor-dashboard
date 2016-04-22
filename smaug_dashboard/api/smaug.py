@@ -317,6 +317,10 @@ def protectable_list_instances_paged(request, protectable_type,
     return (instances, has_more_data, has_prev_data)
 
 
+def protectable_get_instance(request, type, id):
+    return smaugclient(request).protectables.get_instance(type, id)
+
+
 def provider_list(request, detailed=False, search_opts=None, marker=None,
                   limit=None, sort_key=None, sort_dir=None, sort=None):
     return smaugclient(request).providers.list(detailed=detailed,

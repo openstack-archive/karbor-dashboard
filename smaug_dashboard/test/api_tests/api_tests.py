@@ -475,6 +475,21 @@ class SmaugApiTests(test.APITestCase):
                                         protectable_type="OS::Nova::Server")
         self.assertEqual(protectable["name"], ret_val["name"])
 
+    def test_protectable_get_instance(self):
+        protectable = self.protectables_ins.list()[1]
+        smaugclient = self.stub_smaugclient()
+        smaugclient.protectables = self.mox.CreateMockAnything()
+        smaugclient.protectables.get_instance("OS::Nova::Server",
+                                              protectable["id"]
+                                              ).AndReturn(protectable)
+        self.mox.ReplayAll()
+
+        ret_val = smaug.protectable_get_instance(self.request,
+                                                 "OS::Nova::Server",
+                                                 protectable["id"]
+                                                 )
+        self.assertEqual(protectable["name"], ret_val["name"])
+
     def test_protectable_list_instances(self):
         protectable = self.protectables_ins.list()
         smaugclient = self.stub_smaugclient()
@@ -514,7 +529,7 @@ class SmaugApiTests(test.APITestCase):
                 self.request,
                 paginate=True,
                 protectable_type="OS::Nova::Server")
-        self.assertEqual(page_size, len(ret_val[0]))
+        self.assertEqual(page_size, len(ret_val))
         self.assertFalse(has_more_data)
         self.assertFalse(has_prev_data)
 
@@ -566,7 +581,7 @@ class SmaugApiTests(test.APITestCase):
                 protectable_type="OS::Nova::Server")
 
         self.assertEqual(page_size, len(ret_val))
-        self.assertFalse(has_more_data)
+        self.assertTrue(has_more_data)
         self.assertFalse(has_prev_data)
 
     def test_protectable_list_instances_false(self):

@@ -187,38 +187,47 @@ def data(TEST):
         {
             "id": "fake_protectable_ins_id",
             "type": "OS::Nova::Server",
+            "name": "fake_name1",
             "dependent_resources": [
                 {"id": "protectable_ins_resources_id",
-                 "type": "OS::Cinder::Volume"}
+                 "type": "OS::Cinder::Volume",
+                 "name": "fake_dependent_name1"}
             ]
         },
         {
             "id": "fake_protectable_ins_id2",
             "type": "OS::Nova::Server",
+            "name": "fake_name2",
             "dependent_resources": [
                 {"id": "protectable_ins_resources_id2",
-                 "type": "OS::Glance::Image"}
+                 "type": "OS::Glance::Image",
+                 "name": "fake_dependent_name2"}
             ]
         },
         {
             "id": "fake_protectable_ins_id3",
             "type": "OS::Nova::Server",
+            "name": "fake_name3",
             "dependent_resources": [
                 {"id": "protectable_ins_resources_id3",
-                 "type": "OS::Glance3::Image"}
+                 "type": "OS::Glance3::Image",
+                 "name": "fake_dependent_name3"}
             ]
         },
         {
             "id": "fake_protectable_ins_id4",
             "type": "OS::Nova::Server",
+            "name": "fake_name4",
             "dependent_resources": [
                 {"id": "protectable_ins_resources_id4",
-                 "type": "OS::Glance4::Image"}
+                 "type": "OS::Glance4::Image",
+                 "name": "fake_dependent_name4"}
             ]
         },
     ]
 
-    TEST.protectables_ins.add(protectable_ins1)
+    TEST.protectables_ins.add(protectable_ins1[0], protectable_ins1[1],
+                              protectable_ins1[2], protectable_ins1[3])
 
     # providers
 
