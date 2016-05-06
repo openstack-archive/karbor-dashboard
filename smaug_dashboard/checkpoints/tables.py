@@ -13,8 +13,35 @@
 #    under the License.
 
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ungettext_lazy
 
 from horizon import tables
+
+from smaug_dashboard.api import smaug as smaugclient
+
+
+class DeleteCheckpointsAction(tables.DeleteAction):
+    @staticmethod
+    def action_present(count):
+        return ungettext_lazy(u"Delete Checkpoint",
+                              u"Delete Checkpoints",
+                              count)
+
+    @staticmethod
+    def action_past(count):
+        return ungettext_lazy(u"Deleted Checkpoint",
+                              u"Deleted Checkpoints",
+                              count)
+
+    def allowed(self, request, checkpoint):
+        return True
+
+    def delete(self, request, obj_id):
+        datum = self.table.get_object_by_id(obj_id)
+        provider_id = datum.provider_id
+        smaugclient.checkpoint_delete(request,
+                                      provider_id=provider_id,
+                                      checkpoint_id=obj_id)
 
 
 def get_plan_name(obj):
@@ -42,3 +69,4 @@ class CheckpointsTable(tables.DataTable):
     class Meta(object):
         name = 'checkpoints'
         verbose_name = _('Checkpoints')
+        row_actions = (DeleteCheckpointsAction,)
