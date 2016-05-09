@@ -36,3 +36,4 @@ XStatic-Rickshaw>=1.5.0 # BSD License (prior)
 XStatic-smart-table>=1.4.5.3 # MIT License
 XStatic-Spin>=1.2.5.2 # MIT License
 XStatic-term.js>=0.0.4 # MIT License
+python-smaugclient>=0.0.4 # Apache-2.0

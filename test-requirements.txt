@@ -26,8 +26,3 @@ testtools>=1.4.0 # MIT
 xvfbwrapper>=0.1.3 #license: MIT
 # Include horizon as test requirement
 http://tarballs.openstack.org/horizon/horizon-master.tar.gz#egg=horizon
-# We will change it to python-smaugclient after the requirements patch has been merged.
-# https://review.openstack.org/#/c/302512/
-# This patch may take some time because it is the release time of OpenStack now.
-# But we could use the python-smaugclient master to avoid the CI error in development.
-http://tarballs.openstack.org/python-smaugclient/python-smaugclient-master.tar.gz#egg=python-smaugclient
