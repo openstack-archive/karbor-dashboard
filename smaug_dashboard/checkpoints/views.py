@@ -100,10 +100,7 @@ class IndexView(horizon_tables.DataTableView):
             search_opts = self.get_search_opts()
 
             # Get provider id
-            provider_id = None
-            provider_key = utils.FILTER_LIST[0]
-            if provider_key in search_opts:
-                provider_id = search_opts.pop(provider_key)
+            provider_id = search_opts.pop(utils.RILTER_LIST[0], None)
 
             checkpoints, self._more, self._prev = \
                 smaugclient.checkpoint_list_paged(
