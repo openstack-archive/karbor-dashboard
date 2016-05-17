@@ -54,8 +54,7 @@ class IndexView(horizon_tables.DataTableView):
         except Exception:
             exceptions.handle(
                 self.request,
-                _('Unable to retrieve anyone provider.'),
-                redirect=reverse("horizon:smaug:protectionproviders:index"))
+                _('Unable to retrieve anyone provider.'))
 
         # Get arguments from the providers page
         if provider_filter in self.kwargs.keys():
@@ -64,7 +63,13 @@ class IndexView(horizon_tables.DataTableView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        context["provider_list"] = self.get_provider_list()
+        try:
+            context["provider_list"] = self.get_provider_list()
+        except Exception:
+            exceptions.handle(
+                self.request,
+                _('Unable to retrieve anyone provider.'))
+
         context["plan_list"] = self.get_plan_list()
         context["date_list"] = utils.DATE_CHOICES
         context["url"] = reverse("horizon:smaug:checkpoints:index")
@@ -100,7 +105,7 @@ class IndexView(horizon_tables.DataTableView):
             search_opts = self.get_search_opts()
 
             # Get provider id
-            provider_id = search_opts.pop(utils.RILTER_LIST[0], None)
+            provider_id = search_opts.pop(utils.FILTER_LIST[0], None)
 
             checkpoints, self._more, self._prev = \
                 smaugclient.checkpoint_list_paged(
