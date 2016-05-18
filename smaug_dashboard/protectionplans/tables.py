@@ -15,9 +15,45 @@
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 
+from horizon import exceptions
+from horizon import messages
 from horizon import tables
 
 from smaug_dashboard.api import smaug as smaugclient
+
+
+class ScheduleProtectLink(tables.LinkAction):
+    name = "scheduleprotect"
+    verbose_name = _("Schedule Protect")
+    url = "horizon:smaug:protectionplans:scheduleprotect"
+    classes = ("ajax-modal",)
+
+    def allowed(self, request, plan):
+        return True
+
+
+class ProtectNowLink(tables.Action):
+    name = "protectnow"
+    verbose_name = _("Protect Now")
+
+    def allowed(self, request, protectionplan):
+        return True
+
+    def handle(self, table, request, obj_ids):
+        for datum_id in obj_ids:
+            self.action(request, datum_id)
+
+    def action(self, request, datum_id):
+        try:
+            datum = self.table.get_object_by_id(datum_id)
+            provider_id = datum.provider_id
+            new_checkpoint = smaugclient.checkpoint_create(request,
+                                                           provider_id,
+                                                           datum_id)
+            messages.success(request, _("Protect now successfully."))
+            return new_checkpoint
+        except Exception:
+            exceptions.handle(request, _('Unable to protect now'))
 
 
 class DeleteProtectionPlansAction(tables.DeleteAction):
@@ -62,6 +98,7 @@ class ProtectionPlansTable(tables.DataTable):
     class Meta(object):
         name = 'protectionplans'
         verbose_name = _('Protection Plans')
-        row_actions = (DeleteProtectionPlansAction,)
+        row_actions = (ScheduleProtectLink, ProtectNowLink,
+                       DeleteProtectionPlansAction)
         table_actions = (ProtectionPlanFilterAction,
                          DeleteProtectionPlansAction)
