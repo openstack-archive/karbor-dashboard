@@ -22,3 +22,6 @@ DISABLED = False
 ADD_INSTALLED_APPS = [
     'smaug_dashboard',
 ]
+
+# Automatically discover static resources in installed apps
+AUTO_DISCOVER_STATIC_FILES = True
