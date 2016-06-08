@@ -414,7 +414,7 @@ function babel_extract {
   KEYWORDS="-k gettext_noop -k gettext_lazy -k ngettext_lazy:1,2"
   KEYWORDS+=" -k ugettext_noop -k ugettext_lazy -k ungettext_lazy:1,2"
   KEYWORDS+=" -k npgettext:1c,2,3 -k pgettext_lazy:1c,2 -k npgettext_lazy:1c,2,3"
-
+  mkdir -p locale
   ${command_wrapper} pybabel extract -F ../babel-${DOMAIN}.cfg -o locale/${DOMAIN}.pot $KEYWORDS .
 }
 
@@ -431,7 +431,7 @@ function run_makemessages {
 
   cd ..
   if [ $check_only -eq 1 ]; then
-    git checkout -- smaug_dashboard/locale/django*.pot
+    rm smaug_dashboard/locale/django*.pot
   fi
 
   exit $(($SMAUG_PY_RESULT || $SMAUG_JS_RESULT))
