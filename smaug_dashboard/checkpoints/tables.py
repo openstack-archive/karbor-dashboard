@@ -60,6 +60,12 @@ class DeleteCheckpointsAction(tables.DeleteAction):
                                       checkpoint_id=obj_id)
 
 
+def get_provider_link(checkpoint):
+    """url Two args"""
+    return reverse("horizon:smaug:checkpoints:detail",
+                   args=(checkpoint.provider_id, checkpoint.id))
+
+
 def get_plan_name(obj):
     name = ""
     plan = getattr(obj, 'protection_plan')
@@ -71,6 +77,7 @@ def get_plan_name(obj):
 class CheckpointsTable(tables.DataTable):
     checkpointId = tables.Column(
         "id",
+        link=get_provider_link,
         verbose_name=_('Checkpoint ID'))
     protectionProvider = tables.Column(
         "provider_name",
@@ -86,3 +93,11 @@ class CheckpointsTable(tables.DataTable):
         name = 'checkpoints'
         verbose_name = _('Checkpoints')
         row_actions = (RestoreCheckpointLink, DeleteCheckpointsAction)
+
+
+class DetailTable(tables.DataTable):
+
+    class Meta(object):
+        name = "protectionresources"
+        verbose_name = _("Protection Resources")
+        hidden_title = False

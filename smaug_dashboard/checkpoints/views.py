@@ -237,3 +237,71 @@ class CheckpointsRestoreView(horizon_forms.ModalFormView):
                                  result.showid,
                                  results
                                  )
+
+
+class DetailView(horizon_tables.DataTableView):
+    table_class = tables.DetailTable
+    template_name = 'checkpoints/detail.html'
+    page_title = _("{{ checkpoint.protection_plan.name }}")
+
+    @memoized.memoized_method
+    def get_checkpoint_data(self):
+        try:
+            provider_id = self.kwargs['provider_id']
+            checkpoint_id = self.kwargs['checkpoint_id']
+            checkpoint = smaugclient.checkpoint_get(self.request,
+                                                    provider_id,
+                                                    checkpoint_id)
+        except Exception:
+            checkpoint = []
+            msg = _('checkpoint list can not be retrieved.')
+            exceptions.handle(self.request, msg)
+        return checkpoint
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        checkpoint = self.get_checkpoint_data()
+        context["checkpoint"] = checkpoint
+        provider_id = self.kwargs['provider_id']
+        provider = smaugclient.provider_get(self.request, provider_id)
+        context["provider_name"] = provider.name
+        context["resources"] = self.get_resources()
+        context["url"] = reverse("horizon:smaug:protectionplans:index")
+        return context
+
+    @memoized.memoized_method
+    def get_resources(self):
+        results = []
+        try:
+            provider_id = self.kwargs['provider_id']
+            checkpoint_id = self.kwargs['checkpoint_id']
+            checkpoint = smaugclient.checkpoint_get(self.request,
+                                                    provider_id,
+                                                    checkpoint_id)
+            graphnodes = utils.deserialize_resource_graph(
+                checkpoint.resource_graph)
+            self.get_results(graphnodes, None, results)
+        except Exception:
+            exceptions.handle(
+                self.request,
+                _('Unable to retrieve checkpoint details.'),
+                redirect=reverse("horizon:smaug:checkpoints:index"))
+        return results
+
+    def get_results(self, graphnodes, showparentid, results):
+        for graphnode in graphnodes:
+            if graphnode is not None:
+                # add graph node to results
+                resource = {}
+                resource["id"] = graphnode.value.id
+                resource["type"] = graphnode.value.type
+                resource["name"] = graphnode.value.name
+                resource["showid"] = str(uuid.uuid4())
+                resource["showparentid"] = showparentid
+                result = protectables.Instances(self, resource)
+                results.append(result)
+                # add child graph nodes to results
+                self.get_results(graphnode.child_nodes,
+                                 result.showid,
+                                 results
+                                 )
