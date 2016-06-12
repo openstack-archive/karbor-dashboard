@@ -21,4 +21,6 @@ urlpatterns = [
     url(r'^create/$', views.CreateView.as_view(), name='create'),
     url(r'^(?P<plan_id>[^/]+)/scheduleprotect/$',
         views.ScheduleProtectView.as_view(), name='scheduleprotect'),
+    url(r'^(?P<plan_id>[^/]+)/detail/$',
+        views.DetailView.as_view(), name='detail'),
 ]

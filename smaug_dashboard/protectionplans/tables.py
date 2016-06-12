@@ -101,6 +101,7 @@ class ProtectionPlanFilterAction(tables.FilterAction):
 
 class ProtectionPlansTable(tables.DataTable):
     name = tables.Column('name',
+                         link="horizon:smaug:protectionplans:detail",
                          verbose_name=_('Name'))
 
     status = tables.Column('status',
@@ -113,3 +114,13 @@ class ProtectionPlansTable(tables.DataTable):
                        DeleteProtectionPlansAction)
         table_actions = (ProtectionPlanFilterAction, CreateProtectionPlanLink,
                          DeleteProtectionPlansAction)
+
+
+class DetailTable(tables.DataTable):
+    id = tables.Column("id", verbose_name=_("ID"))
+    type = tables.Column("type", verbose_name=_("TYPE"))
+
+    class Meta(object):
+        name = "protectionresources"
+        verbose_name = _("Protection Resources")
+        hidden_title = False
