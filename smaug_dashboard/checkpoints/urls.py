@@ -20,4 +20,7 @@ urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^(?P<provider_id>[^/]+)/$',
         views.IndexView.as_view(), name='index'),
+    url(r'^(?P<provider_id>[^/]+)/checkpoints/'
+        r'(?P<checkpoint_id>[^/]+)/restore$',
+        views.CheckpointsRestoreView.as_view(), name='restore'),
 ]

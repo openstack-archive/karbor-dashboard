@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+  {% trans "Restore Checkpoint" %}
+{% endblock %}
+
+{% block main %}
+    {% include 'checkpoints/_restore.html' %}
+{% endblock %}

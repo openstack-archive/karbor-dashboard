@@ -12,12 +12,28 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 
 from horizon import tables
 
 from smaug_dashboard.api import smaug as smaugclient
+
+
+class RestoreCheckpointLink(tables.LinkAction):
+    name = "restore"
+    verbose_name = _("Restore Checkpoint")
+    url = "horizon:smaug:checkpoints:restore"
+    classes = ("ajax-modal",)
+    icon = "plus"
+
+    def get_link_url(self, checkpoint):
+        checkpoint_id = checkpoint.id
+        return reverse(self.url, args=(checkpoint.provider_id, checkpoint_id))
+
+    def allowed(self, request, checkpoint):
+        return True
 
 
 class DeleteCheckpointsAction(tables.DeleteAction):
@@ -69,4 +85,4 @@ class CheckpointsTable(tables.DataTable):
     class Meta(object):
         name = 'checkpoints'
         verbose_name = _('Checkpoints')
-        row_actions = (DeleteCheckpointsAction,)
+        row_actions = (RestoreCheckpointLink, DeleteCheckpointsAction)
