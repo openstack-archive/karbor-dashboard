@@ -22,6 +22,17 @@ from horizon import tables
 from smaug_dashboard.api import smaug as smaugclient
 
 
+class CreateProtectionPlanLink(tables.LinkAction):
+    name = "create"
+    verbose_name = _("Create Protection Plan")
+    url = "horizon:smaug:protectionplans:create"
+    classes = ("ajax-modal",)
+    icon = "plus"
+
+    def allowed(self, request, protectionplan):
+        return True
+
+
 class ScheduleProtectLink(tables.LinkAction):
     name = "scheduleprotect"
     verbose_name = _("Schedule Protect")
@@ -100,5 +111,5 @@ class ProtectionPlansTable(tables.DataTable):
         verbose_name = _('Protection Plans')
         row_actions = (ScheduleProtectLink, ProtectNowLink,
                        DeleteProtectionPlansAction)
-        table_actions = (ProtectionPlanFilterAction,
+        table_actions = (ProtectionPlanFilterAction, CreateProtectionPlanLink,
                          DeleteProtectionPlansAction)

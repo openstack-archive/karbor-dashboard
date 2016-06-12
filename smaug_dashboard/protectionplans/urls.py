@@ -18,6 +18,7 @@ from smaug_dashboard.protectionplans import views
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^create/$', views.CreateView.as_view(), name='create'),
     url(r'^(?P<plan_id>[^/]+)/scheduleprotect/$',
         views.ScheduleProtectView.as_view(), name='scheduleprotect'),
 ]
