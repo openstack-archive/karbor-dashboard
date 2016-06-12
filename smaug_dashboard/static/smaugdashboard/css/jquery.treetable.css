@@ -1,0 +1,45 @@
+table.treetable span.indenter {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  text-align: right;
+  user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -webkit-user-select: none;
+  width: 19px;
+}
+
+table.treetable span.indenter a {
+  background-position: left center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  text-decoration: none;
+  width: 19px;
+}
+
+table.treetable span {
+  background-position: center left;
+  background-repeat: no-repeat;
+}
+
+table.treetable tr.collapsed span.indenter a {
+  background-image: url('../images/expand.png');
+}
+
+table.treetable tr.expanded span.indenter a {
+  background-image: url('../images/collapse.png');
+}
+
+table.treetable span.logoresource {
+  background-image: url('../images/logoicon.png');
+  display: inline-block;
+  width:16px;
+  height:16px;
+  vertical-align: middle;
+}
+
+table.treetable span.spanresource {
+  vertical-align: middle;
+}
