@@ -21,7 +21,6 @@ from horizon import messages
 
 from smaug_dashboard.api import smaug as smaugclient
 from smaug_dashboard.triggers import utils
-from smaugclient.v1 import triggers
 
 
 class CreateTriggerForm(horizon_forms.SelfHandlingForm):
@@ -73,7 +72,7 @@ class CreateTriggerForm(horizon_forms.SelfHandlingForm):
                                                      data_properties)
             messages.success(request, _("Trigger created successfully."))
 
-            return triggers.Trigger(self, new_trigger)
+            return new_trigger
         except Exception:
             exceptions.handle(request, _('Unable to create trigger.'))
             return False
