@@ -23,4 +23,7 @@ urlpatterns = [
     url(r'^(?P<provider_id>[^/]+)/checkpoints/'
         r'(?P<checkpoint_id>[^/]+)/restore$',
         views.CheckpointsRestoreView.as_view(), name='restore'),
+    url(r'^(?P<provider_id>[^/]+)/checkpoints/'
+        r'(?P<checkpoint_id>[^/]+)/detail/$',
+        views.DetailView.as_view(), name='detail'),
 ]
