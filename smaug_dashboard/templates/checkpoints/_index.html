@@ -8,14 +8,14 @@
       <span style="font-size: 13px;vertical-align: middle">By Provider:</span>
       <select class="form-control" name="provider_filter" style="width: auto;min-width: 160px">
         {% for provider in provider_list %}
-          <option value={{ provider.id }} {% ifequal provider_id provider.id %} selected {% endifequal %}>{{ provider.name }}</option>
+          <option value={{ provider.id }} {% ifequal provider_filter provider.id %} selected {% endifequal %}>{{ provider.name }}</option>
         {% endfor %}
       </select>
       <span style="font-size: 13px;vertical-align: middle">By Plan:</span>
       <select class="form-control" name="plan_filter" style="width: auto;min-width: 160px">
         <option {% ifequal plan_id "All" %} selected {% endifequal %}>All</option>
         {% for plan in plan_list %}
-          <option value={{ plan.id }} {% ifequal plan_id plan.id %} selected {% endifequal %}>{{ plan.name }}</option>
+          <option value={{ plan.id }} {% ifequal plan_filter plan.id %} selected {% endifequal %}>{{ plan.name }}</option>
         {% endfor %}
       </select>
       <span style="font-size: 13px;">By Date:</span>

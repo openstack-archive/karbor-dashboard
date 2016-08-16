@@ -12,16 +12,25 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import uuid
+
 from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
+from calendar import monthrange
+from datetime import date
+from datetime import timedelta
 from horizon import exceptions
+from horizon import forms as horizon_forms
 from horizon import tables as horizon_tables
 from horizon.utils import memoized
 
 from smaug_dashboard.api import smaug as smaugclient
+from smaug_dashboard.checkpoints import forms
 from smaug_dashboard.checkpoints import tables
 from smaug_dashboard.checkpoints import utils
+from smaugclient.v1 import protectables
 
 
 class IndexView(horizon_tables.DataTableView):
@@ -77,11 +86,45 @@ class IndexView(horizon_tables.DataTableView):
         return context
 
     def get_search_opts(self):
-        search_opts = self.get_filter_list()
-        for key, val in search_opts.items():
-            if val == u"All":
-                search_opts.pop(key)
-        return search_opts
+        def _total_days(year, month, num_months):
+            days = 0
+            i = 0
+            while i < num_months:
+                days += monthrange(year, month)[1]
+                month = month - 1 if month > 1 else 12
+                year = year if month > 1 else year - 1
+                i += 1
+            return days
+
+        search_opts = {}
+        filters = self.get_filter_list()
+        provider_id = filters.get(utils.FILTER_LIST[0], None)
+        plan_id = filters.get(utils.FILTER_LIST[1], u"All")
+        if plan_id != u"All":
+            search_opts["plan_id"] = plan_id
+
+        now = date.today()
+        date_filter = filters.get(utils.FILTER_LIST[2], None)
+        if date_filter == utils.TODAY:
+            delta = timedelta(days=1)
+        elif date_filter == utils.LASTESTONEWEEK:
+            delta = timedelta(weeks=1)
+        elif date_filter == utils.LASTESTTWOWEEKS:
+            delta = timedelta(weeks=2)
+        elif date_filter == utils.LASTESTONEMONTH:
+            days = _total_days(now.year, now.month, 1)
+            delta = timedelta(days=days)
+        elif date_filter == utils.LASTESTTHREEMONTHS:
+            days = _total_days(now.year, now.month, 3)
+            delta = timedelta(days=days)
+        else:
+            delta = None
+
+        if delta:
+            search_opts["start_date"] = now - delta
+            search_opts["end_date"] = now
+
+        return provider_id, search_opts
 
     def has_prev_data(self, table):
         return self._prev
@@ -102,10 +145,10 @@ class IndexView(horizon_tables.DataTableView):
         reversed_order = prev_marker is not None
         checkpoints = []
         try:
-            search_opts = self.get_search_opts()
-
-            # Get provider id
-            provider_id = search_opts.pop(utils.FILTER_LIST[0], None)
+            # Get provider id and search_opts
+            provider_id, search_opts = self.get_search_opts()
+            if provider_id is None:
+                raise Exception()
 
             checkpoints, self._more, self._prev = \
                 smaugclient.checkpoint_list_paged(
@@ -118,12 +161,79 @@ class IndexView(horizon_tables.DataTableView):
                     sort_key='name',
                     reversed_order=reversed_order)
             for checkpoint in checkpoints:
-                provider = smaugclient.provider_get(self.request,
-                                                    checkpoint.provider_id)
+                provider = smaugclient.provider_get(
+                    self.request,
+                    checkpoint.protection_plan['provider_id']
+                )
                 setattr(checkpoint, "provider_name", provider.name)
+                setattr(checkpoint, "provider_id", provider.id)
         except Exception:
             self._prev = False
             self._more = False
             exceptions.handle(self.request,
                               _('Unable to retrieve checkpoints list.'))
         return checkpoints
+
+
+class CheckpointsRestoreView(horizon_forms.ModalFormView):
+    template_name = 'checkpoints/restore.html'
+    modal_header = _("Restore Checkpoint")
+    form_id = "restore_checkpoint_form"
+    form_class = forms.RestoreCheckpointForm
+    submit_label = _("Restore Checkpoint")
+    submit_url = 'horizon:smaug:checkpoints:restore'
+    success_url = reverse_lazy('horizon:smaug:checkpoints:index')
+    page_title = _("Restore Checkpoint")
+
+    def get_initial(self):
+        return {"provider_id": self.kwargs['provider_id'],
+                "checkpoint_id": self.kwargs['checkpoint_id']}
+
+    def get_context_data(self, **kwargs):
+            context = super(CheckpointsRestoreView, self). \
+                get_context_data(**kwargs)
+            provider_id = self.kwargs['provider_id']
+            checkpoint_id = self.kwargs['checkpoint_id']
+            context['provider_id'] = provider_id
+            context['checkpoint_id'] = checkpoint_id
+            context["instances"] = self.get_resources()
+            context['submit_url'] = reverse(self.submit_url,
+                                            args=(provider_id, checkpoint_id))
+            return context
+
+    @memoized.memoized_method
+    def get_resources(self):
+        results = []
+        try:
+            provider_id = self.kwargs['provider_id']
+            checkpoint_id = self.kwargs['checkpoint_id']
+            checkpoint = smaugclient.checkpoint_get(self.request,
+                                                    provider_id,
+                                                    checkpoint_id)
+            graphnodes = utils.deserialize_resource_graph(
+                checkpoint.resource_graph)
+            self.get_results(graphnodes, None, results)
+        except Exception:
+            exceptions.handle(
+                self.request,
+                _('Unable to retrieve checkpoint details.'),
+                redirect=reverse("horizon:smaug:checkpoints:index"))
+        return results
+
+    def get_results(self, graphnodes, showparentid, results):
+        for graphnode in graphnodes:
+            if graphnode is not None:
+                # add graph node to results
+                resource = {}
+                resource["id"] = graphnode.value.id
+                resource["type"] = graphnode.value.type
+                resource["name"] = graphnode.value.name
+                resource["showid"] = str(uuid.uuid4())
+                resource["showparentid"] = showparentid
+                result = protectables.Instances(self, resource)
+                results.append(result)
+                # add child graph nodes to results
+                self.get_results(graphnode.child_nodes,
+                                 result.showid,
+                                 results
+                                 )
