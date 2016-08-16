@@ -56,16 +56,11 @@ class CreateProtectionPlanForm(horizon_forms.SelfHandlingForm):
 
     def handle(self, request, data):
         try:
-            keys = [u'id', u'status', u'provider_id',
-                    u'name', u'parameters', u'resources']
             new_plan = smaugclient.plan_create(request,
                                                data["name"],
                                                data["provider_id"],
                                                json.loads(data["resources"]),
                                                json.loads(data["parameters"]))
-            if set(keys) > set(new_plan.keys()):
-                smaugclient.plan_delete(request, new_plan['id'])
-                raise Exception()
 
             messages.success(request,
                              _("Protection Plan created successfully."))
@@ -73,10 +68,10 @@ class CreateProtectionPlanForm(horizon_forms.SelfHandlingForm):
             if data["actionmode"] == "schedule":
                 request.method = 'GET'
                 return self.next_view.as_view()(request,
-                                                plan_id=new_plan["id"])
+                                                plan_id=new_plan.id)
             elif data["actionmode"] == "now":
-                smaugclient.checkpoint_create(request, new_plan["provider_id"],
-                                              new_plan["id"])
+                smaugclient.checkpoint_create(request, new_plan.provider_id,
+                                              new_plan.id)
                 messages.success(request, _("Protect now successfully."))
             return new_plan
         except Exception:
