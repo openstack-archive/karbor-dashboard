@@ -20,6 +20,7 @@ from horizon import exceptions
 from horizon import forms as horizon_forms
 from horizon import tables as horizon_tables
 from horizon.utils import memoized
+from horizon import views as horizon_views
 
 from smaug_dashboard.api import smaug as smaugclient
 from smaug_dashboard.protectionplans import forms
@@ -154,3 +155,67 @@ class ScheduleProtectView(horizon_forms.ModalFormView):
         return {'id': plan.id,
                 'name': plan.name,
                 'provider_id': plan.provider_id}
+
+
+class DetailView(horizon_views.HorizonTemplateView):
+    template_name = 'protectionplans/detail.html'
+    page_title = "{{ plan.name }}"
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        plan = self.get_data()
+        table = tables.ProtectionPlansTable(self.request)
+        context["plan"] = plan
+        context["provider"] = self.get_provider(plan.provider_id)
+        context["instances"] = self.get_instances(plan.resources)
+        context["url"] = reverse("horizon:smaug:protectionplans:index")
+        context["actions"] = table.render_row_actions(plan)
+        return context
+
+    @memoized.memoized_method
+    def get_data(self):
+        try:
+            return smaugclient.plan_get(self.request, self.kwargs['plan_id'])
+        except Exception:
+            exceptions.handle(
+                self.request,
+                _('Unable to retrieve protection plan details.'),
+                redirect=reverse("horizon:smaug:protectionplans:index"))
+
+    @memoized.memoized_method
+    def get_provider(self, provider_id):
+        provider = None
+        if provider_id:
+            try:
+                provider = smaugclient.provider_get(self.request, provider_id)
+            except Exception:
+                exceptions.handle(
+                    self.request,
+                    _('Unable to retrieve protection provider details.'),
+                    redirect=reverse("horizon:smaug:protectionplans:index"))
+        return provider
+
+    @memoized.memoized_method
+    def get_instances(self, instances):
+        try:
+            result = []
+            for instance in instances:
+                instance["showid"] = str(uuid.uuid4())
+                result.append(protectables.Instances(self, instance))
+                detail_instance = smaugclient.protectable_get_instance(
+                    self.request,
+                    instance["type"].strip(),
+                    instance["id"].strip())
+                if detail_instance.dependent_resources:
+                    for dependent in detail_instance.dependent_resources:
+                        dependent["showid"] = str(uuid.uuid4())
+                        dependent["showparentid"] = instance["showid"]
+                        result.append(
+                            protectables.Instances(self, dependent))
+            return result
+
+        except Exception:
+            exceptions.handle(
+                self.request,
+                _('Unable to get instances.'),
+                redirect=reverse("horizon:smaug:protectionplans:index"))
