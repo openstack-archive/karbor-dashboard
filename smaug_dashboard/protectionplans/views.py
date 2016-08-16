@@ -24,6 +24,8 @@ from horizon.utils import memoized
 from smaug_dashboard.api import smaug as smaugclient
 from smaug_dashboard.protectionplans import forms
 from smaug_dashboard.protectionplans import tables
+from smaugclient.v1 import protectables
+import uuid
 
 
 class IndexView(horizon_tables.DataTableView):
@@ -63,6 +65,61 @@ class IndexView(horizon_tables.DataTableView):
             exceptions.handle(self.request,
                               _('Unable to retrieve protection plans list.'))
         return plans
+
+
+class CreateView(horizon_forms.ModalFormView):
+    template_name = 'protectionplans/create.html'
+    modal_header = _("Create Protection Plan")
+    form_id = "create_protectionplan_form"
+    form_class = forms.CreateProtectionPlanForm
+    submit_label = _("Create Protection Plan")
+    submit_url = reverse_lazy("horizon:smaug:protectionplans:create")
+    success_url = reverse_lazy('horizon:smaug:protectionplans:index')
+    page_title = _("Create Protection Plan")
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateView, self).get_context_data(**kwargs)
+        context["instances"] = self.get_object()
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateView, self).get_form_kwargs()
+        kwargs['next_view'] = ScheduleProtectView
+        return kwargs
+
+    @memoized.memoized_method
+    def get_object(self):
+        try:
+            instances = smaugclient.protectable_list_instances(
+                self.request, "OS::Keystone::Project")
+            results = []
+            self.get_results(instances, None, results)
+            return results
+        except Exception:
+            exceptions.handle(
+                self.request,
+                _('Unable to create protection plan.'),
+                redirect=reverse("horizon:smaug:protectionplans:index"))
+
+    def get_results(self, instances, showparentid, results):
+        for instance in instances:
+            if instance is not None:
+                resource = {}
+                resource["id"] = instance.id
+                resource["type"] = instance.type
+                resource["name"] = instance.name
+                resource["showid"] = str(uuid.uuid4())
+                resource["showparentid"] = showparentid
+                result = protectables.Instances(self, resource)
+                results.append(result)
+
+                for dependent_resource in instance.dependent_resources:
+                    if dependent_resource is not None:
+                        dependent = smaugclient.protectable_get_instance(
+                            self.request,
+                            dependent_resource["type"],
+                            dependent_resource["id"])
+                        self.get_results([dependent], result.showid, results)
 
 
 class ScheduleProtectView(horizon_forms.ModalFormView):

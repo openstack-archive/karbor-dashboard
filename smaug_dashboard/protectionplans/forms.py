@@ -19,7 +19,68 @@ from horizon import exceptions
 from horizon import forms as horizon_forms
 from horizon import messages
 
+import json
 from smaug_dashboard.api import smaug as smaugclient
+
+
+class CreateProtectionPlanForm(horizon_forms.SelfHandlingForm):
+    name = forms.CharField(label=_("Name"), required=True)
+    provider_id = forms.ChoiceField(label=_('Protection Provider'),
+                                    choices=[],
+                                    widget=forms.Select(attrs={
+                                        'class': 'switchable'}))
+    providers = forms.CharField(
+        widget=forms.HiddenInput(attrs={"class": "providers"}))
+    actionmode = forms.CharField(
+        widget=forms.HiddenInput(attrs={"class": "actionmode"}))
+    resources = forms.CharField(
+        widget=forms.HiddenInput(attrs={"class": "resources"}))
+    parameters = forms.CharField(
+        widget=forms.HiddenInput(attrs={"class": "parameters"}))
+
+    def __init__(self, request, *args, **kwargs):
+        self.next_view = kwargs.pop('next_view')
+        super(CreateProtectionPlanForm, self).\
+            __init__(request, *args, **kwargs)
+
+        result = []
+        providers = smaugclient.provider_list(request)
+
+        self.fields['providers'].initial = \
+            json.dumps([f._info for f in providers])
+
+        if providers:
+            result = [(e.id, e.name) for e in providers]
+
+        self.fields['provider_id'].choices = result
+
+    def handle(self, request, data):
+        try:
+            keys = [u'id', u'status', u'provider_id',
+                    u'name', u'parameters', u'resources']
+            new_plan = smaugclient.plan_create(request,
+                                               data["name"],
+                                               data["provider_id"],
+                                               json.loads(data["resources"]),
+                                               json.loads(data["parameters"]))
+            if set(keys) > set(new_plan.keys()):
+                smaugclient.plan_delete(request, new_plan['id'])
+                raise Exception()
+
+            messages.success(request,
+                             _("Protection Plan created successfully."))
+
+            if data["actionmode"] == "schedule":
+                request.method = 'GET'
+                return self.next_view.as_view()(request,
+                                                plan_id=new_plan["id"])
+            elif data["actionmode"] == "now":
+                smaugclient.checkpoint_create(request, new_plan["provider_id"],
+                                              new_plan["id"])
+                messages.success(request, _("Protect now successfully."))
+            return new_plan
+        except Exception:
+            exceptions.handle(request, _('Unable to create protection plan.'))
 
 
 class ScheduleProtectForm(horizon_forms.SelfHandlingForm):
