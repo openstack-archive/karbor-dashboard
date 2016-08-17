@@ -1,4 +1,4 @@
-smaug-dashboard Style Commandments
+karbor-dashboard Style Commandments
 ===============================================
 
 Read the OpenStack Style Commandments http://docs.openstack.org/developer/hacking/

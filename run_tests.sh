@@ -57,7 +57,7 @@ root=`pwd -P`
 venv=$root/.venv
 venv_env_version=$venv/environments
 with_venv=tools/with_venv.sh
-included_dirs="smaug_dashboard"
+included_dirs="karbor_dashboard"
 
 always_venv=0
 backup_env=0
@@ -187,7 +187,7 @@ function warn_on_flake8_without_venv {
 function run_pep8 {
   echo "Running flake8 ..."
   warn_on_flake8_without_venv
-  DJANGO_SETTINGS_MODULE=smaug_dashboard.test.settings ${command_wrapper} flake8
+  DJANGO_SETTINGS_MODULE=karbor_dashboard.test.settings ${command_wrapper} flake8
 }
 
 function run_pep8_changed {
@@ -200,13 +200,13 @@ function run_pep8_changed {
     files=$(git diff --name-only $base_commit | tr '\n' ' ')
     echo "Running flake8 on ${files}"
     warn_on_flake8_without_venv
-    diff -u --from-file /dev/null ${files} | DJANGO_SETTINGS_MODULE=smaug_dashboard.test.settings ${command_wrapper} flake8 --diff
+    diff -u --from-file /dev/null ${files} | DJANGO_SETTINGS_MODULE=karbor_dashboard.test.settings ${command_wrapper} flake8 --diff
     exit
 }
 
 function run_sphinx {
     echo "Building sphinx..."
-    DJANGO_SETTINGS_MODULE=smaug_dashboard.test.settings ${command_wrapper} python setup.py build_sphinx
+    DJANGO_SETTINGS_MODULE=karbor_dashboard.test.settings ${command_wrapper} python setup.py build_sphinx
     echo "Build complete."
 }
 
@@ -340,7 +340,7 @@ function run_tests {
   fi
 
   if [ $with_selenium -eq 0 -a $integration -eq 0 ]; then
-      testopts="$testopts --exclude-dir=smaug_dashboard/test/integration_tests"
+      testopts="$testopts --exclude-dir=karbor_dashboard/test/integration_tests"
   fi
 
   if [ $selenium_headless -eq 1 ]; then
@@ -360,12 +360,12 @@ function run_tests_subset {
 }
 
 function run_tests_all {
-  echo "Running Smaug Dashboard tests"
-  export NOSE_XUNIT_FILE=smaug_dashboard/nosetests.xml
+  echo "Running Karbor Dashboard tests"
+  export NOSE_XUNIT_FILE=karbor_dashboard/nosetests.xml
   if [ "$NOSE_WITH_HTML_OUTPUT" = '1' ]; then
     export NOSE_HTML_OUT_FILE='dashboard_nose_results.html'
   fi
-  ${command_wrapper} ${coverage_run} $root/manage.py test smaug_dashboard --settings=openstack_dashboard.test.settings $testopts
+  ${command_wrapper} ${coverage_run} $root/manage.py test karbor_dashboard --settings=openstack_dashboard.test.settings $testopts
   # get results of the openstack_dashboard tests
   DASHBOARD_RESULT=$?
 
@@ -420,21 +420,21 @@ function babel_extract {
 
 function run_makemessages {
 
-  echo -n "smaug dashboard: "
-  cd smaug_dashboard
+  echo -n "karbor dashboard: "
+  cd karbor_dashboard
   babel_extract django
-  SMAUG_PY_RESULT=$?
+  KARBOR_PY_RESULT=$?
 
-  echo -n "smaug dashboard javascript: "
+  echo -n "karbor dashboard javascript: "
   babel_extract djangojs
-  SMAUG_JS_RESULT=$?
+  KARBOR_JS_RESULT=$?
 
   cd ..
   if [ $check_only -eq 1 ]; then
-    rm smaug_dashboard/locale/django*.pot
+    rm karbor_dashboard/locale/django*.pot
   fi
 
-  exit $(($SMAUG_PY_RESULT || $SMAUG_JS_RESULT))
+  exit $(($KARBOR_PY_RESULT || $KARBOR_JS_RESULT))
 }
 
 function run_compilemessages {

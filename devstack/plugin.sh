@@ -1,23 +1,23 @@
 #!/usr/bin/env bash
-# plugin.sh - DevStack plugin.sh dispatch script smaug-dashboard
+# plugin.sh - DevStack plugin.sh dispatch script karbor-dashboard
 
-SMAUG_DASH_DIR=$(cd $(dirname $BASH_SOURCE)/.. && pwd)
+KARBOR_DASH_DIR=$(cd $(dirname $BASH_SOURCE)/.. && pwd)
 
-function install_smaug_dashboard {
-    setup_develop ${SMAUG_DASH_DIR}
+function install_karbor_dashboard {
+    setup_develop ${KARBOR_DASH_DIR}
 }
 
-function configure_smaug_dashboard {
-    cp -a ${SMAUG_DASH_DIR}/smaug_dashboard/enabled/* ${DEST}/horizon/openstack_dashboard/local/enabled/
+function configure_karbor_dashboard {
+    cp -a ${KARBOR_DASH_DIR}/karbor_dashboard/enabled/* ${DEST}/horizon/openstack_dashboard/local/enabled/
     # NOTE: If locale directory does not exist, compilemessages will fail,
     # so check for an existence of locale directory is required.
-    if [ -d ${SMAUG_DASH_DIR}/smaug_dashboard/locale ]; then
-        (cd ${SMAUG_DASH_DIR}/smaug_dashboard; DJANGO_SETTINGS_MODULE=openstack_dashboard.settings ../manage.py compilemessages)
+    if [ -d ${KARBOR_DASH_DIR}/karbor_dashboard/locale ]; then
+        (cd ${KARBOR_DASH_DIR}/karbor_dashboard; DJANGO_SETTINGS_MODULE=openstack_dashboard.settings ../manage.py compilemessages)
     fi
 }
 
 # check for service enabled
-if is_service_enabled smaug-dashboard; then
+if is_service_enabled karbor-dashboard; then
 
     if [[ "$1" == "stack" && "$2" == "pre-install"  ]]; then
         # Set up system services
@@ -26,13 +26,13 @@ if is_service_enabled smaug-dashboard; then
 
     elif [[ "$1" == "stack" && "$2" == "install"  ]]; then
         # Perform installation of service source
-        echo_summary "Installing Smaug Dashboard"
-        install_smaug_dashboard
+        echo_summary "Installing Karbor Dashboard"
+        install_karbor_dashboard
 
     elif [[ "$1" == "stack" && "$2" == "post-config"  ]]; then
         # Configure after the other layer 1 and 2 services have been configured
-        echo_summary "Configuring Smaug Dashboard"
-        configure_smaug_dashboard
+        echo_summary "Configuring Karbor Dashboard"
+        configure_karbor_dashboard
 
     elif [[ "$1" == "stack" && "$2" == "extra"  ]]; then
         # Initialize and start the app-catalog-ui service
