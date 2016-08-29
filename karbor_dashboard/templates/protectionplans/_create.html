@@ -1,0 +1,69 @@
+{% extends "horizon/common/_modal_form.html" %}
+{% load i18n %}
+{% load static %}
+{% load compress %}
+
+{% block modal-body %}
+
+{% block css %}
+  {% compress css %}
+    <link rel="stylesheet" href="{% static 'karbordashboard/css/jquery.treetable.css' %}">
+  {% endcompress %}
+{% endblock %}
+
+<div class="left" style="width:100%">
+  <fieldset>
+    {% include "horizon/common/_form_fields.html" %}
+  </fieldset>
+  <div class="table_wrapper">
+    <table id="protectionplanCreateResource" class="{% block table_css_classes %}table table-striped datatable {{ table.css_classes }}{% endblock %}">
+      <thead>
+        <tr class="table_column_header">
+          <th {{ column.attr_string|safe }}>
+            Resource Name
+          </th>
+          <th {{ column.attr_string|safe }}>
+            Resource Type
+          </th>
+          <th {{ column.attr_string|safe }}>
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for instance in instances %}
+          <tr data-tt-id="{{ instance.showid }}"
+            resource-id="{{ instance.id }}"
+            {% if instance.showparentid != None %}
+            data-tt-parent-id="{{ instance.showparentid }}"
+            {% endif %}>
+              <td>
+                <span class="spanresource"><input type="checkbox" class="cbresource"/></span>
+                <span class="logoresource"></span>
+                <span class="spanresource">{{instance.name}}</span>
+              </td>
+              <td>
+               <span class="spanresource">{{instance.type}}</span>
+              </td>
+              <td>
+                <input type="button" class="btn btn-default editparameters" value="Edit Parameters" resourcetype="{{instance.type}}">
+              </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="dialog_wrapper"></div>
+</div>
+<script type="text/javascript">
+  (window.$ || window.addHorizonLoadEvent)(function () {
+    horizon.protectionplans_create.init();
+  });
+</script>
+{% endblock %}
+
+{% block modal-footer %}
+  <input class="btn btn-primary create" type="submit" value='{% trans "Create Protection Plan" %}' />
+  <input class="btn btn-primary schedule" type="submit" value='{% trans "Schedule Protect" %}' />
+  <input class="btn btn-primary now" type="submit" value='{% trans "Protect Now" %}' />
+{% endblock %}

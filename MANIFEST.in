@@ -3,7 +3,7 @@ include README.rst
 include ChangeLog
 include LICENSE
 
-recursive-include smaug_dashboard/templates *
+recursive-include karbor_dashboard/templates *
 
 exclude .gitignore
 exclude .gitreview

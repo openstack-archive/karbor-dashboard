@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -12,12 +12,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import os
-import sys
+import pbr.version
 
-from django.core.management import execute_from_command_line  # noqa
 
-if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE",
-                          "karbor_dashboard.test.settings")
-    execute_from_command_line(sys.argv)
+__version__ = pbr.version.VersionInfo(
+    'karbor-dashboard').version_string()
