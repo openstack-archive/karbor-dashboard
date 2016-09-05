@@ -84,9 +84,9 @@
           dropdownlist_control.attr("name", p);
 
           //get drop down list options
-          for(option in property.eumn) {
-            var option_control = $("<option/>").attr('value', property.eumn[option])
-                                               .html(property.eumn[option]);
+          for(option in property.enum) {
+            var option_control = $("<option/>").attr('value', property.enum[option])
+                                               .html(property.enum[option]);
             dropdownlist_control.append(option_control);
           }
 
