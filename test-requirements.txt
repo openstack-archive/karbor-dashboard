@@ -26,5 +26,3 @@ testtools>=1.4.0 # MIT
 xvfbwrapper>=0.1.3 #license: MIT
 # Include horizon as test requirement
 http://tarballs.openstack.org/horizon/horizon-master.tar.gz#egg=horizon
-# When the karbor client is stable, this line should be removed
-http://tarballs.openstack.org/python-smaugclient/python-smaugclient-master.tar.gz#egg=python-smaugclient
