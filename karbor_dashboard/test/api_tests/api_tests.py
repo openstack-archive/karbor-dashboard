@@ -325,17 +325,21 @@ class karborApiTests(test.APITestCase):
         restore = self.restores.first()
         karborclient = self.stub_karborclient()
         karborclient.restores = self.mox.CreateMockAnything()
-        karborclient.restores.create(restore["provider_id"],
-                                     restore["checkpoint_id"],
-                                     restore["restore_target"],
-                                     restore["parameters"]).AndReturn(restore)
+        karborclient.restores.create(
+            restore["provider_id"],
+            restore["checkpoint_id"],
+            restore["restore_target"],
+            restore["parameters"],
+            restore["restore_auth"]
+        ).AndReturn(restore)
         self.mox.ReplayAll()
 
         ret_val = karbor.restore_create(self.request,
                                         restore["provider_id"],
                                         restore["checkpoint_id"],
                                         restore["restore_target"],
-                                        restore["parameters"])
+                                        restore["parameters"],
+                                        restore["restore_auth"])
         self.assertEqual(restore["id"], ret_val["id"])
 
     def test_restore_delete(self):
@@ -438,7 +442,8 @@ class karborApiTests(test.APITestCase):
             limit=page_size + 1,
             sort_key=None,
             sort_dir=None,
-            sort=None).AndReturn(restore_list[:page_size + 1])
+            sort=None
+        ).AndReturn(restore_list[:page_size + 1])
         self.mox.ReplayAll()
         ret_val, has_more_data, has_prev_data = karbor.restore_list_paged(
             self.request, paginate=True)

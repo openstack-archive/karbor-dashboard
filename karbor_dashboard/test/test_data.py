@@ -126,7 +126,9 @@ def data(TEST):
         "provider_id": "fake_provider_id",
         "checkpoint_id": "fake_checkpoint_id",
         "restore_target": "192.168.0.1:8080/v2.0",
-        "parameters": {"username": "admin"},
+        "parameters": {},
+        "restore_auth": {"type": "password", "username": "admin",
+                         "password": "test"},
         "status": "IN PROGRESS"
     }
     resource_dict_2 = {
@@ -135,7 +137,9 @@ def data(TEST):
         "provider_id": "fake_provider_id2",
         "checkpoint_id": "fake_checkpoint_id2",
         "restore_target": "192.168.0.1:8080/v2.0",
-        "parameters": {"username": "admin"},
+        "parameters": {},
+        "restore_auth": {"type": "password", "username": "admin",
+                         "password": "test"},
         "status": "IN PROGRESS"
     }
     resource_dict_3 = {
@@ -144,7 +148,9 @@ def data(TEST):
         "provider_id": "fake_provider_id3",
         "checkpoint_id": "fake_checkpoint_id3",
         "restore_target": "192.168.0.1:8080/v2.0",
-        "parameters": {"username": "admin"},
+        "parameters": {},
+        "restore_auth": {"type": "password", "username": "admin",
+                         "password": "test"},
         "status": "IN PROGRESS"
     }
     resource_dict_4 = {
@@ -153,7 +159,9 @@ def data(TEST):
         "provider_id": "fake_provider_id4",
         "checkpoint_id": "fake_checkpoint_id4",
         "restore_target": "192.168.0.1:8080/v2.0",
-        "parameters": {"username": "admin"},
+        "parameters": {},
+        "restore_auth": {"type": "password", "username": "admin",
+                         "password": "test"},
         "status": "IN PROGRESS"
     }
 
