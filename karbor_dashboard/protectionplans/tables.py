@@ -61,7 +61,7 @@ class ProtectNowLink(tables.Action):
             new_checkpoint = karborclient.checkpoint_create(request,
                                                             provider_id,
                                                             datum_id)
-            messages.success(request, _("Protect now successfully."))
+            messages.success(request, _("Plan protection initiated"))
             return new_checkpoint
         except Exception:
             exceptions.handle(request, _('Unable to protect now'))
