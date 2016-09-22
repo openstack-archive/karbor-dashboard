@@ -41,12 +41,7 @@ Install Karbor Dashboard with all dependencies in your virtual environment::
 
 And enable it in Horizon::
 
-    cp ../karbor-dashboard/karbor_dashboard/enabled/_6000_data_protection.py openstack_dashboard/local/enabled
-    cp ../karbor-dashboard/karbor_dashboard/enabled/_6010_data_protection_protection_plans_panel.py openstack_dashboard/local/enabled
-    cp ../karbor-dashboard/karbor_dashboard/enabled/_6020_data_protection_protection_providers_panel.py openstack_dashboard/local/enabled
-    cp ../karbor-dashboard/karbor_dashboard/enabled/_6030_data_protection_checkpoints_panel.py openstack_dashboard/local/enabled
-    cp ../karbor-dashboard/karbor_dashboard/enabled/_6040_data_protection_operation_logs_panel.py openstack_dashboard/local/enabled
-    cp ../karbor-dashboard/karbor_dashboard/enabled/_6050_data_protection_triggers_panel.py openstack_dashboard/local/enabled
+    cp ../karbor-dashboard/karbor_dashboard/enabled/* openstack_dashboard/local/enabled/
 
 To run horizon with the newly enabled Karbor Dashboard plugin run::
 
