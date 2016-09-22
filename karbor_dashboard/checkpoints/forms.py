@@ -53,7 +53,7 @@ class RestoreCheckpointForm(horizon_forms.SelfHandlingForm):
                 checkpoint_id=data["checkpoint_id"],
                 restore_target=data["restore_target"],
                 parameters=json.loads(data["parameters"]))
-            messages.success(request, _("Checkpoint restored successfully."))
+            messages.success(request, _("Checkpoint restore initiated."))
             return new_restore
         except Exception:
             exceptions.handle(request, _('Unable to restore checkpoint.'))
