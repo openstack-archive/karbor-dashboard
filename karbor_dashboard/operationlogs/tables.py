@@ -17,60 +17,24 @@ from django.utils.translation import ugettext_lazy as _
 from horizon import tables
 
 
-class OperationLogsProtectTable(tables.DataTable):
+class OperationLogsTable(tables.DataTable):
     id = tables.Column('id',
-                       link="horizon:karbor:operationlogs:detail",
                        verbose_name=_('ID'))
     name = tables.Column('name',
                          verbose_name=_('Name'))
     type = tables.Column('type',
                          verbose_name=_('Type'))
-    status = tables.Column('status',
-                           verbose_name=_('Status'))
-
-    class Meta(object):
-        name = 'operationlogs'
-        verbose_name = _('Operation Logs')
-
-
-class OperationLogsRestoreTable(tables.DataTable):
-    id = tables.Column(
-        'id',
-        verbose_name=_('ID'))
-    name = tables.Column(
-        'name',
-        verbose_name=_('Protection Plan'))
-    type = tables.Column(
-        'type',
-        verbose_name=_('Type'))
-    status = tables.Column(
-        'status',
-        verbose_name=_('Status'))
-    restore_from_checkpoint = tables.Column(
-        'checkpoint_id',
-        verbose_name=_('Restore From Checkpoint'))
-    restore_target = tables.Column(
-        'restore_target',
-        verbose_name=_('Restore Target'))
-    protection_provider = tables.Column(
-        'provider_name',
-        verbose_name=_('Protection Provider'))
-
-    class Meta(object):
-        name = 'operationlogs'
-        verbose_name = _('Operation Logs')
-
-
-class OperationLogsDeleteTable(tables.DataTable):
-    id = tables.Column('id',
-                       link="horizon:karbor:operationlogs:detail",
-                       verbose_name=_('ID'))
-    name = tables.Column('name',
-                         verbose_name=_('Name'))
-    type = tables.Column('type',
-                         verbose_name=_('Type'))
-    status = tables.Column('status',
-                           verbose_name=_('Status'))
+    state = tables.Column('state',
+                          verbose_name=_('State'))
+    expect_start_time = tables.Column(
+        'expect_start_time',
+        verbose_name=_('Expect Start Time'))
+    actual_start_time = tables.Column(
+        'actual_start_time',
+        verbose_name=_('Actual Start Time'))
+    end_time = tables.Column(
+        'end_time',
+        verbose_name=_('End Time'))
 
     class Meta(object):
         name = 'operationlogs'
