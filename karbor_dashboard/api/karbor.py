@@ -206,11 +206,12 @@ def scheduled_operation_get(request, scheduled_operation_id):
 
 
 def restore_create(request, provider_id, checkpoint_id,
-                   restore_target, parameters):
+                   restore_target, parameters, restore_auth):
     return karborclient(request).restores.create(provider_id,
                                                  checkpoint_id,
                                                  restore_target,
-                                                 parameters)
+                                                 parameters,
+                                                 restore_auth)
 
 
 def restore_delete(request, restore_id):
