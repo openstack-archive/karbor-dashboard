@@ -24,7 +24,7 @@ from karbor_dashboard.api import karbor as karborclient
 
 
 class CreateProtectionPlanForm(horizon_forms.SelfHandlingForm):
-    name = forms.CharField(label=_("Name"), required=True)
+    name = forms.CharField(label=_("Name"))
     provider_id = forms.ChoiceField(label=_('Protection Provider'),
                                     choices=[],
                                     widget=forms.Select(attrs={
