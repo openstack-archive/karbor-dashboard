@@ -45,8 +45,8 @@ class DeleteCheckpointsAction(tables.DeleteAction):
 
     @staticmethod
     def action_past(count):
-        return ungettext_lazy(u"Deleted Checkpoint",
-                              u"Deleted Checkpoints",
+        return ungettext_lazy(u"Scheduled deletion of Checkpoint",
+                              u"Scheduled deletion of Checkpoints",
                               count)
 
     def allowed(self, request, checkpoint):
