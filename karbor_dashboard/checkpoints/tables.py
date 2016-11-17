@@ -33,7 +33,7 @@ class RestoreCheckpointLink(tables.LinkAction):
         return reverse(self.url, args=(checkpoint.provider_id, checkpoint_id))
 
     def allowed(self, request, checkpoint):
-        return True
+        return checkpoint.status == 'available'
 
 
 class DeleteCheckpointsAction(tables.DeleteAction):
@@ -50,7 +50,7 @@ class DeleteCheckpointsAction(tables.DeleteAction):
                               count)
 
     def allowed(self, request, checkpoint):
-        return True
+        return checkpoint.status == 'available'
 
     def delete(self, request, obj_id):
         datum = self.table.get_object_by_id(obj_id)
