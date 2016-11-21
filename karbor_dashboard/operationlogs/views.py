@@ -24,12 +24,6 @@ class IndexView(horizon_tables.DataTableView):
     template_name = 'operationlogs/index.html'
     page_title = _("Operation Logs")
 
-    def has_prev_data(self, table):
-        return self._prev
-
-    def has_more_data(self, table):
-        return self._more
-
     def get_data(self):
         logs = []
         return logs
