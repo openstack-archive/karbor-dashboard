@@ -13,8 +13,11 @@
 #    under the License.
 
 from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ungettext_lazy
 
 from horizon import tables
+
+from karbor_dashboard.api import karbor as karborclient
 
 
 class ScheduledOperationFilterAction(tables.FilterAction):
@@ -24,6 +27,26 @@ class ScheduledOperationFilterAction(tables.FilterAction):
         return [scheduledoperation
                 for scheduledoperation in scheduledoperations
                 if query in scheduledoperation.name.lower()]
+
+
+class DeleteScheduledOperationsAction(tables.DeleteAction):
+    @staticmethod
+    def action_present(count):
+        return ungettext_lazy(u"Delete ScheduledOperation",
+                              u"Delete ScheduledOperations",
+                              count)
+
+    @staticmethod
+    def action_past(count):
+        return ungettext_lazy(u"Deleted ScheduledOperation",
+                              u"Deleted ScheduledOperations",
+                              count)
+
+    def allowed(self, request, scheduledoperation):
+        return True
+
+    def delete(self, request, obj_id):
+        karborclient.scheduled_operation_delete(request, obj_id)
 
 
 class ScheduledOperationsTable(tables.DataTable):
@@ -49,4 +72,6 @@ class ScheduledOperationsTable(tables.DataTable):
     class Meta(object):
         name = 'scheduledoperations'
         verbose_name = _('Scheduled Operations')
-        table_actions = (ScheduledOperationFilterAction, )
+        row_actions = (DeleteScheduledOperationsAction,)
+        table_actions = (ScheduledOperationFilterAction,
+                         DeleteScheduledOperationsAction)
