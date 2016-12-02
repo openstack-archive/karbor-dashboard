@@ -17,6 +17,15 @@ from django.utils.translation import ugettext_lazy as _
 from horizon import tables
 
 
+class ScheduledOperationFilterAction(tables.FilterAction):
+    def filter(self, table, scheduledoperations, filter_string):
+        """Naive case-insensitive search."""
+        query = filter_string.lower()
+        return [scheduledoperation
+                for scheduledoperation in scheduledoperations
+                if query in scheduledoperation.name.lower()]
+
+
 class ScheduledOperationsTable(tables.DataTable):
     id = tables.Column(
         'id',
@@ -40,3 +49,4 @@ class ScheduledOperationsTable(tables.DataTable):
     class Meta(object):
         name = 'scheduledoperations'
         verbose_name = _('Scheduled Operations')
+        table_actions = (ScheduledOperationFilterAction, )
