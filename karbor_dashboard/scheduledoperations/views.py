@@ -55,7 +55,7 @@ class IndexView(horizon_tables.DataTableView):
                     reversed_order=reversed_order)
 
             for scheduledoperation in scheduledoperations:
-                plan_name, provider_name, trigger_name = ''
+                plan_name, provider_name, trigger_name = '', '', ''
                 operation_definition = scheduledoperation.operation_definition
 
                 if "plan_id" in operation_definition.keys():
