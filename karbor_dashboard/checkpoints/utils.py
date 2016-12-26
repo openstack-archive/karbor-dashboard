@@ -77,7 +77,7 @@ def unpack_graph(packed_graph):
                 graph_nodes_dict[child_sid] = GraphNode(
                     nodes_dict[child_sid], ())
             children.append(graph_nodes_dict[child_sid])
-            del(nodes_dict[child_sid])
+            nodes_dict.pop(child_sid, None)
         graph_nodes_dict[parent_sid] = GraphNode(nodes_dict[parent_sid],
                                                  tuple(children))
 
