@@ -160,13 +160,10 @@ class IndexView(horizon_tables.DataTableView):
                     sort_dir='asc',
                     sort_key='name',
                     reversed_order=reversed_order)
+            provider = karborclient.provider_get(self.request, provider_id)
             for checkpoint in checkpoints:
-                provider = karborclient.provider_get(
-                    self.request,
-                    checkpoint.protection_plan['provider_id']
-                )
                 setattr(checkpoint, "provider_name", provider.name)
-                setattr(checkpoint, "provider_id", provider.id)
+                setattr(checkpoint, "provider_id", provider_id)
         except Exception:
             self._prev = False
             self._more = False
