@@ -43,6 +43,16 @@ class ScheduleProtectLink(tables.LinkAction):
         return True
 
 
+class EditPlanLink(tables.LinkAction):
+    name = "editplan"
+    verbose_name = _("Edit Plan")
+    url = "horizon:karbor:protectionplans:update"
+    classes = ("ajax-modal",)
+
+    def allowed(self, request, protectionplan):
+        return True
+
+
 class ProtectNowLink(tables.Action):
     name = "protectnow"
     verbose_name = _("Protect Now")
@@ -110,7 +120,7 @@ class ProtectionPlansTable(tables.DataTable):
     class Meta(object):
         name = 'protectionplans'
         verbose_name = _('Protection Plans')
-        row_actions = (ScheduleProtectLink, ProtectNowLink,
+        row_actions = (ScheduleProtectLink, EditPlanLink, ProtectNowLink,
                        DeleteProtectionPlansAction)
         table_actions = (ProtectionPlanFilterAction, CreateProtectionPlanLink,
                          DeleteProtectionPlansAction)

@@ -12,6 +12,9 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import json
+import uuid
+
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -26,7 +29,6 @@ from karbor_dashboard.api import karbor as karborclient
 from karbor_dashboard.protectionplans import forms
 from karbor_dashboard.protectionplans import tables
 from karborclient.v1 import protectables
-import uuid
 
 
 class IndexView(horizon_tables.DataTableView):
@@ -121,6 +123,87 @@ class CreateView(horizon_forms.ModalFormView):
                             dependent_resource["type"],
                             dependent_resource["id"])
                         self.get_results([dependent], result.showid, results)
+
+
+class UpdateView(horizon_forms.ModalFormView):
+    template_name = 'protectionplans/update.html'
+    modal_header = _("Update Protection Plan")
+    form_id = "update_protectionplan_form"
+    form_class = forms.UpdateProtectionPlanForm
+    submit_label = _("Update Protection Plan")
+    submit_url = "horizon:karbor:protectionplans:update"
+    success_url = reverse_lazy('horizon:karbor:protectionplans:index')
+    page_title = _("Update Protection Plan")
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateView, self).get_context_data(**kwargs)
+        context["instances"] = self.get_protectable_objects()
+        args = (self.kwargs['plan_id'],)
+        context['submit_url'] = reverse(self.submit_url, args=args)
+        return context
+
+    @memoized.memoized_method
+    def get_protectable_objects(self):
+        try:
+            instances = karborclient.protectable_list_instances(
+                self.request, "OS::Keystone::Project")
+            results = []
+            self.get_results(instances, None, results)
+            return results
+        except Exception:
+            exceptions.handle(
+                self.request,
+                _('Unable to retrieve protection resources.'),
+                redirect=reverse("horizon:karbor:protectionplans:index"))
+
+    def get_results(self, instances, showparentid, results):
+        for instance in instances:
+            if instance is not None:
+                resource = {}
+                resource["id"] = instance.id
+                resource["type"] = instance.type
+                resource["name"] = instance.name
+                resource["showid"] = str(uuid.uuid4())
+                resource["showparentid"] = showparentid
+                result = protectables.Instances(self, resource)
+                results.append(result)
+
+                for dependent_resource in instance.dependent_resources:
+                    if dependent_resource is not None:
+                        dependent = karborclient.protectable_get_instance(
+                            self.request,
+                            dependent_resource["type"],
+                            dependent_resource["id"])
+                        self.get_results([dependent], result.showid, results)
+
+    @memoized.memoized_method
+    def get_plan_object(self, *args, **kwargs):
+        plan_id = self.kwargs['plan_id']
+        try:
+            return karborclient.plan_get(self.request, plan_id)
+        except Exception:
+            redirect = reverse("horizon:karbor:protectionplans:index")
+            msg = _('Unable to retrieve protection plan details.')
+            exceptions.handle(self.request, msg, redirect=redirect)
+
+    @memoized.memoized_method
+    def get_provider_object(self, provider_id):
+        try:
+            return karborclient.provider_get(self.request, provider_id)
+        except Exception:
+            redirect = reverse("horizon:karbor:protectionplans:index")
+            msg = _('Unable to retrieve provider details.')
+            exceptions.handle(self.request, msg, redirect=redirect)
+
+    def get_initial(self):
+        initial = super(UpdateView, self).get_initial()
+        plan = self.get_plan_object()
+        provider = self.get_provider_object(plan.provider_id)
+        initial.update({'plan_id': self.kwargs['plan_id'],
+                        'name': getattr(plan, 'name', ''),
+                        'plan': json.dumps(plan._info),
+                        'provider': json.dumps(provider._info)})
+        return initial
 
 
 class ScheduleProtectView(horizon_forms.ModalFormView):

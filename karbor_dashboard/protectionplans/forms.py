@@ -22,6 +22,9 @@ from horizon import messages
 import json
 from karbor_dashboard.api import karbor as karborclient
 
+STATUS_CHOICE = [("suspended", "suspended"),
+                 ("started", "started")]
+
 
 class CreateProtectionPlanForm(horizon_forms.SelfHandlingForm):
     name = forms.CharField(label=_("Name"))
@@ -76,6 +79,50 @@ class CreateProtectionPlanForm(horizon_forms.SelfHandlingForm):
             return new_plan
         except Exception:
             exceptions.handle(request, _('Unable to create protection plan.'))
+
+
+class UpdateProtectionPlanForm(horizon_forms.SelfHandlingForm):
+    name = forms.CharField(label=_("Name"), max_length=255, required=False)
+    status = forms.ChoiceField(label=_('Status'),
+                               choices=STATUS_CHOICE,
+                               widget=forms.Select(attrs={
+                                   'class': 'switchable'}))
+    plan = forms.CharField(
+        widget=forms.HiddenInput(attrs={"class": "plan"}))
+    provider = forms.CharField(
+        widget=forms.HiddenInput(attrs={"class": "provider"}))
+    resources = forms.CharField(
+        widget=forms.HiddenInput(attrs={"class": "resources"}))
+    parameters = forms.CharField(
+        widget=forms.HiddenInput(attrs={"class": "parameters"}))
+
+    def handle(self, request, data):
+        plan_id = self.initial['plan_id']
+        status = data["status"]
+        data_ = {"status": status}
+
+        name = data["name"]
+        if name:
+            data_.update({"name": name})
+
+        resources = json.loads(data["resources"])
+        if resources:
+            resources_ = []
+            for resource in resources:
+                if resource not in resources_:
+                    resources_.append(resource)
+            data_.update({"resources": resources_})
+
+        try:
+            new_plan = karborclient.plan_update(request,
+                                                plan_id,
+                                                data_)
+            messages.success(request,
+                             _("Protection Plan updated successfully."))
+            return new_plan
+        except Exception as e:
+            msg = _('Unable to update protection plan. ') + e.message
+            exceptions.handle(request, msg)
 
 
 class ScheduleProtectForm(horizon_forms.SelfHandlingForm):

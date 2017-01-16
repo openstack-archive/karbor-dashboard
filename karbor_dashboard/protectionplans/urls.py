@@ -23,4 +23,6 @@ urlpatterns = [
         views.ScheduleProtectView.as_view(), name='scheduleprotect'),
     url(r'^(?P<plan_id>[^/]+)/detail/$',
         views.DetailView.as_view(), name='detail'),
+    url(r'^(?P<plan_id>[^/]+)/update/$',
+        views.UpdateView.as_view(), name='update'),
 ]
