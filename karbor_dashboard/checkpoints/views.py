@@ -66,8 +66,8 @@ class IndexView(horizon_tables.DataTableView):
                 _('Unable to retrieve anyone provider.'))
 
         # Get arguments from the providers page
-        if provider_filter in self.kwargs.keys():
-            filters[provider_filter] = self.kwargs[provider_filter]
+        if self.kwargs.get("provider_id", None) is not None:
+            filters[provider_filter] = self.kwargs["provider_id"]
         return filters
 
     def get_context_data(self, **kwargs):
