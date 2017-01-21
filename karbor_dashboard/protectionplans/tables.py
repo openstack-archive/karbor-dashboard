@@ -13,6 +13,7 @@
 #    under the License.
 
 from django.core.urlresolvers import reverse
+from django import http
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 
@@ -61,19 +62,15 @@ class ProtectNowLink(tables.Action):
     def allowed(self, request, protectionplan):
         return True
 
-    def handle(self, table, request, obj_ids):
-        for datum_id in obj_ids:
-            self.action(request, datum_id)
-
-    def action(self, request, datum_id):
+    def single(self, table, request, obj_id):
         try:
-            datum = self.table.get_object_by_id(datum_id)
+            datum = self.table.get_object_by_id(obj_id)
             provider_id = datum.provider_id
-            new_checkpoint = karborclient.checkpoint_create(request,
-                                                            provider_id,
-                                                            datum_id)
+            karborclient.checkpoint_create(request, provider_id, obj_id)
             messages.success(request, _("Plan protection initiated"))
-            return new_checkpoint
+            redirect = reverse("horizon:karbor:checkpoints:index",
+                               args=(provider_id,))
+            return http.HttpResponseRedirect(redirect)
         except Exception:
             exceptions.handle(request, _('Unable to protect now'))
 
