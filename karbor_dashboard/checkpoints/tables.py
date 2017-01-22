@@ -13,6 +13,7 @@
 #    under the License.
 
 from django.core.urlresolvers import reverse
+from django.utils.translation import pgettext_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 
@@ -74,7 +75,42 @@ def get_plan_name(obj):
     return name
 
 
+class UpdateRow(tables.Row):
+    ajax = True
+
+    def __init__(self, table, datum=None):
+        super(UpdateRow, self).__init__(table, datum)
+        self.provider_id = getattr(table, 'provider_id')
+
+    def get_data(self, request, obj_id):
+        provider = karborclient.provider_get(request, self.provider_id)
+        checkpoint = karborclient.checkpoint_get(request,
+                                                 self.provider_id,
+                                                 obj_id)
+        setattr(checkpoint, "provider_name", provider.name)
+        setattr(checkpoint, "provider_id", provider.id)
+        return checkpoint
+
+
+TASK_DISPLAY_CHOICES = (
+    ("error", pgettext_lazy("Task status of an Checkpoint", u"Error")),
+    ("protecting", pgettext_lazy("Task status of an Checkpoint",
+                                 u"Protecting")),
+    ("available", pgettext_lazy("Task status of an Checkpoint", u"Available")),
+    ("deleting", pgettext_lazy("Task status of an Checkpoint", u"Deleting")),
+    ("deleted", pgettext_lazy("Task status of an Checkpoint", u"Deleted")),
+    ("error-deleting", pgettext_lazy("Task status of an Checkpoint",
+                                     u"Error Deleting")),
+)
+
+
 class CheckpointsTable(tables.DataTable):
+    TASK_STATUS_CHOICES = (
+        ("error", True),
+        ("available", True),
+        ("deleted", True),
+        ("error-deleting", True),
+    )
     checkpointId = tables.Column(
         "id",
         link=get_provider_link,
@@ -87,11 +123,16 @@ class CheckpointsTable(tables.DataTable):
         verbose_name=_('Protection Plan'))
     status = tables.Column(
         'status',
-        verbose_name=_('Status'))
+        verbose_name=_('Status'),
+        status=True,
+        status_choices=TASK_STATUS_CHOICES,
+        display_choices=TASK_DISPLAY_CHOICES)
 
     class Meta(object):
         name = 'checkpoints'
         verbose_name = _('Checkpoints')
+        status_columns = ["status", ]
+        row_class = UpdateRow
         row_actions = (RestoreCheckpointLink, DeleteCheckpointsAction)
 
 

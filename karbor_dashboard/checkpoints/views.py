@@ -85,6 +85,7 @@ class IndexView(horizon_tables.DataTableView):
         context = dict(context, **self.get_filter_list())
         return context
 
+    @memoized.memoized_method
     def get_search_opts(self):
         def _total_days(year, month, num_months):
             days = 0
@@ -170,6 +171,12 @@ class IndexView(horizon_tables.DataTableView):
             exceptions.handle(self.request,
                               _('Unable to retrieve checkpoints list.'))
         return checkpoints
+
+    def get_table(self):
+        super(IndexView, self).get_table()
+        provider_id, _ = self.get_search_opts()
+        setattr(self.table, 'provider_id', provider_id)
+        return self.table
 
 
 class CheckpointsRestoreView(horizon_forms.ModalFormView):
