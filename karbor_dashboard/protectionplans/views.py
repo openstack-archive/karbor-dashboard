@@ -67,6 +67,17 @@ class IndexView(horizon_tables.DataTableView):
             self._more = False
             exceptions.handle(self.request,
                               _('Unable to retrieve protection plans list.'))
+        providers = {}
+        try:
+            providers = {provider.id: provider.name
+                         for provider in karborclient.provider_list(request)}
+        except Exception:
+            pass
+
+        for plan in plans:
+            provider_id = plan.provider_id
+            plan.provider_name = providers.get(provider_id, provider_id)
+
         return plans
 
 

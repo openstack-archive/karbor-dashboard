@@ -12,6 +12,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext_lazy
 
@@ -109,10 +110,19 @@ class ProtectionPlanFilterAction(tables.FilterAction):
                 if query in protectionplan.name.lower()]
 
 
+def provider_link(plan):
+    return reverse('horizon:karbor:protectionproviders:detail',
+                   args=(plan.provider_id, ))
+
+
 class ProtectionPlansTable(tables.DataTable):
     name = tables.Column('name',
                          link="horizon:karbor:protectionplans:detail",
                          verbose_name=_('Name'))
+
+    provider = tables.Column('provider_name',
+                             link=provider_link,
+                             verbose_name=_('Protection Provider'))
 
     status = tables.Column('status',
                            verbose_name=_('Status'))
