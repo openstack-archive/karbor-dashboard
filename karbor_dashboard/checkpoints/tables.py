@@ -61,10 +61,15 @@ class DeleteCheckpointsAction(tables.DeleteAction):
                                        checkpoint_id=obj_id)
 
 
-def get_provider_link(checkpoint):
+def get_provider_link(obj):
+    return reverse('horizon:karbor:protectionproviders:detail',
+                   args=(obj.provider_id, ))
+
+
+def get_checkpoint_link(obj):
     """url Two args"""
     return reverse("horizon:karbor:checkpoints:detail",
-                   args=(checkpoint.provider_id, checkpoint.id))
+                   args=(obj.provider_id, obj.id))
 
 
 def get_plan_name(obj):
@@ -113,10 +118,11 @@ class CheckpointsTable(tables.DataTable):
     )
     checkpointId = tables.Column(
         "id",
-        link=get_provider_link,
+        link=get_checkpoint_link,
         verbose_name=_('Checkpoint ID'))
     protectionProvider = tables.Column(
         "provider_name",
+        link=get_provider_link,
         verbose_name=_('Protection Provider'))
     protectPlan = tables.Column(
         get_plan_name,
