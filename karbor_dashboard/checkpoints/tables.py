@@ -111,10 +111,10 @@ TASK_DISPLAY_CHOICES = (
 
 class CheckpointsTable(tables.DataTable):
     TASK_STATUS_CHOICES = (
-        ("error", True),
+        ("error", False),
         ("available", True),
         ("deleted", True),
-        ("error-deleting", True),
+        ("error-deleting", False),
     )
     checkpointId = tables.Column(
         "id",
