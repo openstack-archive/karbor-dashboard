@@ -12,6 +12,7 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+from django.core import validators
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.debug import sensitive_variables  # noqa
@@ -31,12 +32,17 @@ class RestoreCheckpointForm(horizon_forms.SelfHandlingForm):
     checkpoint_id = forms.CharField(label=_("Checkpoint ID"),
                                     widget=forms.HiddenInput(),
                                     required=False)
-    restore_target = forms.CharField(label=_("Restore Target"))
+    restore_target = forms.CharField(
+        label=_("Restore Target"),
+        required=False,
+        validators=[validators.URLValidator(), ])
     restore_target_username = forms.CharField(
-        label=_("Restore Target Username"))
+        label=_("Restore Target Username"),
+        required=False)
     restore_target_password = forms.CharField(
         label=_("Restore Target Password"),
-        widget=forms.PasswordInput())
+        widget=forms.PasswordInput(),
+        required=False)
     provider = forms.CharField(
         widget=forms.HiddenInput(attrs={"class": "provider"}))
     parameters = forms.CharField(
@@ -53,18 +59,34 @@ class RestoreCheckpointForm(horizon_forms.SelfHandlingForm):
 
     @sensitive_variables('restore_target_password')
     def handle(self, request, data):
+        def empty_validate(data_):
+            return data_ in validators.EMPTY_VALUES
+
+        target = data["restore_target"]
+        target_username = data["restore_target_username"]
+        target_password = data["restore_target_password"]
+
+        if not ((target and target_username and target_password) or
+                all(map(empty_validate,
+                        [target, target_username, target_password]))):
+            messages.warning(request,
+                             _('Restore Target, Restore Target Username and '
+                               'Restore Target Password must be assigned at '
+                               'the same time or not assigned.'))
+            return False
+
         try:
             data_parameters = json.loads(data["parameters"])
             restore_auth = {
                 "type": "password",
-                "username": data["restore_target_username"],
-                "password": data["restore_target_password"],
+                "username": target_username,
+                "password": target_password,
             }
             new_restore = karborclient.restore_create(
                 request,
                 provider_id=data["provider_id"],
                 checkpoint_id=data["checkpoint_id"],
-                restore_target=data["restore_target"],
+                restore_target=target,
                 parameters=data_parameters,
                 restore_auth=restore_auth)
             messages.success(request, _("Checkpoint restore initiated"))
