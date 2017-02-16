@@ -186,7 +186,7 @@ class CheckpointsRestoreView(horizon_forms.ModalFormView):
     form_class = forms.RestoreCheckpointForm
     submit_label = _("Restore Checkpoint")
     submit_url = 'horizon:karbor:checkpoints:restore'
-    success_url = reverse_lazy('horizon:karbor:checkpoints:index')
+    success_url = reverse_lazy('horizon:karbor:restores:index')
     page_title = _("Restore Checkpoint")
 
     def get_initial(self):
