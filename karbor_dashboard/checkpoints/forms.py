@@ -12,7 +12,6 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from django.core import validators
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.debug import sensitive_variables  # noqa
@@ -24,6 +23,8 @@ from horizon import messages
 import json
 from karbor_dashboard.api import karbor as karborclient
 
+EMPTY_VALUES = (None, '', u'', [], (), {})
+
 
 class RestoreCheckpointForm(horizon_forms.SelfHandlingForm):
     provider_id = forms.CharField(label=_("Provider ID"),
@@ -32,16 +33,45 @@ class RestoreCheckpointForm(horizon_forms.SelfHandlingForm):
     checkpoint_id = forms.CharField(label=_("Checkpoint ID"),
                                     widget=forms.HiddenInput(),
                                     required=False)
-    restore_target = forms.CharField(
+    use_current_session = forms.BooleanField(
+        label=_("Use current session credentials"),
+        widget=forms.CheckboxInput(attrs={
+            'class': 'disable_input',
+            'data-slug': 'use_current_session',
+            'data-disable-on-checked': 'true',
+            'checked': 'checked'
+        }),
+        initial=False,
+        required=False)
+    restore_target = forms.URLField(
         label=_("Restore Target"),
-        required=False,
-        validators=[validators.URLValidator(), ])
+        widget=forms.URLInput(attrs={
+            'class': 'disabled_input',
+            'data-disable-on': 'use_current_session',
+            'data-source-manual': _("Restore Target"),
+            'disabled': 'disabled',
+            'value': 'Target: Current project'
+        }),
+        required=False)
     restore_target_username = forms.CharField(
         label=_("Restore Target Username"),
+        widget=forms.TextInput(attrs={
+            'class': 'disabled_input',
+            'data-disable-on': 'use_current_session',
+            'data-source-manual': _("Restore Target Username"),
+            'disabled': 'disabled',
+            'value': 'Target Username: current user'
+        }),
         required=False)
     restore_target_password = forms.CharField(
         label=_("Restore Target Password"),
-        widget=forms.PasswordInput(),
+        widget=forms.PasswordInput(attrs={
+            'class': 'disabled_input',
+            'data-disable-on': 'use_current_session',
+            'data-source-manual': _("Restore Target Password"),
+            'disabled': 'disabled',
+            'hidden': 'hidden'
+        }),
         required=False)
     provider = forms.CharField(
         widget=forms.HiddenInput(attrs={"class": "provider"}))
@@ -59,21 +89,29 @@ class RestoreCheckpointForm(horizon_forms.SelfHandlingForm):
 
     @sensitive_variables('restore_target_password')
     def handle(self, request, data):
-        def empty_validate(data_):
-            return data_ in validators.EMPTY_VALUES
+        def all_empty(data_list):
+            return all(map(lambda x: x in EMPTY_VALUES, data_list))
 
-        target = data["restore_target"]
-        target_username = data["restore_target_username"]
-        target_password = data["restore_target_password"]
+        def all_not_empty(data_list):
+            return all(map(lambda x: x not in EMPTY_VALUES, data_list))
 
-        if not ((target and target_username and target_password) or
-                all(map(empty_validate,
-                        [target, target_username, target_password]))):
-            messages.warning(request,
-                             _('Restore Target, Restore Target Username and '
-                               'Restore Target Password must be assigned at '
-                               'the same time or not assigned.'))
-            return False
+        def empty_to_none(data_):
+            return data_ if data_ not in EMPTY_VALUES else None
+
+        target = empty_to_none(data["restore_target"])
+        target_username = empty_to_none(data["restore_target_username"])
+        target_password = empty_to_none(data["restore_target_password"])
+        use_current_session = empty_to_none(data["use_current_session"])
+
+        if not use_current_session:
+            validate_data = [target, target_username, target_password]
+            if not (all_empty(validate_data) or all_not_empty(validate_data)):
+                messages.warning(request,
+                                 _('Restore Target, Restore Target Username '
+                                   'and Restore Target Password must be '
+                                   'assigned at the same time or not '
+                                   'assigned.'))
+                return False
 
         try:
             data_parameters = json.loads(data["parameters"])

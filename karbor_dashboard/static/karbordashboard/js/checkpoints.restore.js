@@ -96,5 +96,49 @@ horizon.checkpoints_restore = {
     $(document).on('click', "#parametersdialog a.close", function() {
       $.Karbor.closeDialog("#parametersdialog");
     });
+
+    $(document).on('change', "input.disable_input", function (evt) {
+      var $fieldset = $(evt.target).closest('fieldset'),
+        $disable_inputs = $fieldset.find('input.disable_input');
+
+      $disable_inputs.each(function(index, disable_input){
+        var $disable_input = $(disable_input),
+          visible = $disable_input.parent().hasClass('themable-checkbox') ? $disable_input.siblings('label').is(':visible') : $disable_input.is(':visible'),
+          slug = $disable_input.data('slug'),
+          disabled = $disable_input.prop('checked'),
+          disable_on = $disable_input.data('disableOnChecked');
+
+        // If checkbox is hidden then do not apply any further logic
+        if (!visible) return;
+
+        function handle_disabled_field(index, input){
+          var $input = $(input);
+
+          if (disabled != disable_on) {
+            $input.val("");
+            $input.attr("disabled", false);
+            if ($input.attr('id') == "id_restore_target_password"){
+              $input.closest('.form-group').removeClass("hide");
+            }
+          } else {
+            if ($input.attr('id') == 'id_restore_target'){
+              $input.val("Target: local host");
+            }
+            if ($input.attr('id') == 'id_restore_target_username'){
+              $input.val("Target username: current project");
+            }
+            if ($input.attr('id') == 'id_restore_target_password'){
+              $input.closest('.form-group').addClass("hide");
+            }
+            $input.attr("disabled", true);
+          }
+        }
+
+        $fieldset.find('.disabled_input[data-disable-on*="' + slug + '"]').each(handle_disabled_field);
+        $fieldset.siblings().find('.disabled_input[data-disable-on*="' + slug + '"]').each(handle_disabled_field);
+      });
+    });
+
+    $("input[name='restore_target_password']").closest('.form-group').addClass("hide");
   }
 };
