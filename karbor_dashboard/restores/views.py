@@ -55,13 +55,17 @@ class IndexView(horizon_tables.DataTableView):
                     reversed_order=reversed_order)
 
             for restore in restores:
-                checkpoint = karborclient.checkpoint_get(
-                    self.request,
-                    restore.provider_id,
-                    restore.checkpoint_id)
+                try:
+                    checkpoint = karborclient.checkpoint_get(
+                        self.request,
+                        restore.provider_id,
+                        restore.checkpoint_id)
+                    plan_name = checkpoint.protection_plan["name"]
+                except Exception:
+                    plan_name = "Not Found"
                 provider = karborclient.provider_get(self.request,
                                                      restore.provider_id)
-                setattr(restore, "name", checkpoint.protection_plan["name"])
+                setattr(restore, "name", plan_name)
                 setattr(restore, "provider_name", provider.name)
 
         except Exception:
