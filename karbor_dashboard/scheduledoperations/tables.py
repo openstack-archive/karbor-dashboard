@@ -32,14 +32,14 @@ class ScheduledOperationFilterAction(tables.FilterAction):
 class DeleteScheduledOperationsAction(tables.DeleteAction):
     @staticmethod
     def action_present(count):
-        return ungettext_lazy(u"Delete ScheduledOperation",
-                              u"Delete ScheduledOperations",
+        return ungettext_lazy(u"Delete Scheduled Operation",
+                              u"Delete Scheduled Operations",
                               count)
 
     @staticmethod
     def action_past(count):
-        return ungettext_lazy(u"Deleted ScheduledOperation",
-                              u"Deleted ScheduledOperations",
+        return ungettext_lazy(u"Deleted Scheduled Operation",
+                              u"Deleted Scheduled Operations",
                               count)
 
     def allowed(self, request, scheduledoperation):
