@@ -13,7 +13,6 @@
 #    under the License.
 
 import json
-import uuid
 
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
@@ -29,6 +28,7 @@ from karbor_dashboard.api import karbor as karborclient
 from karbor_dashboard.protectionplans import forms
 from karbor_dashboard.protectionplans import tables
 from karborclient.v1 import protectables
+from oslo_utils import uuidutils
 
 
 class IndexView(horizon_tables.DataTableView):
@@ -122,7 +122,7 @@ class CreateView(horizon_forms.ModalFormView):
                 resource["id"] = instance.id
                 resource["type"] = instance.type
                 resource["name"] = instance.name
-                resource["showid"] = str(uuid.uuid4())
+                resource["showid"] = uuidutils.generate_uuid()
                 resource["showparentid"] = showparentid
                 result = protectables.Instances(self, resource)
                 results.append(result)
@@ -174,7 +174,7 @@ class UpdateView(horizon_forms.ModalFormView):
                 resource["id"] = instance.id
                 resource["type"] = instance.type
                 resource["name"] = instance.name
-                resource["showid"] = str(uuid.uuid4())
+                resource["showid"] = uuidutils.generate_uuid()
                 resource["showparentid"] = showparentid
                 result = protectables.Instances(self, resource)
                 results.append(result)
@@ -294,7 +294,7 @@ class DetailView(horizon_views.HorizonTemplateView):
         try:
             result = []
             for instance in instances:
-                instance["showid"] = str(uuid.uuid4())
+                instance["showid"] = uuidutils.generate_uuid()
                 result.append(protectables.Instances(self, instance))
                 detail_instance = karborclient.protectable_get_instance(
                     self.request,
@@ -302,7 +302,7 @@ class DetailView(horizon_views.HorizonTemplateView):
                     instance["id"].strip())
                 if detail_instance.dependent_resources:
                     for dependent in detail_instance.dependent_resources:
-                        dependent["showid"] = str(uuid.uuid4())
+                        dependent["showid"] = uuidutils.generate_uuid()
                         dependent["showparentid"] = instance["showid"]
                         result.append(
                             protectables.Instances(self, dependent))
