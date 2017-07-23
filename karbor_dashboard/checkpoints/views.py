@@ -12,7 +12,6 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-import uuid
 
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
@@ -31,6 +30,7 @@ from karbor_dashboard.checkpoints import forms
 from karbor_dashboard.checkpoints import tables
 from karbor_dashboard.checkpoints import utils
 from karborclient.v1 import protectables
+from oslo_utils import uuidutils
 
 
 class IndexView(horizon_tables.DataTableView):
@@ -232,7 +232,7 @@ class CheckpointsRestoreView(horizon_forms.ModalFormView):
                 resource["id"] = graphnode.value.id
                 resource["type"] = graphnode.value.type
                 resource["name"] = graphnode.value.name
-                resource["showid"] = str(uuid.uuid4())
+                resource["showid"] = uuidutils.generate_uuid()
                 resource["showparentid"] = showparentid
                 result = protectables.Instances(self, resource)
                 results.append(result)
@@ -300,7 +300,7 @@ class DetailView(horizon_tables.DataTableView):
                 resource["id"] = graphnode.value.id
                 resource["type"] = graphnode.value.type
                 resource["name"] = graphnode.value.name
-                resource["showid"] = str(uuid.uuid4())
+                resource["showid"] = uuidutils.generate_uuid()
                 resource["showparentid"] = showparentid
                 result = protectables.Instances(self, resource)
                 results.append(result)
