@@ -59,11 +59,17 @@ class CreateProtectionPlanForm(horizon_forms.SelfHandlingForm):
 
     def handle(self, request, data):
         try:
-            new_plan = karborclient.plan_create(request,
-                                                data["name"],
-                                                data["provider_id"],
-                                                json.loads(data["resources"]),
-                                                json.loads(data["parameters"]))
+            resources = json.loads(data["resources"])
+            types = {resource["type"] for resource in resources}
+            parameters = json.loads(data["parameters"])
+            parameters = {k: v for k, v in parameters.items() if k in types}
+            new_plan = karborclient.plan_create(
+                request,
+                data["name"],
+                data["provider_id"],
+                resources,
+                parameters,
+            )
 
             messages.success(request,
                              _("Protection Plan created successfully."))
