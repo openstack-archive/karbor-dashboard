@@ -54,6 +54,19 @@ def karborclient(request):
 
 def update_pagination(entities, page_size, marker, sort_dir, sort_key,
                       reversed_order):
+    entities, has_more_data, has_prev_data = get_pagination_info(
+        entities, page_size, marker, reversed_order)
+
+    # restore the original ordering here
+    if reversed_order:
+        entities = sorted(entities, key=lambda entity:
+                          (getattr(entity, sort_key) or '').lower(),
+                          reverse=(sort_dir == 'asc'))
+
+    return entities, has_more_data, has_prev_data
+
+
+def get_pagination_info(entities, page_size, marker, reversed_order):
     has_more_data = has_prev_data = False
     if len(entities) > page_size:
         has_more_data = True
@@ -66,13 +79,6 @@ def update_pagination(entities, page_size, marker, sort_dir, sort_key,
     # last page condition
     elif marker is not None:
         has_prev_data = True
-
-    # restore the original ordering here
-    if reversed_order:
-        entities = sorted(entities, key=lambda entity:
-                          (getattr(entity, sort_key) or '').lower(),
-                          reverse=(sort_dir == 'asc'))
-
     return entities, has_more_data, has_prev_data
 
 
@@ -409,8 +415,9 @@ def checkpoint_list_paged(request, provider_id=None, search_opts=None,
             sort_key=sort_key,
             sort_dir=sort_dir,
             sort=sort)
-        checkpoints, has_more_data, has_prev_data = update_pagination(
-            checkpoints, page_size, marker, sort_dir, sort_key, reversed_order)
+        checkpoints, has_more_data, has_prev_data = \
+            get_pagination_info(
+                checkpoints, page_size, marker, reversed_order)
     else:
         checkpoints = karborclient(request).checkpoints.list(
             provider_id=provider_id,

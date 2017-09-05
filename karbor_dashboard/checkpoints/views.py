@@ -159,7 +159,7 @@ class IndexView(horizon_tables.DataTableView):
                     marker=marker,
                     paginate=True,
                     sort_dir='asc',
-                    sort_key='name',
+                    sort_key='id',
                     reversed_order=reversed_order)
             provider = karborclient.provider_get(self.request, provider_id)
             for checkpoint in checkpoints:
