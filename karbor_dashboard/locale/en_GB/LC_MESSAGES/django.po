@@ -112,6 +112,12 @@ msgstr "Error Deleting"
 msgid "Event Trigger"
 msgstr "Event Trigger"
 
+msgid "Every Minute"
+msgstr "Every Minute"
+
+msgid "Every Hour"
+msgstr "Every Hour"
+
 msgid "Every Day"
 msgstr "Every Day"
 
