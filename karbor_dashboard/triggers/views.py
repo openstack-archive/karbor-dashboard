@@ -89,11 +89,16 @@ class DetailView(horizon_views.HorizonTemplateView):
 
         if trigger is not None and trigger.properties is not None:
             if trigger.properties["format"] == utils.CRONTAB:
-                data = utils.CrontabUtil\
-                    .convert_from_crontab(trigger.properties)
-                if data:
-                    for key, value in data.items():
-                        setattr(trigger, key, value)
+                data = utils.CrontabUtil.convert_from_crontab(
+                    trigger.properties
+                )
+            else:
+                data = utils.CalendarUtil.convert_from_calendar(
+                    trigger.properties
+                )
+            if data:
+                for key, value in data.items():
+                    setattr(trigger, key, value)
 
         context["trigger"] = trigger
         context["url"] = reverse("horizon:karbor:triggers:index")

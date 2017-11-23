@@ -34,7 +34,7 @@ class CreateTriggerForm(horizon_forms.SelfHandlingForm):
                              }))
     frequence = forms.ChoiceField(
         label=_('Frequence'),
-        choices=utils.FREQUENCE_CHOICES,
+        choices=utils.CRONTAB_FREQUENCE_CHOICES,
         widget=forms.Select(attrs={
             'class': 'switchable switched',
             'data-slug': 'frequence'}))
@@ -60,12 +60,12 @@ class CreateTriggerForm(horizon_forms.SelfHandlingForm):
     def __init__(self, request, *args, **kwargs):
         super(CreateTriggerForm, self).__init__(request, *args, **kwargs)
 
-        self.fields['day'].choices = utils.DAY_CHOICES
+        self.fields['day'].choices = utils.CRONTAB_DAY_CHOICES
         self.fields['date'].choices = [(e, e) for e in range(1, 31 + 1)]
 
     def handle(self, request, data):
         try:
-            data_properties = utils.CrontabUtil.convert_to_crontab(data)
+            data_properties = utils.CalendarUtil.convert_to_calendar(data)
             new_trigger = karborclient.trigger_create(request,
                                                       data["name"],
                                                       data["type"],

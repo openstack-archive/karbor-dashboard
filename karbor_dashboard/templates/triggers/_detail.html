@@ -22,5 +22,17 @@
       <dt>{% trans "Execution Time (HH:MM)" %}</dt>
       <dd>{{ trigger.time }}</dd>
     {% endif %}
+    {% if trigger.hour %}
+      <dt>{% trans "Hour" %}</dt>
+      <dd>{{ trigger.hour }}</dd>
+    {% endif %}
+    {% if trigger.minute %}
+      <dt>{% trans "Minute" %}</dt>
+      <dd>{{ trigger.minute }}</dd>
+    {% endif %}
+    {% if trigger.interval %}
+      <dt>{% trans "Execution Interval" %}</dt>
+      <dd>{{ trigger.interval }}</dd>
+    {% endif %}
   </dl>
 </div>
