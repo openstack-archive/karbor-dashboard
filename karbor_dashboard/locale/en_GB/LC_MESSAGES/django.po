@@ -1,13 +1,13 @@
 # Andi Chandler <andi@gowling.com>, 2017. #zanata
 msgid ""
 msgstr ""
-"Project-Id-Version: karbor-dashboard 0.4.1.dev4\n"
+"Project-Id-Version: karbor-dashboard 0.4.1.dev8\n"
 "Report-Msgid-Bugs-To: https://bugs.launchpad.net/openstack-i18n/\n"
-"POT-Creation-Date: 2017-09-26 02:05+0000\n"
+"POT-Creation-Date: 2017-11-23 14:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-10-04 11:15+0000\n"
+"PO-Revision-Date: 2017-12-12 02:32+0000\n"
 "Last-Translator: Andi Chandler <andi@gowling.com>\n"
 "Language-Team: English (United Kingdom)\n"
 "Language: en-GB\n"
@@ -112,12 +112,6 @@ msgstr "Error Deleting"
 msgid "Event Trigger"
 msgstr "Event Trigger"
 
-msgid "Every Minute"
-msgstr "Every Minute"
-
-msgid "Every Hour"
-msgstr "Every Hour"
-
 msgid "Every Day"
 msgstr "Every Day"
 
@@ -127,11 +121,17 @@ msgstr "Every Month"
 msgid "Every Week"
 msgstr "Every Week"
 
+msgid "Execution Interval"
+msgstr "Execution Interval"
+
 msgid "Execution Time (HH:MM)"
 msgstr "Execution Time (HH:MM)"
 
 msgid "Expect Start Time"
 msgstr "Expect Start Time"
+
+msgid "FR"
+msgstr "FR"
 
 msgctxt "Task status of an Restore"
 msgid "Fail"
@@ -142,6 +142,9 @@ msgstr "Frequency"
 
 msgid "Friday"
 msgstr "Friday"
+
+msgid "Hour"
+msgstr "Hour"
 
 msgid "ID"
 msgstr "ID"
@@ -161,6 +164,12 @@ msgstr "Last  three months"
 
 msgid "Lastest two weeks"
 msgstr "Last two weeks"
+
+msgid "MO"
+msgstr "MO"
+
+msgid "Minute"
+msgstr "Minute"
 
 msgid "Monday"
 msgstr "Monday"
@@ -260,6 +269,12 @@ msgstr ""
 msgid "Restores"
 msgstr "Restores"
 
+msgid "SA"
+msgstr "SA"
+
+msgid "SU"
+msgstr "SU"
+
 msgid "Saturday"
 msgstr "Saturday"
 
@@ -298,6 +313,12 @@ msgstr "Success"
 
 msgid "Sunday"
 msgstr "Sunday"
+
+msgid "TH"
+msgstr "TH"
+
+msgid "TU"
+msgstr "TU"
 
 msgid "TYPE"
 msgstr "TYPE"
@@ -403,6 +424,9 @@ msgstr "Update Protection Plan"
 
 msgid "Use current session credentials"
 msgstr "Use current session credentials"
+
+msgid "WE"
+msgstr "WE"
 
 msgid "Wednesday"
 msgstr "Wednesday"
