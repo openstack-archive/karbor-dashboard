@@ -2,8 +2,8 @@
 Team and repository tags
 ========================
 
-.. image:: https://governance.openstack.org/badges/karbor-dashboard.svg
-    :target: https://governance.openstack.org/reference/tags/index.html
+.. image:: https://governance.openstack.org/tc/badges/karbor-dashboard.svg
+    :target: https://governance.openstack.org/tc/reference/tags/index.html
 
 .. Change things from this point on
 
@@ -14,8 +14,8 @@ karbor-dashboard
 Karbor Dashboard
 
 * Free software: Apache license
-* Source: http://git.openstack.org/cgit/openstack/karbor-dashboard
-* Bugs: http://bugs.launchpad.net/karbor-dashboard
+* Source: https://opendev.org/openstack/karbor-dashboard/
+* Bugs: https://storyboard.openstack.org/#!/project/openstack/karbor-dashboard
 
 Installation instructions
 -------------------------
