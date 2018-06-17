@@ -1,0 +1,342 @@
+# Robert Simai <robert.simai@suse.com>, 2016. #zanata
+# Andreas Jaeger <jaegerandi@gmail.com>, 2018. #zanata
+msgid ""
+msgstr ""
+"Project-Id-Version: karbor-dashboard VERSION\n"
+"Report-Msgid-Bugs-To: https://bugs.launchpad.net/openstack-i18n/\n"
+"POT-Creation-Date: 2018-04-11 08:40+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2018-06-16 03:59+0000\n"
+"Last-Translator: Andreas Jaeger <jaegerandi@gmail.com>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"X-Generator: Zanata 4.3.3\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+msgid "Actual Start Time"
+msgstr "Tatsächliche Startzeit"
+
+msgctxt "Task status of an Checkpoint"
+msgid "Available"
+msgstr "Verfügbar"
+
+msgid "Check Point Details"
+msgstr "Kontrollpunkt Details"
+
+msgid "Checkpoint ID"
+msgstr "Kontrollpunkt ID"
+
+msgid "Checkpoint restore initiated"
+msgstr "Kontrollpunktwiederherstellung initiert"
+
+msgid "Checkpoints"
+msgstr "Kontrollpunkte"
+
+msgid "Create Trigger"
+msgstr "Auslöser erstellen"
+
+msgid "Create a new trigger."
+msgstr "Neuen Auslöser erstellen."
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Day"
+msgstr "Tag"
+
+msgid "Delete Checkpoint"
+msgid_plural "Delete Checkpoints"
+msgstr[0] "Lösche Kontrollpunkt"
+msgstr[1] "Lösche Kontrollpunkt"
+
+msgid "Delete Scheduled Operation"
+msgid_plural "Delete Scheduled Operations"
+msgstr[0] "Lösche geplante Operation"
+msgstr[1] "Lösche geplante Operationen"
+
+msgid "Delete Trigger"
+msgid_plural "Delete Triggers"
+msgstr[0] "Auslöser löschen"
+msgstr[1] "Auslöser löschen"
+
+msgctxt "Task status of an Checkpoint"
+msgid "Deleted"
+msgstr "Gelöscht"
+
+msgid "Deleted Scheduled Operation"
+msgid_plural "Deleted Scheduled Operations"
+msgstr[0] "Geplante Operation gelöscht"
+msgstr[1] "Geplante Operationen gelöscht"
+
+msgid "Deleted Trigger"
+msgid_plural "Deleted Triggers"
+msgstr[0] "Gelöschter Auslöser"
+msgstr[1] "Gelöschte Auslöser"
+
+msgctxt "Task status of an Checkpoint"
+msgid "Deleting"
+msgstr "Löschen"
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "Description:"
+msgstr "Beschreibung:"
+
+msgid "Edit Plan"
+msgstr "Bearbeite Plan"
+
+msgid "End Time"
+msgstr "Endzeit"
+
+msgctxt "Task status of an Checkpoint"
+msgid "Error"
+msgstr "Fehler"
+
+msgctxt "Task status of an Checkpoint"
+msgid "Error Deleting"
+msgstr "Fehler beim Löschen"
+
+msgid "Event Trigger"
+msgstr "Ereignis-Auslöser"
+
+msgid "Every Day"
+msgstr "Jeden Tag"
+
+msgid "Every Month"
+msgstr "Jeden Monat"
+
+msgid "Every Week"
+msgstr "Jede Woche"
+
+msgid "Execution Interval"
+msgstr "Ausführungsinterval"
+
+msgid "Execution Time (HH:MM)"
+msgstr "Ausführungszeit (HH:MM)"
+
+msgid "Expect Start Time"
+msgstr "Erwartete Startzeit"
+
+msgid "FR"
+msgstr "Fr"
+
+msgctxt "Task status of an Restore"
+msgid "Fail"
+msgstr "Fehlgeschlagen"
+
+msgid "Frequence"
+msgstr "Frequenz"
+
+msgid "Friday"
+msgstr "Freitag"
+
+msgid "Hour"
+msgstr "Stunde"
+
+msgid "ID"
+msgstr "ID"
+
+msgctxt "Task status of an Restore"
+msgid "In Progress"
+msgstr "In Arbeit"
+
+msgid "Lastest one month"
+msgstr "Letzter Monat"
+
+msgid "Lastest one week"
+msgstr "Letzte Woche"
+
+msgid "Lastest three months"
+msgstr "Letzte drei Monate"
+
+msgid "Lastest two weeks"
+msgstr "Letzte zwei Wochen"
+
+msgid "MO"
+msgstr "Mo"
+
+msgid "Minute"
+msgstr "Minute"
+
+msgid "Monday"
+msgstr "Montag"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Plan Name"
+msgstr "Planname"
+
+msgid "Plan Status"
+msgstr "Planstatus"
+
+msgid "Protection Plan Details"
+msgstr "Details des Protektion Plans"
+
+msgid "Protection Provider Details"
+msgstr "Details der Protektion Provider"
+
+msgid "Protection Providers"
+msgstr "Protection Providers"
+
+msgid "Provider Description"
+msgstr "Anbieterbeschreibung"
+
+msgid "Provider ID"
+msgstr "Anbieter-ID"
+
+msgid "Provider Name"
+msgstr "Anbietername"
+
+msgid "Restore Checkpoint"
+msgstr "Stelle Kontrolpunkt wieder her"
+
+msgid "Restore From Checkpoint"
+msgstr "Stelle Kontrolpunkt wieder her"
+
+msgid "Restore Schema"
+msgstr "Stelle Schema wieder her"
+
+msgid "Restore Target"
+msgstr "Wiederherstellungsziel"
+
+msgid "Restore Target Password"
+msgstr "Ziel-Passwort wiederherstellen"
+
+msgid "Restore Target Username"
+msgstr "Ziel-Benutzername wiederherstellen"
+
+msgid "Restores"
+msgstr "Wiederherstellungen"
+
+msgid "SA"
+msgstr "Sa"
+
+msgid "SU"
+msgstr "So"
+
+msgid "Saturday"
+msgstr "Samstag"
+
+msgid "Scheduled Operations"
+msgstr "Geplante Operationen"
+
+msgid "Scheduled deletion of Checkpoint"
+msgid_plural "Scheduled deletion of Checkpoints"
+msgstr[0] "Geplante Löschung des Kontrollpunkts"
+msgstr[1] "Geplante Löschung von Kontrollpunkten"
+
+msgid "Show Checkpoints"
+msgstr "Zeige Kontrollpunkte"
+
+msgid "State"
+msgstr "Zustand"
+
+msgid "Status"
+msgstr "Status"
+
+msgctxt "Task status of an Restore"
+msgid "Success"
+msgstr "Erfolg"
+
+msgid "Sunday"
+msgstr "Sonntag"
+
+msgid "TH"
+msgstr "Do"
+
+msgid "TU"
+msgstr "Di"
+
+msgid "TYPE"
+msgstr "TYPE"
+
+msgid "Thursday"
+msgstr "Donnerstag"
+
+msgid "Time Trigger"
+msgstr "Zeit-Auslöser"
+
+msgid "Today"
+msgstr "Heute"
+
+msgid "Trigger"
+msgstr "Auslöser"
+
+msgid "Trigger Details"
+msgstr "Auslöser erstellen"
+
+msgid "Trigger Name"
+msgstr "Auslösername"
+
+msgid "Trigger Type"
+msgstr "Auslösertyp"
+
+msgid "Trigger created successfully."
+msgstr "Auslöser erfolgreich erstellt"
+
+msgid "Triggers"
+msgstr "Auslöser"
+
+msgid "Tuesday"
+msgstr "Dienstag"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Unable to create trigger."
+msgstr "Auslöser kann nicht erstellt werden."
+
+msgid "Unable to get instances."
+msgstr "Instanzen können nicht abgerufen werden."
+
+msgid "Unable to restore checkpoint."
+msgstr "Der Kontrollpunkt kann nicht wiederhergestellt werden."
+
+msgid "Unable to retrieve checkpoint details."
+msgstr "Die Details des Kontrollpunktes können nicht abgerufen werden."
+
+msgid "Unable to retrieve checkpoints list."
+msgstr "Liste der Kontrollpunkte kann nicht abgerufen werden."
+
+msgid "Unable to retrieve protection plan details."
+msgstr "Protektion Plan kann nicht abgerufen werden."
+
+msgid "Unable to retrieve protection provider details."
+msgstr "Details der Protektion Provider können nicht abgerufen werden."
+
+msgid "Unable to retrieve protection providers list."
+msgstr "Die Liste der Protektion Provider kann nicht abgerufen werden."
+
+msgid "Unable to retrieve provider contents."
+msgstr "Anbieterinhalte können nicht abgerufen werden."
+
+msgid "Unable to retrieve restore list."
+msgstr "Wiederherstellungsliste kann nicht abgerufen werden."
+
+msgid "Unable to retrieve scheduled operation list."
+msgstr "Die Liste der geplanten Operationen kann nicht abgerufen werden."
+
+msgid "Unable to retrieve trigger details."
+msgstr "Auslöserdetails können nicht abgerufen werden."
+
+msgid "Unable to retrieve triggers list."
+msgstr "Auslöserliste kann nicht abgerufen werden."
+
+msgid "Use current session credentials"
+msgstr "Benutze aktuelle Session Anmeldeinformationen"
+
+msgid "WE"
+msgstr "Mi"
+
+msgid "Wednesday"
+msgstr "Mittwoch"
+
+msgid "checkpoint list can not be retrieved."
+msgstr "Kontrollpunktliste kann nicht abgerufen werden."
+
+msgid "{{ checkpoint.protection_plan.name }}"
+msgstr "{{ checkpoint.protection_plan.name }}"

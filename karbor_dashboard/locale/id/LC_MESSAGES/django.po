@@ -1,0 +1,431 @@
+# suhartono <cloudsuhartono@gmail.com>, 2018. #zanata
+msgid ""
+msgstr ""
+"Project-Id-Version: karbor-dashboard VERSION\n"
+"Report-Msgid-Bugs-To: https://bugs.launchpad.net/openstack-i18n/\n"
+"POT-Creation-Date: 2018-04-11 08:40+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2018-05-09 04:27+0000\n"
+"Last-Translator: suhartono <cloudsuhartono@gmail.com>\n"
+"Language-Team: Indonesian\n"
+"Language: id\n"
+"X-Generator: Zanata 4.3.3\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+msgid "Actual Start Time"
+msgstr "Actual Start Time"
+
+msgid "Associate with Trigger"
+msgstr "Associate with Trigger"
+
+msgctxt "Task status of an Checkpoint"
+msgid "Available"
+msgstr "Available"
+
+msgid "Check Point Details"
+msgstr "Check Point Details"
+
+msgid "Checkpoint ID"
+msgstr "Checkpoint ID"
+
+msgid "Checkpoint restore initiated"
+msgstr "Checkpoint restore dimulai"
+
+msgid "Checkpoints"
+msgstr "Checkpoints"
+
+msgid "Create Protection Plan"
+msgstr "Buat Protection Plan"
+
+msgid "Create Trigger"
+msgstr "Create Trigger"
+
+msgid "Create a new trigger."
+msgstr "Buat pemicu baru."
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Day"
+msgstr "Day"
+
+msgid "Delete Checkpoint"
+msgid_plural "Delete Checkpoints"
+msgstr[0] "Delete Checkpoint"
+
+msgid "Delete Protection Plan"
+msgid_plural "Delete Protection Plans"
+msgstr[0] "Delete Protection Plan"
+
+msgid "Delete Scheduled Operation"
+msgid_plural "Delete Scheduled Operations"
+msgstr[0] "Delete Scheduled Operation"
+
+msgid "Delete Trigger"
+msgid_plural "Delete Triggers"
+msgstr[0] "Delete Trigger"
+
+msgctxt "Task status of an Checkpoint"
+msgid "Deleted"
+msgstr "Deleted"
+
+msgid "Deleted Scheduled Operation"
+msgid_plural "Deleted Scheduled Operations"
+msgstr[0] "Deleted Scheduled Operation"
+
+msgid "Deleted Trigger"
+msgid_plural "Deleted Triggers"
+msgstr[0] "Deleted Trigger"
+
+msgctxt "Task status of an Checkpoint"
+msgid "Deleting"
+msgstr "Deleting"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Description:"
+msgstr "Description:"
+
+msgid "Edit Plan"
+msgstr "Edit Plan"
+
+msgid "End Time"
+msgstr "End Time"
+
+msgctxt "Task status of an Checkpoint"
+msgid "Error"
+msgstr "Error"
+
+msgctxt "Task status of an Checkpoint"
+msgid "Error Deleting"
+msgstr "Error Deleting"
+
+msgid "Event Trigger"
+msgstr "Event Trigger"
+
+msgid "Every Day"
+msgstr "Every Day"
+
+msgid "Every Month"
+msgstr "Every Month"
+
+msgid "Every Week"
+msgstr "Every Week"
+
+msgid "Execution Interval"
+msgstr "Execution Interval"
+
+msgid "Execution Time (HH:MM)"
+msgstr "Execution Time (HH:MM)"
+
+msgid "Expect Start Time"
+msgstr "Expect Start Time"
+
+msgid "FR"
+msgstr "FR"
+
+msgctxt "Task status of an Restore"
+msgid "Fail"
+msgstr "Fail"
+
+msgid "Frequence"
+msgstr "Frequence"
+
+msgid "Friday"
+msgstr "Friday"
+
+msgid "Hour"
+msgstr "Hour"
+
+msgid "ID"
+msgstr "ID"
+
+msgctxt "Task status of an Restore"
+msgid "In Progress"
+msgstr "In Progress"
+
+msgid "Lastest one month"
+msgstr "Satu bulan terakhir"
+
+msgid "Lastest one week"
+msgstr "Satu minggu terakhir"
+
+msgid "Lastest three months"
+msgstr "Tiga bulan terakhir"
+
+msgid "Lastest two weeks"
+msgstr "Dua minggu terakhir"
+
+msgid "MO"
+msgstr "MO"
+
+msgid "Minute"
+msgstr "Minute"
+
+msgid "Monday"
+msgstr "Monday"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Operation Logs"
+msgstr "Operation Logs"
+
+msgid "Operation Type"
+msgstr "Operation Type"
+
+msgid "Options Schema"
+msgstr "Options Schema"
+
+msgid "Plan Name"
+msgstr "Plan Name"
+
+msgid "Plan Status"
+msgstr "Plan Status"
+
+msgid "Plan protection initiated"
+msgstr "Rencana perlindungan dimulai"
+
+msgid "Protect Now"
+msgstr "Protect Now"
+
+msgid "Protect now successfully."
+msgstr "Lindungi sekarang dengan sukses."
+
+msgctxt "Task status of an Checkpoint"
+msgid "Protecting"
+msgstr "Protecting"
+
+msgid "Protection Plan"
+msgstr "Protection Plan"
+
+msgid "Protection Plan Details"
+msgstr "Protection Plan Details"
+
+msgid "Protection Plan created successfully."
+msgstr "Protection Plan berhasil dibuat."
+
+msgid "Protection Plan updated successfully."
+msgstr "Protection Plan berhasil diperbarui."
+
+msgid "Protection Plans"
+msgstr "Protection Plans"
+
+msgid "Protection Provider"
+msgstr "Protection Provider"
+
+msgid "Protection Provider Details"
+msgstr "Protection Provider Details"
+
+msgid "Protection Providers"
+msgstr "Protection Providers"
+
+msgid "Protection Resources"
+msgstr "Protection Resources"
+
+msgid "Provider Description"
+msgstr "Provider Description"
+
+msgid "Provider ID"
+msgstr "Provider ID"
+
+msgid "Provider Name"
+msgstr "Provider Name"
+
+msgid "Restore Checkpoint"
+msgstr "Kembalikan Checkpoint"
+
+msgid "Restore From Checkpoint"
+msgstr "Restore From Checkpoint"
+
+msgid "Restore Schema"
+msgstr "Restore Schema"
+
+msgid "Restore Target"
+msgstr "Restore Target"
+
+msgid "Restore Target Password"
+msgstr "Restore Target Password"
+
+msgid "Restore Target Username"
+msgstr "Restore Target Username"
+
+msgid ""
+"Restore Target, Restore Target Username and Restore Target Password must be "
+"assigned at the same time or not assigned."
+msgstr ""
+"Restore Target, Restore Target Username dan Restore Target Password harus "
+"ditugaskan pada saat bersamaan atau tidak ditugaskan."
+
+msgid "Restores"
+msgstr "Restores"
+
+msgid "SA"
+msgstr "SA"
+
+msgid "SU"
+msgstr "SU"
+
+msgid "Saturday"
+msgstr "Saturday"
+
+msgid "Saved Info Schema"
+msgstr "Saved Info Schema"
+
+msgid "Schedule Protect"
+msgstr "Schedule Protect"
+
+msgid "Schedule Protect."
+msgstr "Schedule Protect."
+
+msgid "Schedule protect successfully."
+msgstr "Jadwal berhasil dilindungi."
+
+msgid "Scheduled Operations"
+msgstr "Scheduled Operations"
+
+msgid "Scheduled deletion of Checkpoint"
+msgid_plural "Scheduled deletion of Checkpoints"
+msgstr[0] "Scheduled deletion of Checkpoint"
+
+msgid "Show Checkpoints"
+msgstr "Show Checkpoints"
+
+msgid "State"
+msgstr "State"
+
+msgid "Status"
+msgstr "Status"
+
+msgctxt "Task status of an Restore"
+msgid "Success"
+msgstr "Success"
+
+msgid "Sunday"
+msgstr "Sunday"
+
+msgid "TH"
+msgstr "TH"
+
+msgid "TU"
+msgstr "TU"
+
+msgid "TYPE"
+msgstr "TYPE"
+
+msgid "Thursday"
+msgstr "Thursday"
+
+msgid "Time Trigger"
+msgstr "Time Trigger"
+
+msgid "Today"
+msgstr "Today"
+
+msgid "Trigger"
+msgstr "Trigger"
+
+msgid "Trigger Details"
+msgstr "Trigger Details"
+
+msgid "Trigger Name"
+msgstr "Trigger Name"
+
+msgid "Trigger Type"
+msgstr "Trigger Type"
+
+msgid "Trigger created successfully."
+msgstr "Trigger berhasil dibuat."
+
+msgid "Triggers"
+msgstr "Triggers"
+
+msgid "Tuesday"
+msgstr "Tuesday"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Unable to create protection plan."
+msgstr "Tidak dapat membuat rencana perlindungan."
+
+msgid "Unable to create trigger."
+msgstr "Tidak dapat membuat trigger."
+
+msgid "Unable to get instances."
+msgstr "Tidak dapat mendapatkan instance."
+
+msgid "Unable to protect now"
+msgstr "Tidak dapat melindungi sekarang"
+
+msgid "Unable to restore checkpoint."
+msgstr "Tidak dapat restore checkpoint.."
+
+msgid "Unable to retrieve anyone provider."
+msgstr "Tidak dapat mengambil penyedia siapa pun."
+
+msgid "Unable to retrieve checkpoint details."
+msgstr "Tidak dapat mengambil detail pemeriksaan (checkpoint)"
+
+msgid "Unable to retrieve checkpoints list."
+msgstr "Tidak dapat mengambil daftar pemeriksaan (checkpoint)"
+
+msgid "Unable to retrieve protection plan details."
+msgstr "Tidak dapat mengambil detail paket perlindungan."
+
+msgid "Unable to retrieve protection plans list."
+msgstr "Tidak dapat mengambil daftar rencana perlindungan."
+
+msgid "Unable to retrieve protection provider details."
+msgstr "Tidak dapat mengambil detail penyedia perlindungan."
+
+msgid "Unable to retrieve protection providers list."
+msgstr "Tidak dapat mengambil daftar penyedia perlindungan."
+
+msgid "Unable to retrieve protection resources."
+msgstr "Tidak dapat mengambil sumber daya perlindungan."
+
+msgid "Unable to retrieve provider contents."
+msgstr "Tidak dapat mengambil konten penyedia."
+
+msgid "Unable to retrieve provider details."
+msgstr "Tidak dapat mengambil detail penyedia."
+
+msgid "Unable to retrieve restore list."
+msgstr "Tidak dapat mengambil daftar pulihkan."
+
+msgid "Unable to retrieve scheduled operation list."
+msgstr "Tidak dapat mengambil daftar operasi terjadwal."
+
+msgid "Unable to retrieve trigger details."
+msgstr "Tidak dapat mengambil detail pemicu."
+
+msgid "Unable to retrieve triggers list."
+msgstr "Tidak dapat mengambil daftar pemicu."
+
+msgid "Unable to schedule protect."
+msgstr "Tidak dapat dijadwalkan untuk melindungi."
+
+msgid "Unable to update protection plan. "
+msgstr "Tidak dapat memperbarui paket perlindungan."
+
+msgid "Update Protection Plan"
+msgstr "Memperbarui Protection Plan"
+
+msgid "Use current session credentials"
+msgstr "Gunakan kredensial sesi saat ini"
+
+msgid "WE"
+msgstr "WE"
+
+msgid "Wednesday"
+msgstr "Wednesday"
+
+msgid "checkpoint list can not be retrieved."
+msgstr "daftar checkpoint tidak dapat diambil."
+
+msgid "{{ checkpoint.protection_plan.name }}"
+msgstr "{{ checkpoint.protection_plan.name }}"
