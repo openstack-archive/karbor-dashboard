@@ -1,6 +1,4 @@
-# Robert Simai <robert.simai@suse.com>, 2016. #zanata
-# Andreas Jaeger <jaegerandi@gmail.com>, 2018. #zanata
-# Frank Kloeker <eumel@arcor.de>, 2018. #zanata
+# Sungjin Kang <gang.sungjin@gmail.com>, 2018. #zanata
 msgid ""
 msgstr ""
 "Project-Id-Version: karbor-dashboard VERSION\n"
@@ -9,433 +7,425 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-08-11 08:44+0000\n"
-"Last-Translator: Frank Kloeker <eumel@arcor.de>\n"
-"Language-Team: German\n"
-"Language: de\n"
+"PO-Revision-Date: 2018-07-29 06:37+0000\n"
+"Last-Translator: Sungjin Kang <gang.sungjin@gmail.com>\n"
+"Language-Team: Korean (South Korea)\n"
+"Language: ko_KR\n"
 "X-Generator: Zanata 4.3.3\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=1; plural=0\n"
 
 msgid "Actual Start Time"
-msgstr "Tatsächliche Startzeit"
+msgstr "실제 시작 시간"
 
 msgid "Associate with Trigger"
-msgstr "Verknüpfen mit Trigger"
+msgstr "트리거와 연결"
 
 msgctxt "Task status of an Checkpoint"
 msgid "Available"
-msgstr "Verfügbar"
+msgstr "사용 가능"
 
 msgid "Check Point Details"
-msgstr "Kontrollpunkt Details"
+msgstr "체크포인트 상세 정보"
 
 msgid "Checkpoint ID"
-msgstr "Kontrollpunkt ID"
+msgstr "Checkpoint ID"
 
 msgid "Checkpoint restore initiated"
-msgstr "Kontrollpunktwiederherstellung initiert"
+msgstr "체크포인트로 복원이 시작됨"
 
 msgid "Checkpoints"
-msgstr "Kontrollpunkte"
+msgstr "체크포인트"
 
 msgid "Create Protection Plan"
-msgstr "Schutzplan erstellen"
+msgstr "Protection 계획 생성"
 
 msgid "Create Trigger"
-msgstr "Auslöser erstellen"
+msgstr "트리거 생성"
 
 msgid "Create a new trigger."
-msgstr "Neuen Auslöser erstellen."
+msgstr "새로운 트리거를 생성합니다."
 
 msgid "Date"
-msgstr "Datum"
+msgstr "일자"
 
 msgid "Day"
-msgstr "Tag"
+msgstr "일"
 
 msgid "Delete Checkpoint"
 msgid_plural "Delete Checkpoints"
-msgstr[0] "Lösche Kontrollpunkt"
-msgstr[1] "Lösche Kontrollpunkt"
+msgstr[0] "체크포인트 삭제"
 
 msgid "Delete Protection Plan"
 msgid_plural "Delete Protection Plans"
-msgstr[0] "Lösche Schutzplan"
-msgstr[1] "Lösche Schutzpläne"
+msgstr[0] "Protection 계획 삭제"
 
 msgid "Delete Scheduled Operation"
 msgid_plural "Delete Scheduled Operations"
-msgstr[0] "Lösche geplante Operation"
-msgstr[1] "Lösche geplante Operationen"
+msgstr[0] "예정된 운영 삭제"
 
 msgid "Delete Trigger"
 msgid_plural "Delete Triggers"
-msgstr[0] "Auslöser löschen"
-msgstr[1] "Auslöser löschen"
+msgstr[0] "트리거 삭제"
 
 msgctxt "Task status of an Checkpoint"
 msgid "Deleted"
-msgstr "Gelöscht"
+msgstr "삭제됨"
 
 msgid "Deleted Scheduled Operation"
 msgid_plural "Deleted Scheduled Operations"
-msgstr[0] "Geplante Operation gelöscht"
-msgstr[1] "Geplante Operationen gelöscht"
+msgstr[0] "예정된 운영 삭제됨"
 
 msgid "Deleted Trigger"
 msgid_plural "Deleted Triggers"
-msgstr[0] "Gelöschter Auslöser"
-msgstr[1] "Gelöschte Auslöser"
+msgstr[0] "트리거 삭제됨"
 
 msgctxt "Task status of an Checkpoint"
 msgid "Deleting"
-msgstr "Löschen"
+msgstr "삭제 중"
 
 msgid "Description"
-msgstr "Beschreibung"
+msgstr "설명"
 
 msgid "Description:"
-msgstr "Beschreibung:"
+msgstr "설명:"
 
 msgid "Edit Plan"
-msgstr "Bearbeite Plan"
+msgstr "계획 수정"
 
 msgid "End Time"
-msgstr "Endzeit"
+msgstr "종료 시간"
 
 msgctxt "Task status of an Checkpoint"
 msgid "Error"
-msgstr "Fehler"
+msgstr "오류"
 
 msgctxt "Task status of an Checkpoint"
 msgid "Error Deleting"
-msgstr "Fehler beim Löschen"
+msgstr "삭제 중 오류"
 
 msgid "Event Trigger"
-msgstr "Ereignis-Auslöser"
+msgstr "이벤트 트리거"
 
 msgid "Every Day"
-msgstr "Jeden Tag"
+msgstr "매일"
 
 msgid "Every Month"
-msgstr "Jeden Monat"
+msgstr "매달"
 
 msgid "Every Week"
-msgstr "Jede Woche"
+msgstr "매주"
 
 msgid "Execution Interval"
-msgstr "Ausführungsinterval"
+msgstr "실행 간격"
 
 msgid "Execution Time (HH:MM)"
-msgstr "Ausführungszeit (HH:MM)"
+msgstr "실행 시간 (HH:MM)"
 
 msgid "Expect Start Time"
-msgstr "Erwartete Startzeit"
+msgstr "예상 시작 시간"
 
 msgid "FR"
-msgstr "Fr"
+msgstr "금"
 
 msgctxt "Task status of an Restore"
 msgid "Fail"
-msgstr "Fehlgeschlagen"
+msgstr "실패"
 
 msgid "Frequence"
-msgstr "Frequenz"
+msgstr "주기"
 
 msgid "Friday"
-msgstr "Freitag"
+msgstr "금요일"
 
 msgid "Hour"
-msgstr "Stunde"
+msgstr "시간"
 
 msgid "ID"
 msgstr "ID"
 
 msgctxt "Task status of an Restore"
 msgid "In Progress"
-msgstr "In Arbeit"
+msgstr "진행중"
 
 msgid "Lastest one month"
-msgstr "Letzter Monat"
+msgstr "최근 1달"
 
 msgid "Lastest one week"
-msgstr "Letzte Woche"
+msgstr "최근 1주"
 
 msgid "Lastest three months"
-msgstr "Letzte drei Monate"
+msgstr "최근 3달"
 
 msgid "Lastest two weeks"
-msgstr "Letzte zwei Wochen"
+msgstr "최근 2주"
 
 msgid "MO"
-msgstr "Mo"
+msgstr "월"
 
 msgid "Minute"
-msgstr "Minute"
+msgstr "분"
 
 msgid "Monday"
-msgstr "Montag"
+msgstr "월요일"
 
 msgid "Name"
-msgstr "Name"
+msgstr "이름"
 
 msgid "Operation Logs"
-msgstr "Betriebsprotokolle"
+msgstr "운영 로그"
 
 msgid "Operation Type"
-msgstr "Betriebstyp"
+msgstr "운영 타입"
 
 msgid "Options Schema"
-msgstr "Schemaoptionen"
+msgstr "옵션 Schema"
 
 msgid "Plan Name"
-msgstr "Planname"
+msgstr "계획 이름"
 
 msgid "Plan Status"
-msgstr "Planstatus"
+msgstr "계획 상태"
 
 msgid "Plan protection initiated"
-msgstr "Schutzplan initiiert"
+msgstr "계획된 protection 시작됨"
 
 msgid "Protect Now"
-msgstr "Jetzt schützen"
+msgstr "지금 protect"
 
 msgid "Protect now successfully."
-msgstr "Schutz ist jetzt erfolgreich."
+msgstr "이제 protect를 시작합니다."
 
 msgctxt "Task status of an Checkpoint"
 msgid "Protecting"
-msgstr "Schützen"
+msgstr "보호중"
 
 msgid "Protection Plan"
-msgstr "Schutzplan"
+msgstr "Protection 계획"
 
 msgid "Protection Plan Details"
-msgstr "Details des Protektion Plans"
+msgstr "Protection 계획 상세 정보"
 
 msgid "Protection Plan created successfully."
-msgstr "Schutzplan erfolgreich erstellt."
+msgstr "Protection 계획을 성공적으로 생성하였습니다."
 
 msgid "Protection Plan updated successfully."
-msgstr "Schutzplan erfolgreich aktualisiert."
+msgstr "Protection 계획을 성공적으로 업데이트하였습니다."
 
 msgid "Protection Plans"
-msgstr "Schutzpläne"
+msgstr "Protection 계획"
 
 msgid "Protection Provider"
-msgstr "Schutzanbieter"
+msgstr "Protection 프로바이더"
 
 msgid "Protection Provider Details"
-msgstr "Details der Protektion Provider"
+msgstr "Protection 프로바이더 상세 정보"
 
 msgid "Protection Providers"
-msgstr "Protection Providers"
+msgstr "Protection 프로바이더"
 
 msgid "Protection Resources"
-msgstr "Schutzressourcen"
+msgstr "Protection 리소스"
 
 msgid "Provider Description"
-msgstr "Anbieterbeschreibung"
+msgstr "프로바이더 설명"
 
 msgid "Provider ID"
-msgstr "Anbieter-ID"
+msgstr "Provider ID"
 
 msgid "Provider Name"
-msgstr "Anbietername"
+msgstr "프로바이더 이름"
 
 msgid "Restore Checkpoint"
-msgstr "Stelle Kontrolpunkt wieder her"
+msgstr "체크포인트 복구"
 
 msgid "Restore From Checkpoint"
-msgstr "Stelle Kontrolpunkt wieder her"
+msgstr "체크포인트로부터 복구"
 
 msgid "Restore Schema"
-msgstr "Stelle Schema wieder her"
+msgstr "복구 Schema"
 
 msgid "Restore Target"
-msgstr "Wiederherstellungsziel"
+msgstr "복구 타겟"
 
 msgid "Restore Target Password"
-msgstr "Ziel-Passwort wiederherstellen"
+msgstr "복구 타겟 비밀번호"
 
 msgid "Restore Target Username"
-msgstr "Ziel-Benutzername wiederherstellen"
+msgstr "복구 타겟 사용자명"
 
 msgid ""
 "Restore Target, Restore Target Username and Restore Target Password must be "
 "assigned at the same time or not assigned."
 msgstr ""
-"Wiederherstellungsziel, Wiederherstellungszielbenutzername und "
-"Wiederherstellungszielkennwort müssen zur gleichen Zeit zugewiesen oder "
-"nicht zugewiesen werden."
+"복구 타겟, 복구 타겟 사용자명, 복구 타겟 비밀번호는 동시에 할당되거나 할당되"
+"지 않아야합니다."
 
 msgid "Restores"
-msgstr "Wiederherstellungen"
+msgstr "복구"
 
 msgid "SA"
-msgstr "Sa"
+msgstr "토"
 
 msgid "SU"
-msgstr "So"
+msgstr "일"
 
 msgid "Saturday"
-msgstr "Samstag"
+msgstr "토요일"
 
 msgid "Saved Info Schema"
-msgstr "Gespeicherte Schemainformationen"
+msgstr "저장된 정보 Schema"
 
 msgid "Schedule Protect"
-msgstr "Schutzplan"
+msgstr "Protect 스케쥴"
 
 msgid "Schedule Protect."
-msgstr "Schutzplan"
+msgstr "예정된 Protect."
 
 msgid "Schedule protect successfully."
-msgstr "Schutzplan erfolgreich."
+msgstr "Protect 스케쥴을 완료하였습니다."
 
 msgid "Scheduled Operations"
-msgstr "Geplante Operationen"
+msgstr "예정된 운영"
 
 msgid "Scheduled deletion of Checkpoint"
 msgid_plural "Scheduled deletion of Checkpoints"
-msgstr[0] "Geplante Löschung des Kontrollpunkts"
-msgstr[1] "Geplante Löschung von Kontrollpunkten"
+msgstr[0] "체크포인트 삭제 예약"
 
 msgid "Show Checkpoints"
-msgstr "Zeige Kontrollpunkte"
+msgstr "체크포인트 확인"
 
 msgid "State"
-msgstr "Zustand"
+msgstr "상태"
 
 msgid "Status"
-msgstr "Status"
+msgstr "상태"
 
 msgctxt "Task status of an Restore"
 msgid "Success"
-msgstr "Erfolg"
+msgstr "완료"
 
 msgid "Sunday"
-msgstr "Sonntag"
+msgstr "일요일"
 
 msgid "TH"
-msgstr "Do"
+msgstr "목"
 
 msgid "TU"
-msgstr "Di"
+msgstr "화"
 
 msgid "TYPE"
-msgstr "TYPE"
+msgstr "타입"
 
 msgid "Thursday"
-msgstr "Donnerstag"
+msgstr "목요일"
 
 msgid "Time Trigger"
-msgstr "Zeit-Auslöser"
+msgstr "시간 트리거"
 
 msgid "Today"
-msgstr "Heute"
+msgstr "오늘"
 
 msgid "Trigger"
-msgstr "Auslöser"
+msgstr "트리거"
 
 msgid "Trigger Details"
-msgstr "Auslöser erstellen"
+msgstr "트리거 상세 정보"
 
 msgid "Trigger Name"
-msgstr "Auslösername"
+msgstr "트리거 이름"
 
 msgid "Trigger Type"
-msgstr "Auslösertyp"
+msgstr "트리거 타입"
 
 msgid "Trigger created successfully."
-msgstr "Auslöser erfolgreich erstellt"
+msgstr "트리거를 성공적으로 생성하였습니다."
 
 msgid "Triggers"
-msgstr "Auslöser"
+msgstr "트리거"
 
 msgid "Tuesday"
-msgstr "Dienstag"
+msgstr "화요일"
 
 msgid "Type"
-msgstr "Typ"
+msgstr "타입"
 
 msgid "Unable to create protection plan."
-msgstr "Konnte Schutzplan nicht erstellen."
+msgstr "Protection 계획을 생성할 수 없습니다."
 
 msgid "Unable to create trigger."
-msgstr "Auslöser kann nicht erstellt werden."
+msgstr "트리거를 생성할 수 없습니다."
 
 msgid "Unable to get instances."
-msgstr "Instanzen können nicht abgerufen werden."
+msgstr "인스턴스를 가져올 수 없습니다."
 
 msgid "Unable to protect now"
-msgstr "Konnte jetzt nicht schützen"
+msgstr "지금 protect 를 시작할 수 없습니다."
 
 msgid "Unable to restore checkpoint."
-msgstr "Der Kontrollpunkt kann nicht wiederhergestellt werden."
+msgstr "체크포인트로 복구할 수 없습니다."
 
 msgid "Unable to retrieve anyone provider."
-msgstr "Kann keinen Anbieter abrufen."
+msgstr "어떤 프로바이더도 찾을 수 없습니다."
 
 msgid "Unable to retrieve checkpoint details."
-msgstr "Die Details des Kontrollpunktes können nicht abgerufen werden."
+msgstr "체크포인트 상세 정보를 찾을 수 없습니다."
 
 msgid "Unable to retrieve checkpoints list."
-msgstr "Liste der Kontrollpunkte kann nicht abgerufen werden."
+msgstr "체크포인트 목록을 찾을 수 없습니다."
 
 msgid "Unable to retrieve protection plan details."
-msgstr "Protektion Plan kann nicht abgerufen werden."
+msgstr "Protection 계획 상세 정보를 찾을 수 없습니다."
 
 msgid "Unable to retrieve protection plans list."
-msgstr "Konnte Schutzplanliste nicht abrufen"
+msgstr "Protection 계획 목록을 찾을 수 없습니다."
 
 msgid "Unable to retrieve protection provider details."
-msgstr "Details der Protektion Provider können nicht abgerufen werden."
+msgstr "Protection 프로바이더 상세 정보를 찾을 수 없습니다."
 
 msgid "Unable to retrieve protection providers list."
-msgstr "Die Liste der Protektion Provider kann nicht abgerufen werden."
+msgstr "Protection 프로바이더 목록을 찾을 수 없습니다."
 
 msgid "Unable to retrieve protection resources."
-msgstr "Konnte Schutzplanresourcen nicht abrufen"
+msgstr "Protection 리소스를 찾을 수 없습니다."
 
 msgid "Unable to retrieve provider contents."
-msgstr "Anbieterinhalte können nicht abgerufen werden."
+msgstr "Provider 콘텐츠를 찾을 수 없습니다."
 
 msgid "Unable to retrieve provider details."
-msgstr "Konnte Schutzanbieterdetails nicht abrufen"
+msgstr "프로바이더 상세 정보를 찾을 수 없습니다."
 
 msgid "Unable to retrieve restore list."
-msgstr "Wiederherstellungsliste kann nicht abgerufen werden."
+msgstr "복구 목록을 찾을 수 없습니다."
 
 msgid "Unable to retrieve scheduled operation list."
-msgstr "Die Liste der geplanten Operationen kann nicht abgerufen werden."
+msgstr "예정된 운영 목록을 찾을 수 없습니다."
 
 msgid "Unable to retrieve trigger details."
-msgstr "Auslöserdetails können nicht abgerufen werden."
+msgstr "트리거 상세 정보를 찾을 수 없습니다."
 
 msgid "Unable to retrieve triggers list."
-msgstr "Auslöserliste kann nicht abgerufen werden."
+msgstr "트리거 목록을 찾을 수 없습니다."
 
 msgid "Unable to schedule protect."
-msgstr "Schutzplan nicht erfolgreich."
+msgstr "Protect 스케쥴을 수행할 수 없습니다."
 
 msgid "Unable to update protection plan. "
-msgstr "Konnte Schutzplan nicht aktualisieren."
+msgstr "Protection 계획을 업데이트할 수 없습니다."
 
 msgid "Update Protection Plan"
-msgstr "Schutzplan aktualisieren"
+msgstr "Protection 계획 업데이트"
 
 msgid "Use current session credentials"
-msgstr "Benutze aktuelle Session Anmeldeinformationen"
+msgstr "현재 세션 credentials 사용"
 
 msgid "WE"
-msgstr "Mi"
+msgstr "수"
 
 msgid "Wednesday"
-msgstr "Mittwoch"
+msgstr "수요일"
 
 msgid "checkpoint list can not be retrieved."
-msgstr "Kontrollpunktliste kann nicht abgerufen werden."
+msgstr "체크포인트 목록을 검색할 수 없습니다."
 
 msgid "{{ checkpoint.protection_plan.name }}"
 msgstr "{{ checkpoint.protection_plan.name }}"
