@@ -19,7 +19,8 @@ from horizon import exceptions
 from horizon import forms as horizon_forms
 from horizon import messages
 
-import json
+from oslo_serialization import jsonutils
+
 from karbor_dashboard.api import karbor as karborclient
 
 STATUS_CHOICE = [("suspended", "suspended"),
@@ -50,7 +51,7 @@ class CreateProtectionPlanForm(horizon_forms.SelfHandlingForm):
         providers = karborclient.provider_list(request)
 
         self.fields['providers'].initial = \
-            json.dumps([f._info for f in providers])
+            jsonutils.dumps([f._info for f in providers])
 
         if providers:
             result = [(e.id, e.name) for e in providers]
@@ -59,9 +60,9 @@ class CreateProtectionPlanForm(horizon_forms.SelfHandlingForm):
 
     def handle(self, request, data):
         try:
-            resources = json.loads(data["resources"])
+            resources = jsonutils.loads(data["resources"])
             types = {resource["type"] for resource in resources}
-            parameters = json.loads(data["parameters"])
+            parameters = jsonutils.loads(data["parameters"])
             parameters = {k: v for k, v in parameters.items()
                           if k.split("#")[0] in types}
             new_plan = karborclient.plan_create(
@@ -112,7 +113,7 @@ class UpdateProtectionPlanForm(horizon_forms.SelfHandlingForm):
         if name:
             data_.update({"name": name})
 
-        resources = json.loads(data["resources"])
+        resources = jsonutils.loads(data["resources"])
         if resources:
             resources_ = []
             for resource in resources:

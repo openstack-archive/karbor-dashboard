@@ -12,8 +12,6 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-import json
-
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
@@ -28,6 +26,7 @@ from karbor_dashboard.api import karbor as karborclient
 from karbor_dashboard.protectionplans import forms
 from karbor_dashboard.protectionplans import tables
 from karborclient.v1 import protectables
+from oslo_serialization import jsonutils
 from oslo_utils import uuidutils
 
 
@@ -212,8 +211,8 @@ class UpdateView(horizon_forms.ModalFormView):
         provider = self.get_provider_object(plan.provider_id)
         initial.update({'plan_id': self.kwargs['plan_id'],
                         'name': getattr(plan, 'name', ''),
-                        'plan': json.dumps(plan._info),
-                        'provider': json.dumps(provider._info)})
+                        'plan': jsonutils.dumps(plan._info),
+                        'provider': jsonutils.dumps(provider._info)})
         return initial
 
 

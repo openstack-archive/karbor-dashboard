@@ -15,7 +15,7 @@
 import collections
 from collections import namedtuple
 from django.utils.translation import ugettext_lazy as _
-import json
+from oslo_serialization import jsonutils
 
 FILTER_LIST = ['provider_filter', 'plan_filter', 'date_filter']
 
@@ -46,7 +46,7 @@ PackedGraph = namedtuple('PackedGraph', ['nodes', 'adjacency'])
 
 
 def deserialize_resource_graph(serialized_resource_graph):
-    deserialized_graph = json.loads(serialized_resource_graph)
+    deserialized_graph = jsonutils.loads(serialized_resource_graph)
     packed_resource_graph = PackedGraph(nodes=deserialized_graph[0],
                                         adjacency=deserialized_graph[1])
     for sid, node in packed_resource_graph.nodes.items():
