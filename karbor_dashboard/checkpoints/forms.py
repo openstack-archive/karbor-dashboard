@@ -20,7 +20,8 @@ from horizon import exceptions
 from horizon import forms as horizon_forms
 from horizon import messages
 
-import json
+from oslo_serialization import jsonutils
+
 from karbor_dashboard.api import karbor as karborclient
 
 EMPTY_VALUES = (None, '', u'', [], (), {})
@@ -85,7 +86,7 @@ class RestoreCheckpointForm(horizon_forms.SelfHandlingForm):
 
         provider_id = str(kwargs["initial"]["provider_id"])
         provider = karborclient.provider_get(request, provider_id)
-        self.fields['provider'].initial = json.dumps(provider._info)
+        self.fields['provider'].initial = jsonutils.dumps(provider._info)
 
     @sensitive_variables('restore_target_password')
     def handle(self, request, data):
@@ -114,7 +115,7 @@ class RestoreCheckpointForm(horizon_forms.SelfHandlingForm):
                 return False
 
         try:
-            data_parameters = json.loads(data["parameters"])
+            data_parameters = jsonutils.loads(data["parameters"])
             restore_auth = {
                 "type": "password",
                 "username": target_username,
