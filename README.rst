@@ -22,8 +22,8 @@ Installation instructions
 
 Begin by cloning the Horizon and Karbor Dashboard repositories::
 
-    git clone https://git.openstack.org/openstack/horizon
-    git clone https://git.openstack.org/openstack/karbor-dashboard
+    git clone https://opendev.org/openstack/horizon
+    git clone https://opendev.org/openstack/karbor-dashboard
 
 Create a virtual environment and install Horizon dependencies::
 
