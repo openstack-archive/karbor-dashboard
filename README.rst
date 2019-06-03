@@ -7,9 +7,9 @@ Team and repository tags
 
 .. Change things from this point on
 
-===============================
+================
 karbor-dashboard
-===============================
+================
 
 Karbor Dashboard
 
