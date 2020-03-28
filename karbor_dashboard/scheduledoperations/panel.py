@@ -22,4 +22,5 @@ class ScheduledOperations(horizon.Panel):
     name = _("Scheduled Operations")
     slug = 'scheduledoperations'
 
+
 dashboard.DataProtection.register(ScheduledOperations)

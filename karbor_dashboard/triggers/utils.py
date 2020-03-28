@@ -107,6 +107,7 @@ class CrontabUtil(object):
                                           patterns[0].zfill(2))
         return data
 
+
 CALENDAR = 'calendar'
 CALENDAR_DAY_CHOICES = [('1', _('MO')),
                         ('2', _('TU')),

@@ -22,4 +22,5 @@ class Restores(horizon.Panel):
     name = _("Restores")
     slug = 'restores'
 
+
 dashboard.DataProtection.register(Restores)

@@ -194,16 +194,16 @@ class CheckpointsRestoreView(horizon_forms.ModalFormView):
                 "checkpoint_id": self.kwargs['checkpoint_id']}
 
     def get_context_data(self, **kwargs):
-            context = super(CheckpointsRestoreView, self). \
-                get_context_data(**kwargs)
-            provider_id = self.kwargs['provider_id']
-            checkpoint_id = self.kwargs['checkpoint_id']
-            context['provider_id'] = provider_id
-            context['checkpoint_id'] = checkpoint_id
-            context["instances"] = self.get_resources()
-            context['submit_url'] = reverse(self.submit_url,
-                                            args=(provider_id, checkpoint_id))
-            return context
+        context = super(CheckpointsRestoreView, self). \
+                  get_context_data(**kwargs)
+        provider_id = self.kwargs['provider_id']
+        checkpoint_id = self.kwargs['checkpoint_id']
+        context['provider_id'] = provider_id
+        context['checkpoint_id'] = checkpoint_id
+        context["instances"] = self.get_resources()
+        context['submit_url'] = reverse(self.submit_url,
+                                        args=(provider_id, checkpoint_id))
+        return context
 
     @memoized.memoized_method
     def get_resources(self):

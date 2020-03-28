@@ -22,4 +22,5 @@ class Triggers(horizon.Panel):
     name = _("Triggers")
     slug = 'triggers'
 
+
 dashboard.DataProtection.register(Triggers)

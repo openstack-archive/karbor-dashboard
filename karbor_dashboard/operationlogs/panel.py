@@ -22,4 +22,5 @@ class OperationLogs(horizon.Panel):
     name = _("Operation Logs")
     slug = 'operationlogs'
 
+
 dashboard.DataProtection.register(OperationLogs)

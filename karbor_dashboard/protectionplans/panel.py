@@ -22,4 +22,5 @@ class ProtectionPlans(horizon.Panel):
     name = _("Protection Plans")
     slug = 'protectionplans'
 
+
 dashboard.DataProtection.register(ProtectionPlans)

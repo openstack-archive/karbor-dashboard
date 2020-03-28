@@ -22,4 +22,5 @@ class ProtectionProviders(horizon.Panel):
     name = _("Protection Providers")
     slug = 'protectionproviders'
 
+
 dashboard.DataProtection.register(ProtectionProviders)

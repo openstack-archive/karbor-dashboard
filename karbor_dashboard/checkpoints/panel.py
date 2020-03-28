@@ -22,4 +22,5 @@ class Checkpoints(horizon.Panel):
     name = _("Checkpoints")
     slug = 'checkpoints'
 
+
 dashboard.DataProtection.register(Checkpoints)
