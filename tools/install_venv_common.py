@@ -72,8 +72,8 @@ class InstallVenv(object):
                                           check_exit_code)[0]
 
     def get_distro(self):
-        if (os.path.exists('/etc/fedora-release') or
-                os.path.exists('/etc/redhat-release')):
+        if (os.path.exists('/etc/fedora-release')
+                or os.path.exists('/etc/redhat-release')):
             return Fedora(
                 self.root, self.venv, self.requirements,
                 self.test_requirements, self.py_version, self.project)

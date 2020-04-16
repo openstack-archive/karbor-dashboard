@@ -21,8 +21,14 @@ sys.path.insert(0, os.path.abspath('../..'))
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'oslosphinx',
+    'openstackdocstheme',
 ]
+
+# -- Options for openstackdocstheme -------------------------------------------
+repository_name = 'openstack/karbor-dashboard'
+bug_project = 'karbor-dashboard'
+bug_tag = ''
+html_theme = 'openstackdocs'
 
 # autodoc generation is a bit aggressive and a nuisance when doing heavy
 # text edit cycles.

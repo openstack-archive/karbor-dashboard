@@ -195,7 +195,7 @@ class CheckpointsRestoreView(horizon_forms.ModalFormView):
 
     def get_context_data(self, **kwargs):
         context = super(CheckpointsRestoreView, self). \
-                  get_context_data(**kwargs)
+            get_context_data(**kwargs)
         provider_id = self.kwargs['provider_id']
         checkpoint_id = self.kwargs['checkpoint_id']
         context['provider_id'] = provider_id
