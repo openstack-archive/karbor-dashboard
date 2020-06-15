@@ -12,9 +12,10 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import mock
+
 from karbor_dashboard import api
 from karbor_dashboard.test import test_data
-from karborclient.v1 import client as karbor_client
 from openstack_dashboard.test import helpers
 
 
@@ -36,6 +37,5 @@ class APITestCase(helpers.APITestCase):
 
     def stub_karborclient(self):
         if not hasattr(self, "karborclient"):
-            self.mox.StubOutWithMock(karbor_client, 'Client')
-            self.karborclient = self.mox.CreateMock(karbor_client.Client)
+            self.karborclient = mock.Mock()
         return self.karborclient
