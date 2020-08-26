@@ -128,8 +128,8 @@ class UpdateProtectionPlanForm(horizon_forms.SelfHandlingForm):
             messages.success(request,
                              _("Protection Plan updated successfully."))
             return new_plan
-        except Exception as e:
-            msg = _('Unable to update protection plan. ') + e.message
+        except Exception:
+            msg = _('Unable to update protection plan.')
             exceptions.handle(request, msg)
 
 
